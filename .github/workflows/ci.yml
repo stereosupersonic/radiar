@@ -96,7 +96,7 @@ jobs:
           POSTGRES_PASSWORD: postgres_db
 
       - name: Run RSpec
-        run: bundle exec rspec --profile -f d .
+        run: bundle exec rake assets:precompile && bundle exec rspec --profile -f d .
         env:
           RAILS_ENV: test
           POSTGRES_USER: postgres
