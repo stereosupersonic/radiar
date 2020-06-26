@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   # date/time
   def format_time(time)
@@ -15,7 +17,7 @@ module ApplicationHelper
   # buttons
   def icon_tag(icon, options = {})
     html_class = "fa fa-#{icon} " + options[:class].to_s
-    content_tag(:i, "&nbsp;".html_safe, class: html_class) # rubocop:disable Rails/OutputSafety
+    content_tag(:i, "&nbsp;".html_safe, class: html_class)
   end
 
   def button_with_icon(link, text, icon, options = {})
