@@ -1,0 +1,28 @@
+inherit_mode:
+  merge:
+    - Exclude
+
+require:
+  - rubocop-performance
+  - standard/cop/semantic_blocks
+
+inherit_gem:
+  standard: config/base.yml
+
+inherit_from:
+  - .rubocop_rails.yml
+  - .rubocop_rspec.yml
+  - .rubocop_strict.yml
+
+AllCops:
+  TargetRubyVersion: 2.6 # TODO ADJUST RUBY VERSION
+  DisabledByDefault: true
+  Include:
+    - '**/*.rb'
+  Exclude:    
+    - '**/tmp/**/*'
+    - '**/vendor/**/*'
+    - '**/node_modules/**/*'
+
+Layout/LineLength:
+  Max: 130
