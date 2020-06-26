@@ -17,6 +17,5 @@ FactoryBot.define do
     url { "https://www.marilu.it/" }
     playlist_url { "https://onlineradiobox.com/it/marilu/playlist/" }
     strategy { "radiobox" }
-    enabled { true }
   end
 end
