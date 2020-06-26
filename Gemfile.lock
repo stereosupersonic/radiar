@@ -300,7 +300,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   pry-nav
   pry-rails
-  puma (~> 4.1)
+  puma (~> 4.3)
   rails (~> 6.0.3, >= 6.0.3.1)
   rspec-rails
   rubocop (~> 0.80.0)
