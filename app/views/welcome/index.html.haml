@@ -1,0 +1,8 @@
+%h1 Welcome
+
+%i.fa.fa-heart.fa-w-16.fa-9x
+
+%h2 Debug
+%p= debug @heise
+
+%p= ActiveRecord::Base.connection.execute("SELECT version();").first["version"]
