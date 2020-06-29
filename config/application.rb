@@ -33,6 +33,7 @@ module Radiar
 
     config.generators do |g|
       g.template_engine :haml
+      g.fixture_replacement :factory_bot, dir: "spec/factories"
       g.test_framework :rspec,
         fixtures: true,
         view_specs: false,
