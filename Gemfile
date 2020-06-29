@@ -38,6 +38,7 @@ group :test do
   gem "mock_redis"
   gem "vcr"
   gem "webmock"
+  gem "simplecov"
 end
 
 group :development, :test do
