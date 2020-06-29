@@ -54,6 +54,7 @@ git clone git@github.com:stereosupersonic/radiar.git
 create a new file .env
 
 ```
+cd radiar
 touch .env
 ```
 
@@ -70,7 +71,7 @@ DATABASE_NAME=radiar_production
 ### build image
 
 ```
-cd =radiar_
+cd radiar
 docker-compose -f docker-compose.traefik.yml build
 ```
 
