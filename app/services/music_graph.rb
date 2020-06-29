@@ -1,7 +1,6 @@
 require "uri"
 require "net/http"
 require "openssl"
-require "JSON"
 # MusicGraph.new(artist: "Liam Gallagher", track: "Once").test
 
 class MusicGraph
