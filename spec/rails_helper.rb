@@ -40,6 +40,17 @@ end
 
 WebMock.disable_net_connect!(allow: ["localhost"])
 
+require "simplecov"
+
+SimpleCov.start do
+  add_group "Controllers", "app/controllers"
+  add_group "Models", "app/models"
+  add_group "Services", "app/services"
+
+  add_filter "/config/"
+  add_filter "/spec/"
+end
+
 VCR.configure do |c|
   c.cassette_library_dir = "spec/fixtures/cassettes"
   c.hook_into :webmock

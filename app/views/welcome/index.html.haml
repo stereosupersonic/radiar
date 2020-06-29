@@ -1,8 +1,20 @@
-%h1 Welcome
+%h1 Tracks
 
-%i.fa.fa-heart.fa-w-16.fa-9x
+.table-responsive
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Time
+        %th Song
+        %th Artist
+        %th Station
+  
+    %tbody
+      - @tracks.each do |track|
+        %tr
+          %td= format_datetime track.played_at
+          %td= track.title
+          %td= track.artist
+          %td= track.station.name
 
-%h2 Debug
-%p= debug @heise
-
-%p= ActiveRecord::Base.connection.execute("SELECT version();").first["version"]
+= button_with_icon(fetch_all_path, "Fetch", "refresh", {class: "btn btn-primary", method: :post})

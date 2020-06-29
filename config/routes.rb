@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   end
 
   root to: "welcome#index"
+
+  post "fetch", to: "welcome#fetch", as: :fetch_all
 end
