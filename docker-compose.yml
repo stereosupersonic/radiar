@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:12.1
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgresdb
+      POSTGRES_DB: radiar_development
+
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_HOST: database
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgresdb
+      DATABASE_NAME: radiar_development

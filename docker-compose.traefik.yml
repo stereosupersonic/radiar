@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  toread:
+    build: .
+    restart: always
+    networks:
+      - web 
+    ports:
+      - "${PORT}:3000"
+    env_file:
+      - .env
+    labels:
+      - traefik.http.routers.dashboard.rule=Host(`radiar.deimel.de`)
+networks:
+  web:
+    external: true

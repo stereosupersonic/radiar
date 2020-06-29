@@ -19,6 +19,8 @@ AllCops:
   DisabledByDefault: true
   Include:
     - '**/*.rb'
+    - '**/*.rake'
+    - '**/Gemfile'
   Exclude:    
     - '**/tmp/**/*'
     - '**/vendor/**/*'

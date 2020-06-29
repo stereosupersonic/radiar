@@ -31,3 +31,6 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+/coverage
+.DS_Store
+.env

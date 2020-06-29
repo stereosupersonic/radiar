@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_26_081651) do
+ActiveRecord::Schema.define(version: 2020_06_29_134253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,22 @@ ActiveRecord::Schema.define(version: 2020_06_26_081651) do
     t.boolean "enabled", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "last_logged_at"
+    t.index ["last_logged_at"], name: "index_stations_on_last_logged_at"
   end
 
+  create_table "tracks", force: :cascade do |t|
+    t.string "title"
+    t.string "artist"
+    t.bigint "station_id", null: false
+    t.text "response"
+    t.string "slug"
+    t.datetime "played_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["slug"], name: "index_tracks_on_slug"
+    t.index ["station_id"], name: "index_tracks_on_station_id"
+  end
+
+  add_foreign_key "tracks", "stations"
 end

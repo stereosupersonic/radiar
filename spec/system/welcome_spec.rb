@@ -6,6 +6,6 @@ describe "welcome", type: :system do
   it "shows the welcome page" do
     visit "/"
 
-    expect(page).to have_content("Welcome")
+    expect(page).to have_content("Tracks")
   end
 end
