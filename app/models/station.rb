@@ -12,4 +12,7 @@
 #  updated_at   :datetime         not null
 #
 class Station < ApplicationRecord
+  validates :name, presence: true
+  validates :playlist_url, presence: true
+  validates :strategy, presence: true
 end

@@ -1,1 +1,21 @@
 %h1 Stations Overview
+
+.table-responsive
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Name
+        %th Type
+        %th Active
+        %th 
+  
+    %tbody
+      - @stations.each do |station|
+        %tr
+          %td= station.name
+          %td= station.strategy
+          %td= station.enabled?
+          %td= link_to :edit, edit_admin_station_path(station)
+
+  
+= add_button new_admin_station_path

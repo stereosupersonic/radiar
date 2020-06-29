@@ -27,3 +27,11 @@ Station.create(
   playlist_url: "https://onlineradiobox.com/uk/planetrock/playlist",
   strategy: "radiobox"
 )
+
+Station.create(
+  name: "fm4",
+  url: "https://fm4.orf.at",
+  playlist_url: "https://onlineradiobox.com/uk/fm4/playlist",
+  strategy: "radiobox",
+  enabled: false
+)
