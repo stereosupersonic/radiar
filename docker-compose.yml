@@ -1,21 +1,12 @@
 version: '3'
 
 services:
-  database:
-    image: postgres:12.1
-    ports:
-      - "5433:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgresdb
-      POSTGRES_DB: radiar_development
 
-  web:
+  app:
     build: .
     ports:
       - "3000:3000"
     links:
-      - database
       - redis
     environment:
       DATABASE_HOST: database
@@ -27,14 +18,26 @@ services:
   sidekiq:
     build: .
     links:
-      - database
       - redis
-    command: bundle exec sidekiq
     environment:
-       REDIS_URL_SIDEKIQ: redis://redis:6379/1
+      DATABASE_HOST: database
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgresdb
+      DATABASE_NAME: radiar_development
+      SIDEKIQ: 1
+      REDIS_URL_SIDEKIQ: redis://redis:6379/1
 
   redis:
     image: 'redis:5-alpine'
     command: redis-server
     ports:
       - '6379:6379'
+
+  database:
+    image: postgres:12.1
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgresdb
+      POSTGRES_DB: radiar_development
