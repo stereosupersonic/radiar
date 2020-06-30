@@ -64,3 +64,5 @@ group :development do
   gem "rubocop-rspec", require: false
   gem "standard", "~> 0.2.0", require: false # https://github.com/testdouble/standard
 end
+
+gem "sidekiq", "~> 6.0"

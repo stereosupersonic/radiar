@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  radiar:
+  web:
     build: .
     restart: always
     networks:
@@ -12,6 +12,21 @@ services:
       - .env
     labels:
       - traefik.http.routers.dashboard.rule=Host(`radiar.deimel.de`)
+  
+  sidekiq:
+    build: .
+    links:
+      - redis
+    command: bundle exec sidekiq
+    environment:
+       REDIS_URL_SIDEKIQ: redis://redis:6379/1
+
+  redis:
+    image: 'redis:5-alpine'
+    command: redis-server
+    ports:
+      - '6379:6379'
+
 networks:
   web:
     external: true

@@ -31,6 +31,8 @@ module Radiar
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    config.active_job.queue_adapter = :sidekiq
+
     config.generators do |g|
       g.template_engine :haml
       g.fixture_replacement :factory_bot, dir: "spec/factories"
