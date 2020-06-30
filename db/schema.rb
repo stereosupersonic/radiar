@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_29_134253) do
+ActiveRecord::Schema.define(version: 2020_06_30_112818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,22 @@ ActiveRecord::Schema.define(version: 2020_06_29_134253) do
     t.index ["last_logged_at"], name: "index_stations_on_last_logged_at"
   end
 
+  create_table "track_infos", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "artist_name", null: false
+    t.string "album"
+    t.string "year"
+    t.string "youtube_id"
+    t.text "tags", default: [], array: true
+    t.text "wikipedia_summary"
+    t.text "wikipedia"
+    t.string "mbid"
+    t.string "slug"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["slug"], name: "index_track_infos_on_slug"
+  end
+
   create_table "tracks", force: :cascade do |t|
     t.string "title"
     t.string "artist"
@@ -36,8 +52,10 @@ ActiveRecord::Schema.define(version: 2020_06_29_134253) do
     t.datetime "played_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "track_info_id"
     t.index ["slug"], name: "index_tracks_on_slug"
     t.index ["station_id"], name: "index_tracks_on_station_id"
+    t.index ["track_info_id"], name: "index_tracks_on_track_info_id"
   end
 
   add_foreign_key "tracks", "stations"
