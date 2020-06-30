@@ -10,12 +10,13 @@ RSpec.describe CreateTrack do
   }
 
   it "creates a vaild track" do
+    track = nil
     expect {
       VCR.use_cassette("services/create_valid_track") do
-        CreateTrack.new(station).call
+        track = CreateTrack.new(station).call
       end
     }.to change(Track, :count).by(1)
-    track = Track.last
+
     expect(track.artist).to eq("Queen")
     expect(track.title).to eq("Radio Gaga")
     expect(track.slug).to eq("queenradiogaga")
@@ -26,12 +27,15 @@ RSpec.describe CreateTrack do
   end
 
   it "don't create a entry when the last song is the same" do
+    track = nil
     create(:track, station: station, slug: "queenradiogaga")
 
     expect {
       VCR.use_cassette("services/create_valid_track") do
-        CreateTrack.new(station).call
+        track = CreateTrack.new(station).call
       end
     }.to_not change(Track, :count)
+
+    expect(track).to be_nil
   end
 end

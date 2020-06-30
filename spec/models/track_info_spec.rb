@@ -7,11 +7,12 @@
 #  artist_name       :string           not null
 #  mbid              :string
 #  name              :string           not null
+#  pic_url           :string
 #  slug              :string
 #  tags              :text             default([]), is an Array
 #  wikipedia         :text
 #  wikipedia_summary :text
-#  year              :string
+#  year              :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  youtube_id        :string
@@ -19,8 +20,9 @@
 # Indexes
 #
 #  index_track_infos_on_slug  (slug)
+#  index_track_infos_on_year  (year)
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe TrackInfo, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"

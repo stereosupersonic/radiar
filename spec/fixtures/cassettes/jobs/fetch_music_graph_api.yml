@@ -1,0 +1,64 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://macgyverapi-music-graph-v1.p.rapidapi.com/
+    body:
+      encoding: UTF-8
+      string: '{"key":"free","id":"9m9c8U4f","data":{"search":"Once Liam Gallagher"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Host:
+      - macgyverapi-music-graph-v1.p.rapidapi.com
+      X-Rapidapi-Host:
+      - macgyverapi-music-graph-v1.p.rapidapi.com
+      X-Rapidapi-Key:
+      - d3e8ad5042msh806ad2352831e18p1034a1jsn014800176cba
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - X-API-TOKEN, Content-Type, Authorization, Content-Length, X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Alt-Svc:
+      - clear
+      Cache-Control:
+      - max-age=86400
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Tue, 30 Jun 2020 13:54:57 GMT
+      Etag:
+      - W/"14e-jMYrfCqyRVv85Qugs1sqTQ"
+      Expires:
+      - Wed, 01 Jul 2020 13:54:57 GMT
+      Server:
+      - RapidAPI-1.1.15
+      Via:
+      - 1.1 google
+      Virtual-Machine:
+      - '3'
+      X-Rapidapi-Region:
+      - AWS - eu-central-1
+      X-Rapidapi-Version:
+      - 1.1.15
+      Content-Length:
+      - '334'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: "{\"result\":[{\"songName\":\"Once\",\"albumTitle\":\"Once\",\"thumbnails\":{\"high-quality\":\"https://img.youtube.com/vi/MDhiQfekdxo/hqdefault.jpg\",\"standard\":\"https://img.youtube.com/vi/MDhiQfekdxo/sddefault.jpg\"},\"featuredArtists\":\"\",\"genre\":[\"Alternative/indie\",\"Rock\"],\"releaseDate\":\"2019\",\"artist\":\"Liam
+        Gallagher\",\"ytVideo\":\"MDhiQfekdxo\"}]}\r\n"
+  recorded_at: Tue, 30 Jun 2020 13:54:57 GMT
+recorded_with: VCR 6.0.0

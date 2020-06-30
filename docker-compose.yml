@@ -26,6 +26,8 @@ services:
       DATABASE_NAME: radiar_development
       SIDEKIQ: 1
       REDIS_URL_SIDEKIQ: redis://redis:6379/1
+    env_file:
+      - .env
 
   redis:
     image: 'redis:5-alpine'

@@ -1,12 +1,11 @@
 require "open-uri"
-# LastFm.new(artist: "Liam Gallagher", track: "Once").call
+# LastFm.new(artist: "Liam Gallagher", title: "Once").call
 
 class LastFm
-  API_KEY = "03a888a88c3abea4963563b3f736862c"
   BASE_URL = "http://ws.audioscrobbler.com/2.0/"
-  def initialize(artist:, track:)
+  def initialize(artist:, title:)
     @artist = artist
-    @track = track
+    @title = title
   end
 
   # http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=03a888a88c3abea4963563b3f736862c&artist=cher&track=believe&format=json
@@ -25,7 +24,6 @@ class LastFm
     #  puts "Song: #{track_info["name"]}"
     #  puts "Artist: #{track_info["artist"]["name"]}"
     #  puts "Album: #{track_info["album"]["title"]}"
-    #  puts "Release: #{release_date track_info["mbid"]}"
     #  puts "Tags: " + track_info["toptags"]["tag"].map { |v| v["name"] }.join(";")
   end
 
@@ -34,9 +32,9 @@ class LastFm
   def params
     {
       method: "track.getInfo",
-      api_key: API_KEY,
+      api_key: ENV["LASTFM_API_KEY"],
       artist: @artist,
-      track: @track,
+      track: @title,
       autocorrect: 1,
       format: :json
     }

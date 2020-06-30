@@ -5,9 +5,9 @@
 #  id             :bigint           not null, primary key
 #  enabled        :boolean          default(TRUE)
 #  last_logged_at :datetime
-#  name           :string
-#  playlist_url   :string
-#  strategy       :string
+#  name           :string           not null
+#  playlist_url   :string           not null
+#  strategy       :string           not null
 #  url            :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

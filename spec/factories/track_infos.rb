@@ -7,11 +7,12 @@
 #  artist_name       :string           not null
 #  mbid              :string
 #  name              :string           not null
+#  pic_url           :string
 #  slug              :string
 #  tags              :text             default([]), is an Array
 #  wikipedia         :text
 #  wikipedia_summary :text
-#  year              :string
+#  year              :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  youtube_id        :string
@@ -19,17 +20,19 @@
 # Indexes
 #
 #  index_track_infos_on_slug  (slug)
+#  index_track_infos_on_year  (year)
 #
 FactoryBot.define do
   factory :track_info do
-    name { "MyString" }
-    artist_name { "MyString" }
-    album { "MyString" }
-    year { "MyString" }
-    youtube_id { "MyString" }
-    tags { "MyText" }
-    wikipedia_summary { "MyText" }
-    wikipedia { "MyText" }
-    mbid { "MyString" }
+    name { "Once" }
+    artist_name { "Liam Gallagher" }
+    album { "Once" }
+    year { 2019 }
+    youtube_id { "MDhiQfekdxo" }
+    slug { "liamgallagheronce" }
+    # tags { "MyText" }
+    # wikipedia_summary { "MyText" }
+    # wikipedia { "MyText" }
+    # mbid { "MyString" }
   end
 end

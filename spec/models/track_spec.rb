@@ -3,11 +3,11 @@
 # Table name: tracks
 #
 #  id            :bigint           not null, primary key
-#  artist        :string
-#  played_at     :datetime
+#  artist        :string           not null
+#  played_at     :datetime         not null
 #  response      :text
-#  slug          :string
-#  title         :string
+#  slug          :string           not null
+#  title         :string           not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  station_id    :bigint           not null

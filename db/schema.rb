@@ -16,10 +16,10 @@ ActiveRecord::Schema.define(version: 2020_06_30_112818) do
   enable_extension "plpgsql"
 
   create_table "stations", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "url"
-    t.string "playlist_url"
-    t.string "strategy"
+    t.string "playlist_url", null: false
+    t.string "strategy", null: false
     t.boolean "enabled", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -31,25 +31,27 @@ ActiveRecord::Schema.define(version: 2020_06_30_112818) do
     t.string "name", null: false
     t.string "artist_name", null: false
     t.string "album"
-    t.string "year"
+    t.integer "year"
     t.string "youtube_id"
     t.text "tags", default: [], array: true
     t.text "wikipedia_summary"
     t.text "wikipedia"
     t.string "mbid"
     t.string "slug"
+    t.string "pic_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["slug"], name: "index_track_infos_on_slug"
+    t.index ["year"], name: "index_track_infos_on_year"
   end
 
   create_table "tracks", force: :cascade do |t|
-    t.string "title"
-    t.string "artist"
+    t.string "title", null: false
+    t.string "artist", null: false
     t.bigint "station_id", null: false
     t.text "response"
-    t.string "slug"
-    t.datetime "played_at"
+    t.string "slug", null: false
+    t.datetime "played_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "track_info_id"

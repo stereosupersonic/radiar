@@ -30,6 +30,7 @@ class CreateTrack
     return if station.tracks.last&.slug == slug
 
     ActiveRecord::Base.transaction do
+      station.touch(:last_logged_at)
       Track.create! do |entry|
         entry.station = station
         entry.artist = response.artist
@@ -38,7 +39,6 @@ class CreateTrack
         entry.slug = slug
         entry.played_at = response.played_at
       end
-      station.touch(:last_logged_at)
     end
   end
 

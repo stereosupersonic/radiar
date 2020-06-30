@@ -24,7 +24,7 @@ next level of the radio radar
 ## fetch all stations
 
 ```
-bin/rake  radiar:fetch_all
+bin/rake radiar:fetch_all
 ```
 
 ## docker
@@ -49,35 +49,29 @@ bin/rake  radiar:fetch_all
 git clone git@github.com:stereosupersonic/radiar.git
 ```
 
-### .env 
+### setup
+
 
 create a new file .env
-
 ```
 cd radiar
-touch .env
+mv config/env.sample .env
 ```
 
 ```
 PORT=3005 # depend on the other containers
 RAILS_MASTER_KEY=XXX # from config config/master.key
 
-DATABASE_HOST="192.168.1.69" # depend on your setup
+DATABASE_HOST="192.168.1.69"
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=postgresdb
 DATABASE_NAME=radiar_production
-```
-
-### build image
-
-```
-cd radiar
-docker-compose -f docker-compose.traefik.yml build
+REDIS_URL_SIDEKIQ=redis://redis:6379/1
 ```
 
 
-### run image
+### build and run image
 
 ```
-docker-compose -f docker-compose.traefik.yml up -d
+docker-compose -f traefik.yml up -d --build 
 ```
