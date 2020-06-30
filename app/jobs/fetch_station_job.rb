@@ -3,6 +3,7 @@ class FetchStationJob < ApplicationJob
 
   def perform(station_id)
     station = Station.find station_id
-    CreateTrack.new(station).call
+    track = CreateTrack.new(station).call
+    MusicGraphJob.perform_later(track.id) if track
   end
 end

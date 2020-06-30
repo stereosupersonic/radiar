@@ -7,6 +7,7 @@
         %th Name
         %th Type
         %th Active
+        %th Last update
         %th 
   
     %tbody
@@ -15,6 +16,7 @@
           %td= station.name
           %td= station.strategy
           %td= station.enabled?
+          %td= format_datetime station.last_logged_at
           %td= link_to :edit, edit_admin_station_path(station)
 
   

@@ -3,8 +3,6 @@
 require "capybara_helper"
 
 describe "Stations", type: :system do
-  # before     { perform_login_as mock_employee_person }
-
   it "overview page" do
     FactoryBot.create :station, name: "Marilu", strategy: :radiobox
     visit "/"
@@ -12,8 +10,8 @@ describe "Stations", type: :system do
     expect(page).to have_text "Stations Overview"
 
     expect(page).to have_table_with_exact_data([
-      ["Name", "Type", "Active", ""],
-      ["Marilu", "radiobox", "true", "edit"]
+      ["Name", "Type", "Active", "Last update", ""],
+      ["Marilu", "radiobox", "true", "", "edit"]
     ])
   end
 
@@ -31,8 +29,8 @@ describe "Stations", type: :system do
     click_on "Save"
     expect(page).to have_content "Station was successfully updated."
     expect(page).to have_table_with_exact_data([
-      ["Name", "Type", "Active", ""],
-      ["fm42", "radibox", "true", "edit"]
+      ["Name", "Type", "Active", "Last update", ""],
+      ["fm42", "radibox", "true", "", "edit"]
     ])
   end
 
@@ -52,8 +50,8 @@ describe "Stations", type: :system do
     click_on "Save"
     expect(page).to have_content "Station was successfully created."
     expect(page).to have_table_with_exact_data([
-      ["Name", "Type", "Active", ""],
-      ["fm4", "radibox", "true", "edit"]
+      ["Name", "Type", "Active", "Last update", ""],
+      ["fm4", "radibox", "true", "", "edit"]
     ])
   end
 end

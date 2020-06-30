@@ -7,6 +7,9 @@
         %th Time
         %th Song
         %th Artist
+        %th Album
+        %th Year
+        %th Video
         %th Station
   
     %tbody
@@ -15,6 +18,9 @@
           %td= format_datetime track.played_at
           %td= track.title
           %td= track.artist
+          %td= track.album
+          %td= track.year
+          %td= track.youtube_link ? link_to("youtube", track.youtube_link) : ""
           %td= track.station.name
 
 = button_with_icon(fetch_all_path, "Fetch", "refresh", {class: "btn btn-primary", method: :post})

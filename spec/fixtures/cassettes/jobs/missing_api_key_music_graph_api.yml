@@ -1,0 +1,48 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://macgyverapi-music-graph-v1.p.rapidapi.com/
+    body:
+      encoding: UTF-8
+      string: '{"key":"free","id":"9m9c8U4f","data":{"search":"Once Liam Gallagher"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Host:
+      - macgyverapi-music-graph-v1.p.rapidapi.com
+      X-Rapidapi-Host:
+      - macgyverapi-music-graph-v1.p.rapidapi.com
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 30 Jun 2020 15:27:05 GMT
+      Server:
+      - RapidAPI-1.1.15
+      X-Rapidapi-Proxy-Response:
+      - 'true'
+      X-Rapidapi-Region:
+      - AWS - eu-central-1
+      X-Rapidapi-Version:
+      - 1.1.15
+      Content-Length:
+      - '139'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"message":"Missing RapidAPI application key. Go to https:\/\/docs.rapidapi.com\/docs\/keys
+        to learn how to get your API application key."}'
+  recorded_at: Tue, 30 Jun 2020 15:27:05 GMT
+recorded_with: VCR 6.0.0
