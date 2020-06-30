@@ -22,11 +22,11 @@ class MusicGraphJob < ApplicationJob
 
     response = MusicGraphApi.new(artist: track.artist, title: track.title).call
     track_info.slug = track.slug
-    track_info.album = response["albumTitle"]
+    track_info.album = response["albumTitle"].presence
     track_info.artist_name = response["artist"]
     track_info.name = response["songName"]
-    track_info.year = response["releaseDate"].to_s[/\d{4}/].to_i
-    track_info.youtube_id = response["ytVideo"]
+    track_info.year = response["releaseDate"].to_s[/\d{4}/].presence
+    track_info.youtube_id = response["ytVideo"].presence
     track_info.pic_url = (response["thumbnails"] || {}).values.first
     track_info.save!
   end

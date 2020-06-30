@@ -1,7 +1,7 @@
 require "open-uri"
 # LastFm.new(artist: "Liam Gallagher", title: "Once").call
 
-class LastFm
+class LastFmApi
   BASE_URL = "http://ws.audioscrobbler.com/2.0/"
   def initialize(artist:, title:)
     @artist = artist
