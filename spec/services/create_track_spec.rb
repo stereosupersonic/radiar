@@ -9,6 +9,30 @@ RSpec.describe CreateTrack do
       strategy: "radiobox")
   }
 
+  it "should work with a new selector" do
+    track = nil
+    station = Station.create(
+      name: "Marilu",
+      url: "https://www.marilu.it/",
+      playlist_url: "https://onlineradiobox.com/it/marilu/playlist/",
+      strategy: "radiobox"
+    )
+
+    expect {
+      VCR.use_cassette("services/create_invalid_track") do
+        track = CreateTrack.new(station).call
+      end
+    }.to change(Track, :count).by(1)
+
+    expect(track.artist).to eq("Iron Maiden")
+    expect(track.title).to eq("Moonchild")
+    expect(track.slug).to eq("ironmaidenmoonchild")
+    expect(track.played_at.to_date).to eq Time.current.to_date
+    expect(track.response).to eq("<td>IRON MAIDEN - MOONCHILD</td>")
+
+    expect(station.last_logged_at.to_date).to eq Time.current.to_date
+  end
+
   it "creates a vaild track" do
     track = nil
     expect {
@@ -21,7 +45,7 @@ RSpec.describe CreateTrack do
     expect(track.title).to eq("Radio Gaga")
     expect(track.slug).to eq("queenradiogaga")
     expect(track.played_at.to_date).to eq Time.current.to_date
-    expect(track.response).to eq("<a href=\"/track/3184271/\" class=\"ajax\">Queen - Radio Gaga</a>")
+    expect(track.response).to eq "<td><a href=\"/track/3184271/\" class=\"ajax\">Queen - Radio Gaga</a></td>"
 
     expect(station.last_logged_at.to_date).to eq Time.current.to_date
   end

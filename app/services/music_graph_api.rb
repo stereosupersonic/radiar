@@ -43,6 +43,7 @@ class MusicGraphApi
     request["content-type"] = "application/json"
     request["accept"] = "application/json"
     data = {key: :free, id: "9m9c8U4f", data: {search: "#{@title} #{@artist}"}}
+    request.body = data.to_json
 
     response = http.request(request)
 
@@ -50,7 +51,7 @@ class MusicGraphApi
       raise "MusicAPI Error - code:#{response.code} message:#{response.message}"
     end
     raw_response = response.read_body
-    request.body = data.to_json
+
     JSON.parse raw_response
   end
 end

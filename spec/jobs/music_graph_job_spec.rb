@@ -32,7 +32,7 @@ RSpec.describe MusicGraphJob, type: :job do
     expect(track.reload.track_info).to eq(track_info)
   end
 
-  it "fail if key is missing", focus: true do
+  it "fail if key is missing" do
     expect {
       VCR.use_cassette("jobs/missing_api_key_music_graph_api") do
         job.perform(track.id)
