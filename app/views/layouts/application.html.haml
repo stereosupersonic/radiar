@@ -13,6 +13,8 @@
       %a.navbar-brand{:href => root_path} Radiar
       %li.nav-item
         %a.nav-link{:href => admin_stations_path} Stations
+      %li.nav-item
+        %a.nav-link{:href => "/sidekiq"} Sidekiq
     .container
       .row
         - flash.each do |name, msg|
