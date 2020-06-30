@@ -5,7 +5,8 @@ services:
     build: .
     restart: always
     networks:
-      - web 
+      - web
+      - default
     ports:
       - "${PORT}:3000"
     env_file:
@@ -14,10 +15,12 @@ services:
       - redis
     labels:
       - traefik.http.routers.dashboard.rule=Host(`radiar.deimel.de`)
-  
+
   sidekiq:
     build: .
     restart: always
+    networks:
+      - default
     links:
       - redis
     env_file:
@@ -28,6 +31,8 @@ services:
   redis:
     image: 'redis:5-alpine'
     command: redis-server
+    networks:
+      - default
     ports:
       - '6379:6379'
 
