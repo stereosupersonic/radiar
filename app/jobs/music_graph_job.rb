@@ -1,37 +1,32 @@
 class MusicGraphJob < ApplicationJob
   queue_as :default
 
-  def perform(track_id)
-    @track = Track.find track_id
-    return if track.track_info
-    track_info = TrackInfo.find_by(slug: track.slug)
-
-    if track_info
-      track.update track_info: track_info
-    else
-      create_new
-    end
+  def perform(track_info_id)
+    @track_info = TrackInfo.find track_info_id
+    update_values
   end
 
   private
 
-  attr_reader :track
+  attr_reader :track_info
 
-  def create_new
-    track_info = track.build_track_info
+  def update_values
+    return unless missing_values?
 
-    response = MusicGraphApi.new(artist: track.artist, title: track.title).call
-    track_info.slug = track.slug
-    track_info.album = response["albumTitle"].presence
-    track_info.artist_name = response["artist"]
-    track_info.name = response["songName"]
-    track_info.year = response["releaseDate"].to_s[/\d{4}/].presence
-    track_info.youtube_id = response["ytVideo"].presence
-    track_info.pic_url = (response["thumbnails"] || {}).values.first
+    response = music_graph_data
+
+    track_info.album ||= response["albumTitle"].presence
+    track_info.year ||= response["releaseDate"].to_s[/\d{4}/].presence
+    track_info.youtube_id ||= response["ytVideo"].presence
+    track_info.pic_url ||= (response["thumbnails"] || {}).values.first
     track_info.save!
   end
 
-  def find_or_create_info(track)
-    track.build_track_info
+  def missing_values?
+    track_info.album.blank? || track_info.year.blank? || track_info.youtube_id.blank? || track_info.pic_url.blank?
+  end
+
+  def music_graph_data
+    MusicGraphApi.new(artist: track_info.track.artist, title: track_info.track.title).call
   end
 end

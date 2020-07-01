@@ -1,12 +1,10 @@
-require "open-uri"
-
 class CreateTrack
   def initialize(station)
     @station = station
   end
 
   def call
-    response = fetch_track # get track from scraper
+    response = scraper.call
     create_entry(response)
   end
 
@@ -18,10 +16,6 @@ class CreateTrack
     "::Strategy::#{station.strategy.camelize}".constantize.new(
       url: station.playlist_url
     )
-  end
-
-  def fetch_track
-    scraper.call
   end
 
   def create_entry(response)

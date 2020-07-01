@@ -8,7 +8,7 @@
 #  mbid              :string
 #  name              :string           not null
 #  pic_url           :string
-#  slug              :string
+#  slug              :string           not null
 #  tags              :text             default([]), is an Array
 #  wikipedia         :text
 #  wikipedia_summary :text

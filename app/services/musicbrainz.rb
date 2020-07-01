@@ -1,3 +1,4 @@
+require "open-uri"
 class Musicbrainz
   def initialize(mbid:)
     @mbid = mbid
