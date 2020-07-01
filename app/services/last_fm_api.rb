@@ -15,16 +15,9 @@ class LastFmApi
     raw_response = URI.open(url).read
     response = JSON.parse raw_response
 
-    response["track"]
-  end
+    track_info = response["track"]
 
-  def test
-    # track_info = call
-    # puts "---- LAST FM ----"
-    #  puts "Song: #{track_info["name"]}"
-    #  puts "Artist: #{track_info["artist"]["name"]}"
-    #  puts "Album: #{track_info["album"]["title"]}"
-    #  puts "Tags: " + track_info["toptags"]["tag"].map { |v| v["name"] }.join(";")
+    OpenStruct.new album: track_info["album"]["title"].presence, tags: track_info["toptags"]["tag"].map { |v| v["name"] }.presence
   end
 
   private
