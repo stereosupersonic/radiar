@@ -15,7 +15,7 @@
         %a.nav-link{:href => admin_stations_path} Stations
       %li.nav-item
         %a.nav-link{:href => "/sidekiq"} Sidekiq
-    .container
+    .container-fluid
       .row
         - flash.each do |name, msg|
           - if msg.is_a?(String)
