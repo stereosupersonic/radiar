@@ -1,5 +1,5 @@
 class CreateTrack
-  def initialize(station)
+  def initialize(station:)
     @station = station
   end
 

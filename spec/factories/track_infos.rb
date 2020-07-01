@@ -30,7 +30,7 @@ FactoryBot.define do
     year { 2019 }
     youtube_id { "MDhiQfekdxo" }
     slug { "liamgallagheronce" }
-    # tags { "MyText" }
+    tags { %w[rock pop] }
     # wikipedia_summary { "MyText" }
     # wikipedia { "MyText" }
     # mbid { "MyString" }

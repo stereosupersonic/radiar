@@ -26,13 +26,4 @@
 class Track < ApplicationRecord
   belongs_to :station
   belongs_to :track_info, optional: true
-
-  delegate :year, to: :track_info, allow_nil: true
-  delegate :album, to: :track_info, allow_nil: true
-  delegate :pic_url, to: :track_info, allow_nil: true
-  delegate :youtube_id, to: :track_info, allow_nil: true
-
-  def youtube_link
-    "https://www.youtube.com/watch?v=#{youtube_id}" if youtube_id
-  end
 end

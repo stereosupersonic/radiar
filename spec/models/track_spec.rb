@@ -26,5 +26,10 @@
 require "rails_helper"
 
 RSpec.describe Track, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "has a valid factory" do
+    track = FactoryBot.build :track
+
+    expect(track).to be_valid
+    assert track.save!
+  end
 end

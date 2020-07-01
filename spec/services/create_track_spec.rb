@@ -20,7 +20,7 @@ RSpec.describe CreateTrack do
 
     expect {
       VCR.use_cassette("services/create_invalid_track") do
-        track = CreateTrack.new(station).call
+        track = CreateTrack.new(station: station).call
       end
     }.to change(Track, :count).by(1)
 
@@ -37,7 +37,7 @@ RSpec.describe CreateTrack do
     track = nil
     expect {
       VCR.use_cassette("services/create_valid_track") do
-        track = CreateTrack.new(station).call
+        track = CreateTrack.new(station: station).call
       end
     }.to change(Track, :count).by(1)
 
@@ -56,7 +56,7 @@ RSpec.describe CreateTrack do
 
     expect {
       VCR.use_cassette("services/create_valid_track") do
-        track = CreateTrack.new(station).call
+        track = CreateTrack.new(station: station).call
       end
     }.to_not change(Track, :count)
 

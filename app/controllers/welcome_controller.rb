@@ -2,7 +2,8 @@
 
 class WelcomeController < ApplicationController
   def index
-    @tracks = Track.order("id DESC").limit(25)
+    @track_records = Track.order("id DESC").limit(25)
+    @tracks = TrackPresenter.wrap @track_records
   end
 
   def fetch
