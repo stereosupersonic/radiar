@@ -25,6 +25,13 @@ RSpec.describe Station, type: :model do
 
   it "has a valid factory" do
     station = FactoryBot.build :station
+
     expect(station).to be_valid
+  end
+
+  it "should not be valid when we use a wrong strategy" do
+    station = FactoryBot.build :station, strategy: "blahblah"
+
+    expect(station).to be_invalid
   end
 end

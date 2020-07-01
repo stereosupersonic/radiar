@@ -30,7 +30,7 @@ describe "Stations", type: :system do
     expect(page).to have_content "Station was successfully updated."
     expect(page).to have_table_with_exact_data([
       ["Name", "Type", "Active", "Last update", ""],
-      ["fm42", "radibox", "true", "", "edit"]
+      ["fm42", "radiobox", "true", "", "edit"]
     ])
   end
 
@@ -45,13 +45,13 @@ describe "Stations", type: :system do
     fill_in "Name", with: "fm4"
     fill_in "Url", with: "https://planetrock.co.uk"
     fill_in "Playlist url", with: "https://onlineradiobox.com/uk/planetrock/playlist"
-    select "radibox", from: "Strategy"
+    select "radiobox", from: "Strategy"
 
     click_on "Save"
     expect(page).to have_content "Station was successfully created."
     expect(page).to have_table_with_exact_data([
       ["Name", "Type", "Active", "Last update", ""],
-      ["fm4", "radibox", "true", "", "edit"]
+      ["fm4", "radiobox", "true", "", "edit"]
     ])
   end
 end
