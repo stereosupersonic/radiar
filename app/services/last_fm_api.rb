@@ -15,9 +15,8 @@ class LastFmApi
     raw_response = URI.open(url).read
     response = JSON.parse raw_response
 
-    track_info = response["track"]
-
-    OpenStruct.new album: track_info["album"]["title"].presence, tags: track_info["toptags"]["tag"].map { |v| v["name"] }.presence
+    track_info = response["track"] || {}
+    OpenStruct.new album: track_info.dig("album", "title").presence, tags: Array(track_info.dig("toptags", "tag")).map { |v| v["name"] }.presence
   end
 
   private

@@ -5,7 +5,7 @@ echo "Docker container has been started"
 
 if [ "$SIDEKIQ" == 1 ]; then
   echo "start sidekiq"
-  bundle exec sidekiq -p critical -q default -q low
+  bundle exec sidekiq -p critical -q default -q low -c 10
 else
   echo "start rails server"
   # Setup a cron test schedule

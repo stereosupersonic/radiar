@@ -17,12 +17,12 @@ class LastfmJob < ApplicationJob
     return unless api_data
 
     track_info.album ||= api_data.album.presence
-    track_info.tags = api_data.tags if track_info.tags.empty?
+    track_info.tags = api_data.tags if track_info.tags&.empty?
     track_info.save!
   end
 
   def missing_values?
-    track_info.album.blank? || track_info.tags.empty?
+    track_info.album.blank? || track_info.tags&.empty?
   end
 
   def api_data
