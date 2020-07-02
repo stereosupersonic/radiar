@@ -16,7 +16,7 @@
           %td= station.name
           %td= station.strategy
           %td= station.enabled?
-          %td= format_datetime station.last_logged_at
+          %td= "#{time_ago_in_words(station.last_logged_at)} (#{format_datetime station.last_logged_at})" if station.last_logged_at
           %td= link_to :edit, edit_admin_station_path(station)
 
   
