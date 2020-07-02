@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://ws.audioscrobbler.com/2.0/?api_key=&artist=Liam%20Gallagher&autocorrect=1&format=json&method=track.getInfo&track=Once
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty/1.9.15.1
+      Date:
+      - Thu, 02 Jul 2020 06:36:57 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '947'
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '86400'
+    body:
+      encoding: UTF-8
+      string: '{"track":{"name":"Once","url":"https://www.last.fm/music/Liam+Gallagher/_/Once","duration":"213000","streamable":{"#text":"0","fulltrack":"0"},"listeners":"31295","playcount":"185164","artist":{"name":"Liam
+        Gallagher","url":"https://www.last.fm/music/Liam+Gallagher"},"album":{"artist":"Liam
+        Gallagher","title":"Once","url":"https://www.last.fm/music/Liam+Gallagher/Once","image":[{"#text":"https://lastfm.freetls.fastly.net/i/u/34s/3c09892d67f04b5be8d4220bc9dacc69.png","size":"small"},{"#text":"https://lastfm.freetls.fastly.net/i/u/64s/3c09892d67f04b5be8d4220bc9dacc69.png","size":"medium"},{"#text":"https://lastfm.freetls.fastly.net/i/u/174s/3c09892d67f04b5be8d4220bc9dacc69.png","size":"large"},{"#text":"https://lastfm.freetls.fastly.net/i/u/300x300/3c09892d67f04b5be8d4220bc9dacc69.png","size":"extralarge"}]},"toptags":{"tag":[{"name":"2010s","url":"https://www.last.fm/tag/2010s"},{"name":"2019","url":"https://www.last.fm/tag/2019"}]}}}'
+  recorded_at: Thu, 02 Jul 2020 06:36:57 GMT
+recorded_with: VCR 6.0.0

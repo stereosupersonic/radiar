@@ -61,6 +61,8 @@ VCR.configure do |c|
   end
 end
 
+ActiveJob::Base.queue_adapter = :test
+
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include(Shoulda::Matchers::ActiveModel, type: :model)

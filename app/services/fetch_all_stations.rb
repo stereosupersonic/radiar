@@ -1,4 +1,4 @@
-class FetchAllStations
+class FetchAllStations < BaseService
   def call
     # TODO make this more robuts => put to resque
     Station.where(enabled: true).each do |station|

@@ -5,6 +5,8 @@ class CreateTrack
 
   def call
     response = scraper.call
+    return unless response
+
     create_entry(response)
   end
 

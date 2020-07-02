@@ -25,7 +25,14 @@ class MusicGraphApi
 
   def call
     result = fetch_data
-    result["result"]&.first || {}
+    api_data = result["result"]&.first || {}
+
+    OpenStruct.new(
+      album: api_data["albumTitle"].presence,
+      year: api_data["releaseDate"].to_s[/\d{4}/].presence,
+      youtube_id: api_data["ytVideo"].presence,
+      pic_url: (api_data["thumbnails"] || {}).values.first
+    )
   end
 
   private

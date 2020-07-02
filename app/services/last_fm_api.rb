@@ -1,5 +1,5 @@
 require "open-uri"
-# LastFm.new(artist: "Liam Gallagher", title: "Once").call
+# LastFmApi.new(artist: "Liam Gallagher", title: "Once").call
 
 class LastFmApi
   BASE_URL = "http://ws.audioscrobbler.com/2.0/"

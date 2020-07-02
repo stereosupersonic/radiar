@@ -21,6 +21,9 @@ module Strategy
       raise "no track for selector '#{SELECTOR}' url: #{@url}" if track_info.blank?
 
       artist, title = *track_info.split(" - ")
+
+      return if title.blank? || artist.blank?
+
       played_at = Time.current # TODO use the real date
       Response.new(normalize(artist), normalize(title), value.to_html, played_at)
     end

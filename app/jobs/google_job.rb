@@ -3,6 +3,7 @@ class GoogleJob < ApplicationJob
 
   def perform(track_info_id)
     @track_info = TrackInfo.find track_info_id
+
     update_values
   end
 
@@ -13,11 +14,11 @@ class GoogleJob < ApplicationJob
   def update_values
     return unless missing_values?
 
-    data = api_data
+    return unless api_data
 
-    track_info.album ||= data.album.presence
-    track_info.tags = data.tags
-    track_info.year ||= data.year
+    track_info.album ||= api_data.album.presence
+    track_info.tags = api_data.tags
+    track_info.year ||= api_data.year
     track_info.save!
   end
 
@@ -26,6 +27,6 @@ class GoogleJob < ApplicationJob
   end
 
   def api_data
-    GoogleSearch.new(artist: track_info.track.artist, title: track_info.track.title).call
+    @api_data ||= GoogleSearch.new(artist: track_info.track.artist, title: track_info.track.title).call
   end
 end

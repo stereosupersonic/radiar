@@ -3,6 +3,7 @@ class LastfmJob < ApplicationJob
 
   def perform(track_info_id)
     @track_info = TrackInfo.find track_info_id
+
     update_values
   end
 
@@ -13,10 +14,10 @@ class LastfmJob < ApplicationJob
   def update_values
     return unless missing_values?
 
-    data = api_data
+    return unless api_data
 
-    track_info.album ||= data.album.presence
-    track_info.tags = data.tags if track_info.tags.empty?
+    track_info.album ||= api_data.album.presence
+    track_info.tags = api_data.tags if track_info.tags.empty?
     track_info.save!
   end
 
@@ -25,6 +26,6 @@ class LastfmJob < ApplicationJob
   end
 
   def api_data
-    LastFm.new(artist: track_info.track.artist, title: track_info.track.title).call
+    @api_data ||= LastFmApi.new(artist: track_info.track.artist, title: track_info.track.title).call
   end
 end
