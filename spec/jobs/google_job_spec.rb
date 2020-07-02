@@ -34,4 +34,21 @@ RSpec.describe GoogleJob, type: :job do
     expect(track_info.year).to eq 2020
     expect(track_info.tags).to eq(["rock", "pop"])
   end
+
+  xit "fetch album data when song is also album title" do
+    track = FactoryBot.create :track, artist: "Metallica", title: "Metallica"
+    track_info = FactoryBot.create :track_info, track: track, year: nil, album: nil, youtube_id: nil
+
+    VCR.use_cassette("jobs/fetch_album") do
+      job.perform(track_info.id)
+    end
+
+    track_info.reload
+
+    expect(track_info.album).to eq "Master of Puppets"
+    expect(track_info.artist_name).to eq "Metallica"
+    expect(track_info.year).to eq 2019
+    expect(track_info.name).to eq "Once"
+    expect(track_info.tags).to eq ["Alternative/Indie"]
+  end
 end
