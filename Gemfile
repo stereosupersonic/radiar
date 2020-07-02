@@ -25,6 +25,7 @@ gem "bootsnap", ">= 1.4.2", require: false
 
 gem "haml", "~> 5.1"
 gem "whenever"
+gem "rollbar"
 gem "redis", "4.1.4" # FIX https://stackoverflow.com/questions/62420602/setting-redis-configuration-options-in-sidekiq-container
 group :test do
   gem "factory_bot_rails"
