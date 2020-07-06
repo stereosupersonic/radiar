@@ -7,6 +7,14 @@ RSpec.describe GoogleJob, type: :job do
   let(:track_info) { FactoryBot.create :track_info, track: track, year: nil, album: nil, youtube_id: nil }
 
   it "set the missing values" do
+    expect {
+      VCR.use_cassette("jobs/fetch_google") do
+        job.perform(track_info.id)
+      end
+    }.to have_enqueued_job.with(hash_including(name: :google_search, state: :ok)).on_queue("low")
+  end
+
+  it "creates an event" do
     VCR.use_cassette("jobs/fetch_google") do
       job.perform(track_info.id)
     end

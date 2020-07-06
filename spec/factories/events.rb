@@ -3,9 +3,11 @@
 # Table name: events
 #
 #  id         :bigint           not null, primary key
+#  data       :jsonb
 #  done_at    :datetime
+#  duration   :float
+#  meta_data  :jsonb
 #  name       :string           not null
-#  payload    :jsonb
 #  state      :string           default("ok"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -19,7 +21,8 @@ FactoryBot.define do
   factory :event do
     name { "google" }
     state { :ok }
-    payload { {ip: "192.168.1.1", data: {a: 1, b: 2}} }
+    meta_data { {ip: "192.168.1.1"} }
+    data { {a: 1, b: 2} }
     done_at { Time.current }
   end
 end

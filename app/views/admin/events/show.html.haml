@@ -16,7 +16,8 @@
 
 %h4 Data
 .jumbotron
-  = debug @event.payload
+  = debug @event.data
+  = debug @event.meta_data
 
 %p
   %a.btn.btn-secondary{"aria-controls" => "debug", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#debug", :role => "button"} Debug

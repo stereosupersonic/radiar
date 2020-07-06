@@ -1,5 +1,5 @@
 class FetchStationJob < ApplicationJob
-  queue_as :default
+  queue_as :critical
 
   def perform(station_id)
     station = Station.find_by id: station_id

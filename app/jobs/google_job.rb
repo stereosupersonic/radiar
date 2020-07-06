@@ -27,6 +27,10 @@ class GoogleJob < ApplicationJob
   end
 
   def api_data
-    @api_data ||= GoogleSearch.new(artist: track_info.track.artist, title: track_info.track.title).call
+    @api_data ||= GoogleSearch.new(
+      artist: track_info.track.artist,
+      title: track_info.track.title,
+      track_info: track_info
+    ).call
   end
 end

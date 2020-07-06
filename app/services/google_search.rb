@@ -7,17 +7,23 @@ class GoogleSearch
 
   BASE_URL = "https://www.google.com/search"
 
-  def initialize(artist:, title:)
+  def initialize(artist:, title:, track_info: nil)
     @artist = artist
     @title = title
+    @track_info = track_info
   end
 
   def call
-    return if year.blank?
-    OpenStruct.new year: year.presence, album: album.presence, tags: tags.presence
+    result
   end
 
   private
+
+  attr_reader :track_info, :artist, :title
+
+  def result
+    OpenStruct.new year: year.presence, album: album.presence, tags: tags.presence
+  end
 
   def year
     doc.css('div[data-attrid="kc:/music/recording_cluster:release date"] span:last').text
@@ -37,7 +43,18 @@ class GoogleSearch
   end
 
   def fetch_html
-    URI.open(url, "User-Agent" => USER_AGENT).read
+    ActiveSupport::Notifications.instrument(:log_api_request, event_name: :google_search) do |instrument|
+      response = URI.open(url, "User-Agent" => USER_AGENT) { |f|
+        instrument[:base_uri] = f.base_uri.to_s
+        instrument[:status] = f.status.last
+        instrument[:status_code] = f.status.first.to_i
+        instrument[:metas] = f.metas
+        f.read
+      }
+      @doc = ::Nokogiri::HTML(response)
+      instrument[:data] = result.to_h.merge track_info: track_info&.id, artist: artist, title: title
+      @doc
+    end
   end
 
   def params
@@ -47,6 +64,6 @@ class GoogleSearch
   end
 
   def doc
-    @doc ||= ::Nokogiri::HTML(fetch_html)
+    @doc ||= fetch_html
   end
 end
