@@ -26,4 +26,5 @@
 class Track < ApplicationRecord
   belongs_to :station
   belongs_to :track_info, optional: true
+  has_many :events
 end

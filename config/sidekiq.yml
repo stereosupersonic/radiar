@@ -15,7 +15,6 @@
   - [default, 2]
   - low
 
-
 # you can override concurrency based on environment
 production:
   :concurrency: 15

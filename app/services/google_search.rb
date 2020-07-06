@@ -7,10 +7,10 @@ class GoogleSearch
 
   BASE_URL = "https://www.google.com/search"
 
-  def initialize(artist:, title:, track_info: nil)
+  def initialize(artist:, title:, track:)
     @artist = artist
     @title = title
-    @track_info = track_info
+    @track = track
   end
 
   def call
@@ -19,7 +19,7 @@ class GoogleSearch
 
   private
 
-  attr_reader :track_info, :artist, :title
+  attr_reader :track, :artist, :title
 
   def result
     OpenStruct.new year: year.presence, album: album.presence, tags: tags.presence
@@ -49,6 +49,7 @@ class GoogleSearch
         instrument[:status] = f.status.last
         instrument[:status_code] = f.status.first.to_i
         instrument[:metas] = f.metas
+        instrument[:track] = track
         f.read
       }
       @doc = ::Nokogiri::HTML(response)
