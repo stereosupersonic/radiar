@@ -1,0 +1,23 @@
+%h1 All events
+
+.table-responsive
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Date
+        %th Name
+        %th State
+        %th 
+  
+    %tbody
+      - @events.each do |event|
+        %tr
+          %td= event.done_at
+          %td= event.name
+          %td= event.state
+          %td= link_to :show, [:admin, event]
+
+= will_paginate @event_records, renderer: WillPaginate::ActionView::BootstrapLinkRenderer
+
+%br
+= back_button root_path

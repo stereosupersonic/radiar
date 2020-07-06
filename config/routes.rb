@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :stations
+    resources :events, only: %i[index show]
   end
 
   root to: "welcome#index"
