@@ -14,5 +14,4 @@ Rails.application.routes.draw do
 
   root to: "welcome#index"
 
-  post "fetch", to: "welcome#fetch", as: :fetch_all
 end
