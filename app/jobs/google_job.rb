@@ -17,8 +17,8 @@ class GoogleJob < ApplicationJob
     return unless api_data
     track_info.reload
     track_info.album = api_data.album if api_data.album.present?
-    track_info.tags ||= api_data.tags
-    track_info.year = api_data.year if api_data.year.present?
+    track_info.tags  = api_data.tags if track_info.tags.empty? && api_data.tags.present?
+    track_info.year  = api_data.year if api_data.year.present?
     track_info.save!
   end
 
