@@ -3,6 +3,7 @@
 # Place this file at config/sidekiq.yml and Sidekiq will
 # pick it up automatically.
 ---
+:max_retries: 10 # https://github.com/mperham/sidekiq/wiki/Advanced-Options#workers
 :verbose: false
 :concurrency: 10
 :timeout: 25
