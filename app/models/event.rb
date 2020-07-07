@@ -24,7 +24,7 @@
 #  fk_rails_...  (track_id => tracks.id)
 #
 class Event < ApplicationRecord
-  STATES = %w[ok failed]
+  STATES = %w[ok failed no_data]
   validates :name, presence: true
   validates :state, presence: true, inclusion: {in: STATES}
 

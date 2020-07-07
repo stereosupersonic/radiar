@@ -5,13 +5,13 @@ class MusicGraphJob < ApplicationJob
 
   def perform(track_info_id)
     @track_info = TrackInfo.find track_info_id
-
+    @track = @track_info.track
     update_values
   end
 
   private
 
-  attr_reader :track_info
+  attr_reader :track_info, :track
 
   def update_values
     return unless missing_values?
@@ -30,6 +30,6 @@ class MusicGraphJob < ApplicationJob
   end
 
   def api_data
-    @api_data ||= MusicGraphApi.new(artist: track_info.track.artist, title: track_info.track.title).call
+    @api_data ||= MusicGraphApi.new(artist: track_info.track.artist, title: track_info.track.title, track: track).call
   end
 end
