@@ -15,10 +15,10 @@ class GoogleJob < ApplicationJob
     return unless missing_values?
 
     return unless api_data
-
-    track_info.album ||= api_data.album.presence
-    track_info.tags = api_data.tags
-    track_info.year ||= api_data.year
+    track_info.reload
+    track_info.album = api_data.album if api_data.album.present?
+    track_info.tags ||= api_data.tags
+    track_info.year = api_data.year if api_data.year.present?
     track_info.save!
   end
 

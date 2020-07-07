@@ -14,6 +14,7 @@ class LastfmJob < ApplicationJob
   def update_values
     return unless api_data
 
+    track_info.reload
     track_info.album ||= api_data.album.presence
     track_info.tags = api_data.tags if api_data.tags.present?
     track_info.save!

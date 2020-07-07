@@ -39,23 +39,23 @@ Station.create(
 Station.create(
   name: "fluxfm",
   playlist_url: "https://onlineradiobox.com/de/fluxfm1006/playlist",
-  strategy: "radiobox",
+  strategy: "radiobox"
 )
 
 Station.create(
   name: "xs manchester",
   playlist_url: "https://onlineradiobox.com/uk/xsmanchester/playlist",
-  strategy: "radiobox",
+  strategy: "radiobox"
 )
 
 Station.create(
   name: "Q106",
   playlist_url: "https://onlineradiobox.com/us/wjxq/playlist",
-  strategy: "radiobox",
+  strategy: "radiobox"
 )
 
 Station.create(
   name: "The Zone",
   playlist_url: "https://onlineradiobox.com/ca/cjzn/playlist",
-  strategy: "radiobox",
+  strategy: "radiobox"
 )
