@@ -3,6 +3,8 @@ require "rails_helper"
 RSpec.describe CreateEventJob, type: :job do
   subject(:job) { CreateEventJob.new }
 
+  let(:track) { FactoryBot.create :track }
+
   it "creates an event record" do
     expect {
       job.perform(name: :google_search,
@@ -10,7 +12,8 @@ RSpec.describe CreateEventJob, type: :job do
                   done_at: Time.current,
                   data: {year: "2019"},
                   duration: 1,
-                  meta_data: {status_code: 200})
+                  meta_data: {status_code: 200},
+                  track: track)
     }.to change(Event, :count).by(1)
 
     event = Event.last

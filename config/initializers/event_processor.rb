@@ -8,6 +8,7 @@ ActiveSupport::Notifications.subscribe(:log_api_request) do |*args|
     done_at: event.end,
     data: event.payload[:data],
     duration: event.duration,
-    meta_data: event.payload.except(:data)
+    meta_data: event.payload.except(:data),
+    track: event.payload[:track]
   )
 end

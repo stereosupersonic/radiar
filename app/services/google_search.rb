@@ -43,17 +43,18 @@ class GoogleSearch
   end
 
   def fetch_html
-    ActiveSupport::Notifications.instrument(:log_api_request, event_name: :google_search) do |instrument|
+    ActiveSupport::Notifications.instrument(:log_api_request, event_name: :google_search) do |payload|
       response = URI.open(url, "User-Agent" => USER_AGENT) { |f|
-        instrument[:base_uri] = f.base_uri.to_s
-        instrument[:status] = f.status.last
-        instrument[:status_code] = f.status.first.to_i
-        instrument[:metas] = f.metas
-        instrument[:track] = track
+        payload[:base_uri] = f.base_uri.to_s
+        payload[:status] = f.status.last
+        payload[:status_code] = f.status.first.to_i
+        payload[:metas] = f.metas
+        payload[:track] = track
+
         f.read
       }
       @doc = ::Nokogiri::HTML(response)
-      instrument[:data] = result.to_h.merge track_info: track_info&.id, artist: artist, title: title
+      payload[:data] = result.to_h.merge track_info: track&.track_info&.id, artist: artist, title: title
       @doc
     end
   end

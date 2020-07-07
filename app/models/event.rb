@@ -28,5 +28,5 @@ class Event < ApplicationRecord
   validates :name, presence: true
   validates :state, presence: true, inclusion: {in: STATES}
 
-  belongs_to :track
+  belongs_to :track, optional: true
 end
