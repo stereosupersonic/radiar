@@ -24,7 +24,7 @@ class LastFmApi
   end
 
   def tags
-    Array(@response.dig("toptags", "tag")).map { |v| v["name"] }.reject(&:blank?).presence
+    Array(@response.dig("toptags", "tag")).map { |v| v["name"] }.reject(&:blank?)
   end
 
   def result
@@ -39,7 +39,7 @@ class LastFmApi
   end
 
   def no_data?
-    album.blank? && tags.empty?
+    album.blank? && tags&.empty?
   end
 
   def fetch_data
