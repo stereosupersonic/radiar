@@ -23,11 +23,14 @@ RSpec.describe CreateTrackInfo do
   end
 
   it "don't creates in if there is exiting one with slug" do
-    FactoryBot.create :track_info, slug: track.slug
+    track = FactoryBot.create :track, track_info: nil
+    track_info = FactoryBot.create :track_info, slug: track.slug
 
     expect {
       CreateTrackInfo.new(track).call
     }.to_not change(TrackInfo, :count)
+
+    expect(track.reload.track_info).to eq track_info
   end
 
   it "don't creates in if there is exiting" do
@@ -36,5 +39,7 @@ RSpec.describe CreateTrackInfo do
     expect {
       CreateTrackInfo.new(track).call
     }.to_not change(TrackInfo, :count)
+
+    expect(track.reload.track_info).to be_present
   end
 end

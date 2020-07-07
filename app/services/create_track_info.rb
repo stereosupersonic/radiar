@@ -4,10 +4,14 @@ class CreateTrackInfo
   end
 
   def call
-    track_info = track.track_info || TrackInfo.find_by(slug: track.slug)
-    return track_info if track_info
+    return track.track_info if track.track_info
 
-    create_new
+    track_info = TrackInfo.find_by(slug: track.slug)
+    if track_info
+      track.update! track_info: track_info
+    else
+      create_new
+    end
   end
 
   private

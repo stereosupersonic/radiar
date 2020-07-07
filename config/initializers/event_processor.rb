@@ -11,7 +11,7 @@ ActiveSupport::Notifications.subscribe(:log_api_request) do |*args|
     track: event.payload[:track]
   )
 
-rescue
+rescue => e
   CreateEventJob.perform_later(
     name: event.payload[:event_name],
     state: :exception,
@@ -25,4 +25,6 @@ rescue
     meta_data: event.payload.except(:data),
     track: event.payload[:track]
   )
+
+  raise e
 end
