@@ -6,6 +6,14 @@ RSpec.describe LastfmJob, type: :job do
   let(:track) { FactoryBot.create :track }
   let(:track_info) { FactoryBot.create :track_info, track: track, year: nil, tags: [], album: nil, youtube_id: nil }
 
+  it "enques an event" do
+    expect {
+      VCR.use_cassette("jobs/fetch_lastfm") do
+        job.perform(track_info.id)
+      end
+    }.to have_enqueued_job.with(hash_including(name: :last_fm_api, state: "ok")).on_queue("low")
+  end
+
   it "set the missing values" do
     VCR.use_cassette("jobs/fetch_lastfm") do
       job.perform(track_info.id)

@@ -20,6 +20,10 @@ class LastfmJob < ApplicationJob
   end
 
   def api_data
-    @api_data ||= LastFmApi.new(artist: track_info.track.artist, title: track_info.track.title).call
+    @api_data ||= LastFmApi.new(
+      artist: track_info.track.artist,
+      title: track_info.track.title,
+      track: track_info.track
+    ).call
   end
 end
