@@ -24,7 +24,7 @@
           %td= track.year
           %td= track.main_tag
           %td= track.youtube_link
-          %td= link_to :events, admin_events_path(track_id: track.id)
+          %td= link_to :events, admin_track_events_path(track_id: track.id)
           %td= link_to track.station.name, edit_admin_station_path(track.station)
 
 = button_with_icon(fetch_all_path, "Fetch", "refresh", {class: "btn btn-primary", method: :post})
