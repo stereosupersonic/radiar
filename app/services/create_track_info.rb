@@ -8,9 +8,20 @@ class CreateTrackInfo
 
     track_info = TrackInfo.find_by(slug: track.slug)
     if track_info
-      track.update! track_info: track_info
+      ActiveSupport::Notifications.instrument(:track_info_creation, event_name: :track_info_exits) do |payload|
+        payload[:data] = {track_info: track_info.id, artist: track.artist, title: track.title}
+        payload[:track] = track
+        track.update! track_info: track_info
+      end
+      track_info
     else
-      create_new
+      ActiveSupport::Notifications.instrument(:track_info_creation, event_name: :track_info_created) do |payload|
+        payload[:track] = track
+        track_info = create_new
+        payload[:data] = {track_info: track_info.id, artist: track.artist, title: track.title}
+        track_info
+      end
+
     end
   end
 

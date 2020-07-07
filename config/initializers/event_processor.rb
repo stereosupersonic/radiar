@@ -28,3 +28,16 @@ rescue => e
 
   raise e
 end
+
+ActiveSupport::Notifications.subscribe(:track_info_creation) do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+
+  CreateEventJob.perform_later(
+    name: event.payload[:event_name],
+    state: :ok,
+    done_at: event.end,
+    data: event.payload[:data],
+    duration: event.duration,
+    track: event.payload[:track]
+  )
+end
