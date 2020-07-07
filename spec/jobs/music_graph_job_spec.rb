@@ -6,6 +6,14 @@ RSpec.describe MusicGraphJob, type: :job do
   let(:track) { FactoryBot.create :track }
   let(:track_info) { FactoryBot.create :track_info, track: track, year: nil, album: nil, youtube_id: nil }
 
+  it "enques an event" do
+    expect {
+      VCR.use_cassette("jobs/fetch_music_graph_api") do
+        job.perform(track_info.id)
+      end
+    }.to have_enqueued_job.with(hash_including(name: :musci_graph_api, state: "ok")).on_queue("low")
+  end
+
   it "set the missing values" do
     VCR.use_cassette("jobs/fetch_music_graph_api") do
       job.perform(track_info.id)
@@ -37,11 +45,13 @@ RSpec.describe MusicGraphJob, type: :job do
     expect(track_info.youtube_id).to eq "123"
   end
 
-  it "fail if key is missing" do
+  it "fail if key is missing and creates an event" do
     expect {
-      VCR.use_cassette("jobs/missing_api_key_music_graph_api") do
-        job.perform(track_info.id)
-      end
-    }.to raise_error("MusicAPI Error - code:401 message:Unauthorized")
+      expect {
+        VCR.use_cassette("jobs/missing_api_key_music_graph_api") do
+          job.perform(track_info.id)
+        end
+      }.to have_enqueued_job.with(hash_including(name: :musci_graph_api, state: "exception")).on_queue("low")
+    }.to raise_error(ActiveJob::SerializationError)
   end
 end

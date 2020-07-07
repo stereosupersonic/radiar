@@ -6,6 +6,24 @@ RSpec.describe GoogleJob, type: :job do
   let(:track) { FactoryBot.create :track }
   let(:track_info) { FactoryBot.create :track_info, track: track, year: nil, album: nil, youtube_id: nil }
 
+  it "creates an event" do
+    expect {
+      VCR.use_cassette("jobs/fetch_google") do
+        job.perform(track_info.id)
+      end
+    }.to have_enqueued_job.with(hash_including(name: :google_search, state: "ok")).on_queue("low")
+  end
+
+  it "creates an event with no data" do
+    track = FactoryBot.create :track, artist: "Metallica", title: "Metallica"
+    track_info = FactoryBot.create :track_info, track: track, year: nil, album: nil, youtube_id: nil
+    expect {
+      VCR.use_cassette("jobs/google_no_data") do
+        job.perform(track_info.id)
+      end
+    }.to have_enqueued_job.with(hash_including(name: :google_search, state: "no_data")).on_queue("low")
+  end
+
   it "set the missing values" do
     VCR.use_cassette("jobs/fetch_google") do
       job.perform(track_info.id)
@@ -17,7 +35,7 @@ RSpec.describe GoogleJob, type: :job do
     expect(track_info.artist_name).to eq "Liam Gallagher"
     expect(track_info.year).to eq 2019
     expect(track_info.name).to eq "Once"
-    expect(track_info.tags).to eq ["Alternative/Indie"]
+    expect(track_info.tags).to eq ["rock", "pop"]
   end
 
   it "don't override existing values" do

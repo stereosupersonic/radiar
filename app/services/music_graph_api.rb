@@ -18,47 +18,84 @@ require "openssl"
 class MusicGraphApi
   BASE_URL = "https://macgyverapi-music-graph-v1.p.rapidapi.com/"
 
-  def initialize(artist:, title:)
+  def initialize(artist:, title:, track:)
     @artist = artist
     @title = title
+    @track = track
   end
 
   def call
-    result = fetch_data
-    api_data = result["result"]&.first || {}
-
-    OpenStruct.new(
-      album: api_data["albumTitle"].presence,
-      year: api_data["releaseDate"].to_s[/\d{4}/].presence,
-      youtube_id: api_data["ytVideo"].presence,
-      pic_url: (api_data["thumbnails"] || {}).values.first
-    )
+    fetch_data
+    result
   end
 
   private
 
+  attr_reader :artist, :title, :track
+
+  def result
+    @result ||= OpenStruct.new(
+      album: album,
+      year: year,
+      youtube_id: youtube_id,
+      pic_url: pic_url
+    )
+  end
+
+  def album
+    api_data["albumTitle"].presence
+  end
+
+  def year
+    api_data["releaseDate"].to_s[/\d{4}/].presence
+  end
+
+  def youtube_id
+    api_data["ytVideo"].presence
+  end
+
+  def pic_url
+    (api_data["thumbnails"] || {}).values.first
+  end
+
+  def api_data
+    @api_data ||= @fetched_data["result"]&.first || {}
+  end
+
+  def no_data?
+    year.blank? && album.blank? && youtube_id.blank?
+  end
+
   def fetch_data
-    url = URI(BASE_URL)
+    ActiveSupport::Notifications.instrument(:log_api_request, event_name: :musci_graph_api) do |payload|
+      url = URI(BASE_URL)
 
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-    request = Net::HTTP::Post.new(url)
-    request["x-rapidapi-host"] = "macgyverapi-music-graph-v1.p.rapidapi.com"
-    request["x-rapidapi-key"] = ENV["MUSIC_GRAPH_API_KEY"]
-    request["content-type"] = "application/json"
-    request["accept"] = "application/json"
-    data = {key: :free, id: "9m9c8U4f", data: {search: "#{@title} #{@artist}"}}
-    request.body = data.to_json
+      request = Net::HTTP::Post.new(url)
+      request["x-rapidapi-host"] = "macgyverapi-music-graph-v1.p.rapidapi.com"
+      request["x-rapidapi-key"] = ENV["MUSIC_GRAPH_API_KEY"]
+      request["content-type"] = "application/json"
+      request["accept"] = "application/json"
+      data = {key: :free, id: "9m9c8U4f", data: {search: "#{title} #{artist}"}}
+      request.body = data.to_json
 
-    response = http.request(request)
+      payload[:base_uri] = url.to_s
+      payload[:metas] = {request: request.to_hash}
+      payload[:track] = track
+      response = http.request(request)
+      payload[:status_code] = response.code
+      if response.code != "200"
+        raise "MusicAPI Error - code:#{response.code} message:#{response.message}"
+      end
+      raw_response = response.read_body
 
-    if response.code != "200"
-      raise "MusicAPI Error - code:#{response.code} message:#{response.message}"
+      @fetched_data = JSON.parse raw_response
+      payload[:data] = result.to_h.merge track_info: track&.track_info&.id, artist: artist, title: title
+      payload[:status] = no_data? ? :no_data : :ok
+      @fetched_data
     end
-    raw_response = response.read_body
-
-    JSON.parse raw_response
   end
 end

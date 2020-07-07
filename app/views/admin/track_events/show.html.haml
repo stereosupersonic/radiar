@@ -1,0 +1,7 @@
+%h1= "Event: #{@event.name}"
+
+%h2=@track.info
+
+= render "admin/events/event", event: @event
+
+= back_button admin_track_events_path(@event)

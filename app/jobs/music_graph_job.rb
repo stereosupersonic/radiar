@@ -1,20 +1,22 @@
 class MusicGraphJob < ApplicationJob
   queue_as :default
 
+  sidekiq_options retry: 2
+
   def perform(track_info_id)
     @track_info = TrackInfo.find track_info_id
-
+    @track = @track_info.track
     update_values
   end
 
   private
 
-  attr_reader :track_info
+  attr_reader :track_info, :track
 
   def update_values
     return unless missing_values?
     return unless api_data
-
+    track_info.reload
     track_info.album ||= api_data.album.presence
     track_info.year ||= api_data.year.presence
     track_info.youtube_id ||= api_data.youtube_id.presence
@@ -28,6 +30,6 @@ class MusicGraphJob < ApplicationJob
   end
 
   def api_data
-    @api_data ||= MusicGraphApi.new(artist: track_info.track.artist, title: track_info.track.title).call
+    @api_data ||= MusicGraphApi.new(artist: track_info.track.artist, title: track_info.track.title, track: track).call
   end
 end

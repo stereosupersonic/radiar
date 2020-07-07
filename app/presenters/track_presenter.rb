@@ -7,6 +7,10 @@ class TrackPresenter < ApplicationPresenter
     h.truncate o.title
   end
 
+  def info
+    "#{artist} - #{title}"
+  end
+
   def artist
     h.truncate o.artist
   end
