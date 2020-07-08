@@ -22,7 +22,7 @@ class GoogleSearch
   attr_reader :track, :artist, :title
 
   def result
-    @result ||= OpenStruct.new year: year.presence, album: album.presence, tags: tags.presence
+    @result ||= OpenStruct.new year: year.presence, album: TrackSanitizer.new(text: album.presence).call, tags: tags.presence
   end
 
   def year
@@ -35,7 +35,7 @@ class GoogleSearch
 
   def tags
     raw = doc.css('div[data-attrid="kc:/music/recording_cluster:skos_genre"] span:last').text
-    raw.to_s.split(",").map {|tag| tag.to_s.squish.downcase }
+    raw.to_s.split(",").map { |tag| tag.to_s.squish.downcase }
   end
 
   def url

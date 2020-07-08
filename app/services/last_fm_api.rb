@@ -29,7 +29,7 @@ class LastFmApi
 
   def result
     @result ||= OpenStruct.new(
-      album: album,
+      album: TrackSanitizer.new(text: album.presence).call,
       tags: tags
     )
   end

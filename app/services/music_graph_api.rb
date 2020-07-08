@@ -35,7 +35,7 @@ class MusicGraphApi
 
   def result
     @result ||= OpenStruct.new(
-      album: album,
+      album: TrackSanitizer.new(text: album.presence).call,
       year: year,
       youtube_id: youtube_id,
       pic_url: pic_url
