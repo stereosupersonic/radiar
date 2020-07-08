@@ -24,7 +24,7 @@ class LastFmApi
   end
 
   def tags
-    Array(@response.dig("toptags", "tag")).map { |v| v["name"] }.reject(&:blank?)
+    Array(@response.dig("toptags", "tag")).map { |v| v["name"].to_s.downcase }.reject(&:blank?)
   end
 
   def result

@@ -20,7 +20,7 @@ class TrackPresenter < ApplicationPresenter
   end
 
   def main_tag
-    h.truncate Array(track_info&.tags).first
+    h.truncate Array(track_info&.tags).first&.titleize
   end
 
   def youtube_url

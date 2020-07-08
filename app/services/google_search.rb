@@ -35,7 +35,7 @@ class GoogleSearch
 
   def tags
     raw = doc.css('div[data-attrid="kc:/music/recording_cluster:skos_genre"] span:last').text
-    raw.to_s.split(",").map(&:squish)
+    raw.to_s.split(",").map {|tag| tag.to_s.squish.downcase }
   end
 
   def url
