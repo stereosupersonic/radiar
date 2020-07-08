@@ -5,7 +5,7 @@
     .form-group.mb-2
       = f.text_field :year, class: "form-control", placeholder: "year"
     .form-group.mb-2
-      = f.select :station_id, Station.pluck(:name, :id), { include_blank: "select event" } , class: "form-control custom-select"
+      = f.select :station_id, Station.pluck(:name, :id), { include_blank: "select station" } , class: "form-control custom-select"
     .form-group.mb-2
       &nbsp;
     = f.submit "Filter", class: "btn btn-primary mb-2"
