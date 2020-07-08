@@ -1,0 +1,21 @@
+require "rails_helper"
+
+RSpec.describe TrackSanitizer do
+  it "removes fm shit" do
+    sanitized = TrackSanitizer.new(text: "One Is One | Fm4 Auf Laut").call
+    expect(sanitized).to eq("One Is One")
+    sanitized = TrackSanitizer.new(text: "Rock Antenne").call
+    expect(sanitized).to eq("")
+    sanitized = TrackSanitizer.new(text: "Feierabend | Fm4 Homebase").call
+    expect(sanitized).to eq("Feierabend")
+    sanitized = TrackSanitizer.new(text: "Grossstadtgeflã¼ster").call
+    expect(sanitized).to eq("Grossstadtgeflüster")
+    sanitized = TrackSanitizer.new(text: "Glã¼cksspiel").call
+    expect(sanitized).to eq("Glücksspiel")
+  end
+
+  it "titlizes it" do
+    sanitized = TrackSanitizer.new(text: "   Bla blah BLUB   ").call
+    expect(sanitized).to eq("Bla Blah Blub")
+  end
+end

@@ -21,7 +21,6 @@ class CreateTrackInfo
         payload[:data] = {track_info: track_info.id, artist: track.artist, title: track.title}
         track_info
       end
-
     end
   end
 

@@ -31,7 +31,7 @@ module Strategy
     private
 
     def normalize(text)
-      text.to_s.strip.titleize
+      TrackSanitizer.new(text: text).call
     end
 
     def fetch_html
