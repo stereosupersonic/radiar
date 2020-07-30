@@ -31,6 +31,7 @@ services:
   redis:
     image: 'redis:5-alpine'
     command: redis-server
+    restart: always
     networks:
       - default
     ports:
