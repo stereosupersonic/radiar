@@ -43,7 +43,7 @@ class TracksFinder
 
   def tag_filter
     if tag.present?
-      # TODO 
+      # TODO
     else
       Track.all
     end
