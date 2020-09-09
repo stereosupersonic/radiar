@@ -55,20 +55,19 @@ git clone git@github.com:stereosupersonic/radiar.git
 create a new file .env
 ```
 cd radiar
-mv config/env.sample .env
+cp config/env.sample .env
 ```
 
 ```
 PORT=3005 # depend on the other containers
 RAILS_MASTER_KEY=XXX # from config config/master.key
 
-DATABASE_HOST="192.168.1.69"
+DATABASE_HOST="192.168.1.69" 
 DATABASE_USERNAME=postgres
-DATABASE_PASSWORD=postgresdb
+DATABASE_PASSWORD=postgres_pw
 DATABASE_NAME=radiar_production
 REDIS_URL_SIDEKIQ=redis://redis:6379/1
 ```
-
 
 ### build and run image
 
