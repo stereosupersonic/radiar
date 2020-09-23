@@ -17,8 +17,11 @@ else
 
   echo "start cron service"
   service cron start
+
   echo "run migrations"
   bundle exec rails db:migrate
+
+  echo "start rails server"
   mkdir -p /app/tmp/pids
   rm -f /app/tmp/pids/server.pid
   bundle exec rails server -b 0.0.0.0 -p 3000
