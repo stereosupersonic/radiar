@@ -1,39 +1,11 @@
 class TrackPresenter < ApplicationPresenter
+  delegate :info, :artist, :title, :album, :main_tag, :youtube_link, :year, to: :track_info
+
   def played_at
     h.format_datetime o.played_at
   end
 
-  def title
-    h.truncate o.title
+  def track_info
+    @track_info ||= TrackInfoPresenter.new o.track_info
   end
-
-  def info
-    "#{artist} - #{title}"
-  end
-
-  def artist
-    h.truncate o.artist
-  end
-
-  def album
-    h.truncate track_info&.album
-  end
-
-  def main_tag
-    h.truncate Array(track_info&.tags).first&.titleize
-  end
-
-  def youtube_url
-    "https://www.youtube.com/watch?v=#{track_info&.youtube_id}" if track_info&.youtube_id
-  end
-
-  def youtube_link
-    youtube_url ? h.link_to("youtube", youtube_url) : ""
-  end
-
-  def year
-    track_info&.year
-  end
-
-  delegate :track_info, to: :o
 end

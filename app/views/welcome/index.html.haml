@@ -1,40 +1,34 @@
-%h1 Tracks
+%h1 Welcome to Radiar
 
-= form_for @track_search, :url => root_path, :html => {:method => :get, :class => "form-horizontal center"} do |f|
-  .form-inline
-    .form-group.mb-2
-      = f.text_field :year, class: "form-control", placeholder: "year"
-    .form-group.mb-2
-      = f.select :station_id, Station.pluck(:name, :id), { include_blank: "select station" } , class: "form-control custom-select"
-    .form-group.mb-2
-      &nbsp;
-    = f.submit "Filter", class: "btn btn-primary mb-2"
+.p 
+  the coolest place for exploring the radio
+
+%h2= "Trending Songs #{Time.current.year}"
 
 .table-responsive
   %table.table.table-striped
     %thead
       %tr
-        %th Time
-        %th Song
+        %th 
+        %th Count
+        %th Name
         %th Artist
-        %th Album
-        %th Year
         %th Tag
-        %th Video
-        %th Events
-        %th Station
+        %th Stations
+        %th First played
+        %th 
   
     %tbody
-      - @tracks.each do |track|
+      - @trending_tracks.each_with_index do |track, i|
         %tr
-          %td= track.played_at
-          %td= track.title
-          %td= track.artist
-          %td= track.album
-          %td= track.year
+          %td= i+1
+          %td= track.count
+          %td= track.name
+          %td= track.artist_name
           %td= track.main_tag
+          %td= track.stations
+          %td= track.first_played_at
           %td= track.youtube_link
-          %td= link_to :events, admin_track_events_path(track_id: track.id)
-          %td= link_to track.station.name, edit_admin_station_path(track.station)
-          
-= will_paginate @track_records, renderer: WillPaginate::ActionView::BootstrapLinkRenderer
+         
+%br
+= back_button root_path

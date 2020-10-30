@@ -20,7 +20,6 @@ next level of the radio radar
 
 ```
 
-
 ## fetch all stations
 
 ```
@@ -73,4 +72,13 @@ REDIS_URL_SIDEKIQ=redis://redis:6379/1
 
 ```
 docker-compose -f traefik.yml up -d --build 
+```
+
+
+# Data import
+
+```
+bin/rails db:schema:load
+
+cat radiar_production_XXX.dump.sql | docker exec -i radiar_database_1 pg_restore -U postgres --exit-on-error --verbose --clean --dbname=radiar_development -Fc
 ```

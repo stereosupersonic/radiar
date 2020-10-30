@@ -12,6 +12,8 @@
     %ul.nav.navbar-light.bg-light
       %a.navbar-brand{:href => root_path} Radiar
       %li.nav-item
+        %a.nav-link{:href => tracks_path} Tracks
+      %li.nav-item
         %a.nav-link{:href => admin_stations_path} Stations
       %li.nav-item
         %a.nav-link{:href => admin_events_path} Events
@@ -27,3 +29,8 @@
       .row
         .col
           = yield
+  
+  %footer.footer
+    .container
+      %span.text-muted= link_to "About", "/about"
+      %span.text-muted.ml-2= "last update: #{time_ago_in_words Track.last.created_at}"

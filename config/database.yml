@@ -17,7 +17,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: <%= ENV.fetch('DATABASE_HOST', 'localhost') %>
+  host: <%= ENV.fetch('DATABASE_HOST', '0.0.0.0') %>
   port: <%= ENV.fetch('DATABASE_PORT', 5432) %>
   username: <%= ENV.fetch("DATABASE_USERNAME", "postgres") %>
   password: <%= ENV.fetch("DATABASE_PASSWORD", "postgres_pw") %>
@@ -26,11 +26,10 @@ default: &default
 development:
   <<: *default
   database: radiar_development
-
+  port: <%= ENV.fetch('DATABASE_PORT', 5433) %>
 test:
   <<: *default
   database: radiar_test
-
 
 production:
   <<: *default

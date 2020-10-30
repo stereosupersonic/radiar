@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  def all_tags
+    tags = TrackInfo.pluck(:tags).map(&:first)
+    tags = {}.tap do |result|
+      tags.flatten.reject(&:blank?).each do |tag|
+        result[tag] ||= 0
+        result[tag] += 1
+      end
+    end
+    tags.sort_by { |k, v| v }.reverse.map { |a| a.first }[0...150]
+  end
+
   # date/time
   def format_time(time)
     time&.strftime "%H:%M"

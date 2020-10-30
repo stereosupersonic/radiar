@@ -1,0 +1,46 @@
+%h1 Tracks
+
+= form_for @track_search, url: tracks_path, :html => {:method => :get, :class => "form-horizontal center"} do |f|
+  .form-inline
+    .form-group.mb-2
+      = f.text_field :artist, class: "form-control", placeholder: "artist", onchange: "this.form.submit();"
+    .form-group.mb-2
+      = f.select :year, TrackInfo.pluck(:year).uniq.compact.sort.reverse, { include_blank: "select year" } , class: "form-control custom-select", onchange: "this.form.submit();"
+    .form-group.mb-2
+      = f.select :tag, all_tags, { include_blank: "select tag" } , class: "form-control custom-select", onchange: "this.form.submit();"
+    .form-group.mb-2
+      = f.select :station_id, Station.pluck(:name, :id), { include_blank: "select station" }, class: "form-control custom-select", onchange: "this.form.submit();"
+    .form-group.mb-2
+      &nbsp;
+    = f.submit "Filter", class: "btn btn-primary mb-2"
+
+.p= "found: #{@track_records.count} "
+.table-responsive
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Time
+        %th Song
+        %th Artist
+        %th Album
+        %th Year
+        %th Tag
+        %th Video
+        %th Events
+        %th Station
+  
+    %tbody
+      - @tracks.each do |track|
+        %tr
+          %td= track.played_at
+          %td= track.title
+          %td= track.artist
+          %td= track.album
+          %td= track.year
+          %td= track.main_tag
+          %td= track.youtube_link
+          %td= link_to :events, admin_track_events_path(track_id: track.id)
+          %td= link_to track.station.name, edit_admin_station_path(track.station)
+          
+= will_paginate @track_records, renderer: WillPaginate::ActionView::BootstrapLinkRenderer
+%br

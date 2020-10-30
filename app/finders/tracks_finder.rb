@@ -43,7 +43,7 @@ class TracksFinder
 
   def tag_filter
     if tag.present?
-      # TODO
+      Track.joins(:track_info).where("? = ANY (track_infos.tags)", tag)
     else
       Track.all
     end

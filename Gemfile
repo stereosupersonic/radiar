@@ -22,13 +22,14 @@ gem "jbuilder", "~> 2.7"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", require: false
-
+gem "sidekiq", "~> 6.0"
 gem "haml", "~> 5.1"
 gem "will_paginate"
 gem "will_paginate-bootstrap4"
 gem "whenever"
 gem "rollbar"
 gem "redis", "4.1.4" # FIX https://stackoverflow.com/questions/62420602/setting-redis-configuration-options-in-sidekiq-container
+
 group :test do
   gem "factory_bot_rails"
   gem "rspec-rails"
@@ -66,6 +67,5 @@ group :development do
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
   gem "standard", "~> 0.2.0", require: false # https://github.com/testdouble/standard
+  gem "haml_lint", require: false
 end
-
-gem "sidekiq", "~> 6.0"

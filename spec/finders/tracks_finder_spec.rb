@@ -22,4 +22,14 @@ RSpec.describe TracksFinder do
       expect(TracksFinder.new(station_id: 666).call).to eq([])
     end
   end
+
+  context "tag" do
+    it "should find a track" do
+      track = FactoryBot.create :track
+      FactoryBot.create :track_info, year: 2020, track: track, tags: ["metal", "pop"]
+
+      expect(TracksFinder.new(tag: "metal").call).to eq([track])
+      expect(TracksFinder.new(tag: "ska").call).to eq([])
+    end
+  end
 end
