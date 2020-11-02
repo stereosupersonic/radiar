@@ -12,5 +12,4 @@ class TrackPresenter < ApplicationPresenter
   def station_name
     o.station.name
   end
-
 end
