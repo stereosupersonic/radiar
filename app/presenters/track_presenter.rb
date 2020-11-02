@@ -8,4 +8,9 @@ class TrackPresenter < ApplicationPresenter
   def track_info
     @track_info ||= TrackInfoPresenter.new o.track_info
   end
+
+  def station_name
+    o.station.name
+  end
+
 end

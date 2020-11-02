@@ -6,6 +6,10 @@ class TracksController < ApplicationController
     @tracks = TrackPresenter.wrap @track_records
   end
 
+  def show
+    @track = TrackPresenter.new Track.find(params[:id])
+  end
+
   private
 
   def search_params

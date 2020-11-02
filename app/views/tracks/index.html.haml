@@ -10,9 +10,6 @@
       = f.select :tag, all_tags, { include_blank: "select tag" } , class: "form-control custom-select", onchange: "this.form.submit();"
     .form-group.mb-2
       = f.select :station_id, Station.pluck(:name, :id), { include_blank: "select station" }, class: "form-control custom-select", onchange: "this.form.submit();"
-    .form-group.mb-2
-      &nbsp;
-    = f.submit "Filter", class: "btn btn-primary mb-2"
 
 .p= "found: #{@track_records.count} "
 .table-responsive
@@ -28,11 +25,11 @@
         %th Video
         %th Events
         %th Station
-  
+
     %tbody
       - @tracks.each do |track|
         %tr
-          %td= track.played_at
+          %td= link_to track.played_at, track
           %td= track.title
           %td= track.artist
           %td= track.album
@@ -41,6 +38,6 @@
           %td= track.youtube_link
           %td= link_to :events, admin_track_events_path(track_id: track.id)
           %td= link_to track.station.name, edit_admin_station_path(track.station)
-          
+
 = will_paginate @track_records, renderer: WillPaginate::ActionView::BootstrapLinkRenderer
 %br

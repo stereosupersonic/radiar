@@ -9,7 +9,9 @@
     .form-group.mb-2
       = f.select :first_seen_period, [:week, :month, :quater, :year], { include_blank: "select period" } , class: "form-control custom-select", onchange: "this.form.submit();"
     .form-group.mb-2
-      &nbsp;
+      = f.select :tag, all_tags, { include_blank: "select tag" } , class: "form-control custom-select", onchange: "this.form.submit();"
+    .form-group.mb-2
+      = f.select :station_id, Station.pluck(:name, :id), { include_blank: "select station" }, class: "form-control custom-select", onchange: "this.form.submit();"
 
 .table-responsive
   %table.table.table-striped
@@ -23,14 +25,14 @@
         %th Tag
         %th Stations
         %th First played
-        %th
+        %th Video
 
     %tbody
       - @trending_tracks.each_with_index do |track, i|
         %tr
           %td= i+1
           %td= track.count
-          %td= track.name
+          %td= link_to(track.name, track_path(id: track.id))
           %td= track.artist_name
           %td= track.year
           %td= track.main_tag

@@ -11,6 +11,6 @@ Rails.application.routes.draw do
       resources :events, only: %i[index show], controller: "track_events"
     end
   end
-  resources :tracks, only: :index
+  resources :tracks, only: %i[index show]
   root to: "welcome#index"
 end

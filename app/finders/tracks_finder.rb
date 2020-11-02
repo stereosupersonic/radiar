@@ -26,7 +26,7 @@ class TracksFinder
 
   def first_seen_filter
     if first_seen_on.present?
-      Track.where(slug: Track.select(:slug).having("MIN(created_at) >= '#{first_seen_on.to_date}'").group(:slug))
+      Track.where(slug: Track.select(:slug).having("MIN(played_at) >= '#{first_seen_on.to_date}'").group(:slug))
     else
       Track.all
     end

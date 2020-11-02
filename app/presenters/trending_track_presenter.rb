@@ -9,6 +9,10 @@ class TrendingTrackPresenter < ApplicationPresenter
     Track.where(slug: o.slug).pluck(:station_id).uniq.count
   end
 
+  def id
+    Track.where(slug: o.slug).pluck(:id).first
+  end
+
   def first_played_at
     h.format_datetime Track.where(slug: o.slug).first.created_at
   end

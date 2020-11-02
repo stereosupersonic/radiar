@@ -1,0 +1,6 @@
+%h1 Track
+
+- %w[played_at title artist artist album year main_tag station_name slug youtube_link].each do | attr |
+  .p
+    = "#{attr.titleize}:"
+    = @track.send attr

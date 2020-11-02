@@ -15,6 +15,8 @@ class TrackSanitizer < BaseService
   def remove_unwanted(text)
     text.gsub(/\|.*/i, "") # remove everyting starts with | like '| Fm4 Homebase'
       .gsub(/Rock Antenne/i, "") # special rock antenne intros
+      .gsub("Rock Nonstop", "")
+      .gsub("Nachrichten", "")
   end
 
   def fix_encoding(text)
