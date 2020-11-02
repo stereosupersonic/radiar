@@ -3,43 +3,18 @@
 require "capybara_helper"
 
 describe "welcome", type: :system do
-  it "shows the last tracks" do
-    played_at = Time.current
-    track = FactoryBot.create :track, played_at: played_at
-    FactoryBot.create :track_info, track: track
-    visit "/"
+  it "shows the tranding tracks of this year" do
+    travel_to DateTime.new(2020, 12, 14, 13, 30) do
+      track = FactoryBot.create :track, slug: :blah1, played_at: 1.week.ago
+      FactoryBot.create :track_info, artist_name: "Metallica", slug: :blah1, name: "one", track: track, year: 2020
+      track2 = FactoryBot.create :track, slug: :blah2, played_at: 1.week.ago
+      FactoryBot.create :track_info, artist_name: "Abba", track: track2, slug: :blah2, year: 2019
 
-    expect(page).to have_content("Tracks")
+      visit "/"
 
-    expect(page).to have_table_with_exact_data([
-      ["Time", "Song", "Artist", "Album", "Year", "Tag", "Video", "Events", "Station"],
-      [played_at.strftime("%d.%m.%Y %H:%M"), "Once",
-       "Liam Gallagher", "Once", "2019", "Rock", "youtube", "events", "Marilu"]
-    ])
-  end
-
-  it "shows the events" do
-    played_at = Time.current
-    track = FactoryBot.create :track, played_at: played_at
-    event = FactoryBot.create :event, track: track
-    FactoryBot.create :event
-    FactoryBot.create :track_info, track: track
-    visit "/"
-
-    expect(page).to have_content("Tracks")
-
-    click_on :events
-
-    expect(page).to have_content("Events for Liam Gallagher - Once")
-    expect(page).to have_table_with_exact_data([
-      ["Date", "Name", "State", ""],
-      [event.done_at.strftime("%d.%m.%Y %H:%M"), "google", "ok", "show"]
-    ])
-
-    click_on :show
-    expect(page).to have_text "Event: google"
-    expect(page).to have_text "ok"
-    expect(page).to have_text event.done_at.strftime("%d.%m.%Y %H:%M")
-    expect(page).to have_content("Liam Gallagher - Once")
+      expect(page).to have_content("Trending Songs")
+      expect(page).to have_content("Metallica")
+      expect(page).to_not have_content("Abba")
+    end
   end
 end

@@ -29,8 +29,9 @@
       .row
         .col
           = yield
-  
+
   %footer.footer
     .container
       %span.text-muted= link_to "About", "/about"
-      %span.text-muted.ml-2= "last update: #{time_ago_in_words Track.last.created_at}"
+      - if Track.last
+        %span.text-muted.ml-2= "last update: #{time_ago_in_words Track.last.created_at}"

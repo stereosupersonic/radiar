@@ -1,8 +1,7 @@
 class TracksFinder
   include ActiveModel::Model
 
-  FILTERS = %i[year artist station_id tag]
-  attr_accessor :per_page, :page
+  FILTERS = %i[year artist station_id tag first_seen_on]
   attr_accessor(*FILTERS)
 
   def call
@@ -12,7 +11,7 @@ class TracksFinder
       .merge(station_filter)
       .merge(artist_filter)
       .merge(tag_filter)
-      .paginate(page: page, per_page: per_page)
+      .merge(first_seen_filter)
   end
 
   private
@@ -20,6 +19,14 @@ class TracksFinder
   def year_filter
     if year.present?
       Track.joins(:track_info).where("track_infos.year = ?", year)
+    else
+      Track.all
+    end
+  end
+
+  def first_seen_filter
+    if first_seen_on.present?
+      Track.where(slug: Track.select(:slug).having("MIN(created_at) >= '#{first_seen_on.to_date}'").group(:slug))
     else
       Track.all
     end

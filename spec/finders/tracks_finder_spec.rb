@@ -32,4 +32,17 @@ RSpec.describe TracksFinder do
       expect(TracksFinder.new(tag: "ska").call).to eq([])
     end
   end
+
+  context "first_seen" do
+    it "should find a track thats first seen after a date" do
+      FactoryBot.create :track, created_at: 1.month.ago, slug: :test1
+      FactoryBot.create :track, created_at: 1.day.ago, slug: :test1
+      FactoryBot.create :track, created_at: 2.days.ago, slug: :test2
+      FactoryBot.create :track, created_at: 1.day.ago, slug: :test2
+
+      expect(TracksFinder.new(first_seen_on: 1.week.ago).call.first.slug).to eq "test2"
+      expect(TracksFinder.new(first_seen_on: 1.week.ago).call.size).to eq 2
+      expect(TracksFinder.new(first_seen_on: 1.week.ago).call.reorder("").group("slug").count).to eq({"test2" => 2})
+    end
+  end
 end

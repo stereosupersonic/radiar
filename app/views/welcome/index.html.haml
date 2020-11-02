@@ -1,23 +1,30 @@
 %h1 Welcome to Radiar
 
-.p 
-  the coolest place for exploring the radio
+%h2 Trending Songs
 
-%h2= "Trending Songs #{Time.current.year}"
+= form_for @trending_tracks_search, url: root_path, :html => {:method => :get, :class => "form-horizontal center"} do |f|
+  .form-inline
+    .form-group.mb-2
+      = f.select :year, TrackInfo.pluck(:year).uniq.compact.sort.reverse, { include_blank: "select year" } , class: "form-control custom-select", onchange: "this.form.submit();"
+    .form-group.mb-2
+      = f.select :first_seen_period, [:week, :month, :quater, :year], { include_blank: "select period" } , class: "form-control custom-select", onchange: "this.form.submit();"
+    .form-group.mb-2
+      &nbsp;
 
 .table-responsive
   %table.table.table-striped
     %thead
       %tr
-        %th 
+        %th
         %th Count
         %th Name
         %th Artist
+        %th year
         %th Tag
         %th Stations
         %th First played
-        %th 
-  
+        %th
+
     %tbody
       - @trending_tracks.each_with_index do |track, i|
         %tr
@@ -25,10 +32,11 @@
           %td= track.count
           %td= track.name
           %td= track.artist_name
+          %td= track.year
           %td= track.main_tag
           %td= track.stations
           %td= track.first_played_at
           %td= track.youtube_link
-         
+
 %br
 = back_button root_path

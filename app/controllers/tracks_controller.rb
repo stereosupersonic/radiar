@@ -1,7 +1,7 @@
 class TracksController < ApplicationController
   def index
     @track_search = TracksFinder.new(search_params)
-    @track_records = @track_search.call
+    @track_records = @track_search.call.paginate(page: params[:page], per_page: params[:per_page])
 
     @tracks = TrackPresenter.wrap @track_records
   end
@@ -9,10 +9,6 @@ class TracksController < ApplicationController
   private
 
   def search_params
-    if params[:tracks_finder]
-      params[:tracks_finder].permit(*TracksFinder::FILTERS).merge(page: params[:page])
-    else
-      {page: params[:page]}
-    end
+    params[:tracks_finder]&.permit(*TracksFinder::FILTERS)
   end
 end
