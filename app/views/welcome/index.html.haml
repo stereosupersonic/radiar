@@ -7,7 +7,7 @@
     .form-group.mb-2
       = f.select :year, TrackInfo.pluck(:year).uniq.compact.sort.reverse, { include_blank: "select year" } , class: "form-control custom-select", onchange: "this.form.submit();"
     .form-group.mb-2
-      = f.select :first_seen_period, [:week, :month, :quater, :year], { include_blank: "select period" } , class: "form-control custom-select", onchange: "this.form.submit();"
+      = f.select :first_seen_period, TrendingTracks::PERIODS, { include_blank: "select period" } , class: "form-control custom-select", onchange: "this.form.submit();"
     .form-group.mb-2
       = f.select :tag, all_tags, { include_blank: "select tag" } , class: "form-control custom-select", onchange: "this.form.submit();"
     .form-group.mb-2
