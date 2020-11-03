@@ -6,15 +6,15 @@ next level of the radio radar
 
 ## development setup
 
-### setup 
+### setup
 
 ```
  bin/rails db:setup
 ```
 
-### start 
+### start
 
-``` 
+```
   bin/webpack-dev-server
   bin/server
 
@@ -61,7 +61,7 @@ cp config/env.sample .env
 PORT=3005 # depend on the other containers
 RAILS_MASTER_KEY=XXX # from config config/master.key
 
-DATABASE_HOST="192.168.1.69" 
+DATABASE_HOST="192.168.1.69"
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=postgres_pw
 DATABASE_NAME=radiar_production
@@ -71,7 +71,7 @@ REDIS_URL_SIDEKIQ=redis://redis:6379/1
 ### build and run image
 
 ```
-docker-compose -f traefik.yml up -d --build 
+docker-compose -f traefik.yml up -d --build
 ```
 
 
@@ -82,3 +82,5 @@ bin/rails db:schema:load
 
 cat radiar_production_XXX.dump.sql | docker exec -i radiar_database_1 pg_restore -U postgres --exit-on-error --verbose --clean --dbname=radiar_development -Fc
 ```
+
+cat radiar_production_*.dump.sql | docker exec -i postgresdb12 pg_restore -U postgres --exit-on-error --verbose --clean --dbname=radiar_development -Fc

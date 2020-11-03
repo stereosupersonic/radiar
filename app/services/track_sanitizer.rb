@@ -8,14 +8,14 @@ class TrackSanitizer < BaseService
 
   def normalize(text)
     text = CGI.unescapeHTML(text.to_s)
-    text = fix_encoding text.force_encoding("UTF-8")
+    text = fix_encoding text.encode("UTF-8", invalid: :replace, replace: "")
     remove_unwanted(text).squish.titleize
   end
 
   def remove_unwanted(text)
     text.gsub(/\|.*/i, "") # remove everyting starts with | like '| Fm4 Homebase'
       .gsub(/Rock Antenne/i, "") # special rock antenne intros
-      .gsub("Rock Nonstop", "")
+      .gsub("/Rock Nonstop/i", "")
       .gsub("Nachrichten", "")
   end
 

@@ -6,12 +6,14 @@ RSpec.describe TrackSanitizer do
     expect(sanitized).to eq("One Is One")
     sanitized = TrackSanitizer.new(text: "Rock Antenne").call
     expect(sanitized).to eq("")
-    sanitized = TrackSanitizer.new(text: "Feierabend | Fm4 Homebase").call
+    sanitized = TrackSanitizer.new(text: "feierabend | Fm4 Homebase").call
     expect(sanitized).to eq("Feierabend")
     sanitized = TrackSanitizer.new(text: "Grossstadtgeflã¼ster").call
     expect(sanitized).to eq("Grossstadtgeflüster")
     sanitized = TrackSanitizer.new(text: "Glã¼cksspiel").call
     expect(sanitized).to eq("Glücksspiel")
+    sanitized = TrackSanitizer.new(text: "ã\x84Rzte").call
+    expect(sanitized).to eq("ãrzte")
   end
 
   it "titlizes it" do

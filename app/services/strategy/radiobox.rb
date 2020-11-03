@@ -18,14 +18,18 @@ module Strategy
     def call
       value = Array(doc.css(SELECTOR))[0]
       track_info = value&.text
-      raise "no track for selector '#{SELECTOR}' url: #{@url}" if track_info.blank?
 
+      if track_info.blank?
+        Rails.logger.error "no track for selector '#{SELECTOR}' url: #{@url}"
+        return
+      end
       artist, title = *track_info.split(" - ")
-
+      artist = normalize(artist)
+      title = normalize(title)
       return if title.blank? || artist.blank?
 
       played_at = Time.current # TODO use the real date
-      Response.new(normalize(artist), normalize(title), value.to_html, played_at)
+      Response.new(artist, title, value.to_html, played_at)
     end
 
     private

@@ -69,7 +69,7 @@ class MusicGraphApi
   def fetch_data
     ActiveSupport::Notifications.instrument(:log_api_request, event_name: :musci_graph_api) do |payload|
       url = URI(BASE_URL)
-
+      @fetched_data = {}
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -88,7 +88,9 @@ class MusicGraphApi
       response = http.request(request)
       payload[:status_code] = response.code
       if response.code != "200"
-        raise "MusicAPI Error - code:#{response.code} message:#{response.message}"
+        Rails.logger.error "MusicAPI Error - code:#{response.code} message:#{response.message}"
+        payload[:status] = :no_data
+        return @fetched_data
       end
       raw_response = response.read_body
 

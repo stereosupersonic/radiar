@@ -19,7 +19,9 @@ RSpec.describe FetchStationJob, type: :job do
 
       expect(GoogleJob).to have_been_enqueued
       expect(LastfmJob).to have_been_enqueued
-      expect(MusicGraphJob).to have_been_enqueued
+
+      # TODO: disabled MusicGraph
+      # expect(MusicGraphJob).to have_been_enqueued
     }.to change(Track, :count).by(1).and change(TrackInfo, :count).by(1)
   end
 

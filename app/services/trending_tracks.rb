@@ -1,8 +1,9 @@
 class TrendingTracks < BaseService
-  LIMIT = 20
+  LIMIT = 25
   FILTERS = %i[year first_seen_period tag station_id]
+  PERIODS = %i[week two_weeks month quater half_year year]
   attr_accessor(*FILTERS)
-  PERIODS = %i[week month quater half_year year]
+
   def call
     TracksFinder.new(first_seen_on: first_seen_on, year: year, tag: tag, station_id: station_id).call
       .reorder("").group("slug").order(count: :desc).limit(LIMIT).count
@@ -13,6 +14,8 @@ class TrendingTracks < BaseService
     case first_seen_period.to_s.to_sym
       when :week
         1.week.ago
+      when :two_weeks
+        2.weeks.ago
       when :month
         1.month.ago
       when :quater
