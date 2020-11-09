@@ -15,9 +15,9 @@
 
     %tbody
       - @stations.each do |station|
-        %tr{class: "#{station.problematic? ? 'text-warning' : ''}"}
-          %td= station.name
-          %td= station.strategy
+        %tr{class: "#{station.problematic? ? 'text-warning' : ' '}"}
+          %td= link_to station.name, station.url, target: "_blank"
+          %td= link_to station.strategy, station.playlist_url, target: "_blank"
           %td= station.enabled?
           %td= station.created
           %td= station.last_logged_track
