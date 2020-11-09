@@ -1,8 +1,13 @@
 class TrendingTrackPresenter < ApplicationPresenter
-  delegate :artist_name, :main_tag, :youtube_link, :name, :year, to: :track_info
+  delegate :artist_name, :main_tag, :youtube_link, :year, :name, to: :track_info, allow_nil: true
 
   def track_info
-    @track_info ||= TrackInfoPresenter.new TrackInfo.find_by(slug: o.slug)
+    return unless track_info_record
+    TrackInfoPresenter.new track_info_record
+  end
+
+  def track_info_record
+    @track_info_record ||= TrackInfo.find_by(slug: o.slug)
   end
 
   def stations

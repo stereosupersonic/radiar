@@ -1,6 +1,7 @@
 class Admin::StationsController < ApplicationController
   def index
-    @stations = Station.order :name
+    @station_records = Station.order :name
+    @stations = Admin::StationPresenter.wrap @station_records
   end
 
   def new

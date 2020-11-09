@@ -32,7 +32,7 @@
         %tr
           %td= i+1
           %td= track.count
-          %td= link_to track.name, track_path(id: track.id)
+          %td= link_to track&.name, track_path(id: track.id)
           %td= track.artist_name
           %td= track.year
           %td= track.main_tag

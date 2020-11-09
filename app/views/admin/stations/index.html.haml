@@ -7,17 +7,23 @@
         %th Name
         %th Type
         %th Active
+        %th Created
         %th Last update
-        %th 
-  
+        %th tracks last 24h
+        %th all tracks
+        %th
+
     %tbody
       - @stations.each do |station|
         %tr
           %td= station.name
           %td= station.strategy
           %td= station.enabled?
-          %td= "#{time_ago_in_words(station.last_logged_at)} (#{format_datetime station.last_logged_at})" if station.last_logged_at
+          %td= station.created
+          %td= station.last_logged_track
+          %td= station.tracks_count(24.hours.ago)
+          %td= station.tracks_count
           %td= link_to :edit, edit_admin_station_path(station)
 
-  
+
 = add_button new_admin_station_path

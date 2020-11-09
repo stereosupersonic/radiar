@@ -4,14 +4,15 @@ require "capybara_helper"
 
 describe "Stations", type: :system do
   it "overview page" do
-    FactoryBot.create :station, name: "Marilu", strategy: :radiobox
+    station = FactoryBot.create :station, name: "Marilu", strategy: :radiobox
+    FactoryBot.create :track, station: station
     visit "/"
     click_on "Stations"
     expect(page).to have_text "Stations Overview"
 
     expect(page).to have_table_with_exact_data([
-      ["Name", "Type", "Active", "Last update", ""],
-      ["Marilu", "radiobox", "true", "", "edit"]
+      ["Name", "Type", "Active", "Created", "Last update", "tracks last 24h", "all tracks", ""],
+      ["Marilu", "radiobox", "true", Time.current.strftime("%d.%m.%Y"), "", "1", "1", "edit"]
     ])
   end
 
@@ -29,8 +30,8 @@ describe "Stations", type: :system do
     click_on "Save"
     expect(page).to have_content "Station was successfully updated."
     expect(page).to have_table_with_exact_data([
-      ["Name", "Type", "Active", "Last update", ""],
-      ["fm42", "radiobox", "true", "", "edit"]
+      ["Name", "Type", "Active", "Created", "Last update", "tracks last 24h", "all tracks", ""],
+      ["fm42", "radiobox", "true", Time.current.strftime("%d.%m.%Y"), "", "0", "0", "edit"]
     ])
   end
 
@@ -50,8 +51,8 @@ describe "Stations", type: :system do
     click_on "Save"
     expect(page).to have_content "Station was successfully created."
     expect(page).to have_table_with_exact_data([
-      ["Name", "Type", "Active", "Last update", ""],
-      ["fm4", "radiobox", "true", "", "edit"]
+      ["Name", "Type", "Active", "Created", "Last update", "tracks last 24h", "all tracks", ""],
+      ["fm4", "radiobox", "true", Time.current.strftime("%d.%m.%Y"), "", "0", "0", "edit"]
     ])
   end
 end
