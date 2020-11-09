@@ -22,7 +22,7 @@ gem "jbuilder", "~> 2.7"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", require: false
-gem "haml", "~> 5.1"
+gem "haml-rails"
 gem "redis", "4.1.4" # FIX https://stackoverflow.com/questions/62420602/setting-redis-configuration-options-in-sidekiq-container
 gem "rollbar"
 gem "sidekiq", "~> 6.0"
