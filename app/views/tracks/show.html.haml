@@ -1,17 +1,31 @@
 %h1 Track
 
-- %w[played_at title artist album year main_tag station_name slug youtube_link response].each do | attr |
-  .p
-    = "#{attr.titleize}:"
-    = @track.send attr
+%ol.list-group.m-3
+  - %w[played_at title artist album year main_tag station_name slug youtube_link response].each do | attr |
+    %li.list-group-item
+      .font-weight-bold= "#{attr.titleize}:"
+      = @track.send attr
+
+
+%p
+  %a.btn.btn-secondary{"aria-controls" => "debug", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#debug", :role => "button"} Debug
+.row
+  .col
+    #debug.collapse.multi-collapse
+      .card.card-body
+        = debug @track.attributes
 
 %br
 
 %h3= "#{@track.events.count} Events"
 
-=link_to :show, admin_track_events_path(track_id: @track.id)
+.p.m-3
+  = show_button admin_track_events_path(track_id: @track.id)
 
 %h3 Track Info
 
-= edit_button edit_admin_track_info_path(@track.track_info)
-= back_button root_path
+.p.m-3
+  = edit_button edit_admin_track_info_path(@track.track_info)
+
+.p
+  = back_button root_path
