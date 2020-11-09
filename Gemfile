@@ -29,6 +29,7 @@ gem "sidekiq", "~> 6.0"
 gem "whenever"
 gem "will_paginate"
 gem "will_paginate-bootstrap4"
+gem "simple_form"
 
 group :test do
   gem "factory_bot_rails"
