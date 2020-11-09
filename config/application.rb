@@ -34,7 +34,10 @@ module Radiar
     config.active_job.queue_adapter = :sidekiq
 
     config.generators do |g|
+      # https://guides.rubyonrails.org/configuring.html#configuring-generators
       g.template_engine :haml
+      g.helper false
+      g.assets false
       g.fixture_replacement :factory_bot, dir: "spec/factories"
       g.test_framework :rspec,
         fixtures: true,
