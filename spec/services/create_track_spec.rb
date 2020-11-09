@@ -50,6 +50,20 @@ RSpec.describe CreateTrack do
     expect(station.last_logged_at.to_date).to eq Time.current.to_date
   end
 
+  it "creates a vaild track when artist and title is seperated by :" do
+    station.update! playlist_url: "https://onlineradiobox.com/de/starfm879/playlist/"
+
+    track = nil
+    expect {
+      VCR.use_cassette("services/create_valid_track_two") do
+        track = CreateTrack.new(station: station).call
+      end
+    }.to change(Track, :count).by(1)
+
+    expect(track.artist).to eq("Led Zeppelin")
+    expect(track.title).to eq("Ramble On (2007 Remaster)")
+  end
+
   it "don't create a entry when the last song is the same" do
     track = nil
     create(:track, station: station, slug: "queenradiogaga")

@@ -23,9 +23,9 @@ module Strategy
         Rails.logger.error "no track for selector '#{SELECTOR}' url: #{@url}"
         return
       end
-      artist, title = *track_info.split(" - ")
-      artist = normalize(artist)
-      title = normalize(title)
+
+      artist, title = extract_title_artist track_info
+
       return if title.blank? || artist.blank?
 
       played_at = Time.current # TODO: use the real date
@@ -33,6 +33,15 @@ module Strategy
     end
 
     private
+
+    def extract_title_artist(track_info)
+      [" - ", " : "].each do |splitter|
+        artist, title = *track_info.split(splitter)
+        artist = normalize(artist)
+        title = normalize(title)
+        return [artist, title] if title.present? && artist.present?
+      end
+    end
 
     def normalize(text)
       TrackSanitizer.new(text: text).call
