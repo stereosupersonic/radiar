@@ -1,15 +1,15 @@
-# frozen_string_literal: true
-
 module ApplicationHelper
   def all_tags
-    tags = TrackInfo.pluck(:tags).map(&:first)
-    tags = {}.tap do |result|
-      tags.flatten.reject(&:blank?).each do |tag|
-        result[tag] ||= 0
-        result[tag] += 1
+    Rails.cache.fetch("all_tags-v1", expires_in: 30.minutes) do
+      tags = TrackInfo.pluck(:tags).map(&:first)
+      tags = {}.tap do |result|
+        tags.flatten.reject(&:blank?).each do |tag|
+          result[tag] ||= 0
+          result[tag] += 1
+        end
       end
+      tags.sort_by { |_k, v| v }.reverse.map(&:first)[0...150]
     end
-    tags.sort_by { |k, v| v }.reverse.map { |a| a.first }[0...150]
   end
 
   # date/time
@@ -60,12 +60,12 @@ module ApplicationHelper
   end
 
   def remove_button(link, text = "Remove", options = {})
-    options.reverse_merge! data: {confirm: "Are you sure?"}, class: "btn btn-danger"
+    options.reverse_merge! data: { confirm: "Are you sure?" }, class: "btn btn-danger"
     button_with_icon link, text, "trash", options
   end
 
   def delete_button(link, text = "Delete", options = {})
-    options.reverse_merge! data: {confirm: "Are you sure?"},
+    options.reverse_merge! data: { confirm: "Are you sure?" },
                            method: :delete, class: "btn btn-danger"
     button_with_icon link, text, "trash", options
   end
