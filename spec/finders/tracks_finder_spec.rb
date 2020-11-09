@@ -27,6 +27,13 @@ RSpec.describe TracksFinder do
       expect(TracksFinder.new(artist: "Metallica").call).to eq([track])
       expect(TracksFinder.new(artist: "Beatles").call).to eq([])
     end
+
+    it "should find a track by like" do
+      track = FactoryBot.create :track, artist: "Metallica"
+
+      expect(TracksFinder.new(artist: "metal").call).to eq([track])
+      expect(TracksFinder.new(artist: "Beatles").call).to eq([])
+    end
   end
 
   context "station" do

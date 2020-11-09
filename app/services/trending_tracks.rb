@@ -1,11 +1,11 @@
 class TrendingTracks < BaseService
   LIMIT = 25
-  FILTERS = %i[year first_seen_period tag station_id].freeze
+  FILTERS = %i[year first_seen_period tag station_id artist].freeze
   PERIODS = %i[week two_weeks month quater half_year year].freeze
   attr_accessor(*FILTERS)
 
   def call
-    TracksFinder.new(first_seen_on: first_seen_on, year: year, tag: tag, station_id: station_id).call
+    TracksFinder.new(first_seen_on: first_seen_on, year: year, tag: tag, station_id: station_id, artist: artist).call
       .reorder("").group("slug").order(count: :desc).limit(LIMIT).count
       .map { |arr| OpenStruct.new slug: arr.first, count: arr.second }
   end
