@@ -12,7 +12,7 @@ describe "Stations", type: :system do
 
     expect(page).to have_table_with_exact_data([
       ["Name", "Type", "Active", "Created", "Last update", "tracks last 24h", "all tracks", ""],
-      ["Marilu", "radiobox", "true", Time.current.strftime("%d.%m.%Y"), "", "1", "1", "edit"]
+      ["Marilu", "radiobox", "true", Time.current.strftime("%d.%m.%Y"), "", "1", "1", "Edit"]
     ])
   end
 
@@ -21,7 +21,7 @@ describe "Stations", type: :system do
     visit "/"
     click_on "Stations"
 
-    click_on "edit"
+    click_on "Edit"
 
     expect(page).to have_text "Editing Station"
 
@@ -31,7 +31,7 @@ describe "Stations", type: :system do
     expect(page).to have_content "Station was successfully updated."
     expect(page).to have_table_with_exact_data([
       ["Name", "Type", "Active", "Created", "Last update", "tracks last 24h", "all tracks", ""],
-      ["fm42", "radiobox", "true", Time.current.strftime("%d.%m.%Y"), "", "0", "0", "edit"]
+      ["fm42", "radiobox", "true", Time.current.strftime("%d.%m.%Y"), "", "0", "0", "Edit"]
     ])
   end
 
@@ -52,7 +52,7 @@ describe "Stations", type: :system do
     expect(page).to have_content "Station was successfully created."
     expect(page).to have_table_with_exact_data([
       ["Name", "Type", "Active", "Created", "Last update", "tracks last 24h", "all tracks", ""],
-      ["fm4", "radiobox", "true", Time.current.strftime("%d.%m.%Y"), "", "0", "0", "edit"]
+      ["fm4", "radiobox", "true", Time.current.strftime("%d.%m.%Y"), "", "0", "0", "Edit"]
     ])
   end
 end
