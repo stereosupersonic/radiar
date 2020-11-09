@@ -16,6 +16,7 @@ class MusicGraphJob < ApplicationJob
   def update_values
     return unless missing_values?
     return unless api_data
+
     track_info.reload
     track_info.album ||= api_data.album.presence
     track_info.year ||= api_data.year.presence

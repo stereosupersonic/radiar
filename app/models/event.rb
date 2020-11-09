@@ -24,7 +24,7 @@
 #  fk_rails_...  (track_id => tracks.id)
 #
 class Event < ApplicationRecord
-  STATES = %w[ok failed no_data]
+  STATES = %w[ok failed no_data].freeze
   validates :name, presence: true
   validates :state, presence: true, inclusion: {in: STATES}
 

@@ -17,7 +17,7 @@
 #  index_stations_on_last_logged_at  (last_logged_at)
 #
 class Station < ApplicationRecord
-  STRATEGIES = %w[radiobox]
+  STRATEGIES = %w[radiobox].freeze
   validates :name, presence: true
   validates :playlist_url, presence: true
   validates :strategy, presence: true, inclusion: {in: STRATEGIES}

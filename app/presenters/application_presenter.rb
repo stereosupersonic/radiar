@@ -1,7 +1,7 @@
 require "delegate"
 
 class ApplicationPresenter < SimpleDelegator
-  alias object __getobj__
+  alias_method :object, :__getobj__
 
   def self.wrap(collection)
     collection.map { |elem| new(elem) }
@@ -15,6 +15,6 @@ class ApplicationPresenter < SimpleDelegator
     h.format_datetime o.created_at
   end
 
-  alias h helpers
-  alias o object
+  alias_method :h, :helpers
+  alias_method :o, :object
 end

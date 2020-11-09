@@ -1,7 +1,7 @@
 class TracksFinder
   include ActiveModel::Model
 
-  FILTERS = %i[year artist station_id tag first_seen_on]
+  FILTERS = %i[year artist station_id tag first_seen_on].freeze
   attr_accessor(*FILTERS)
 
   def call

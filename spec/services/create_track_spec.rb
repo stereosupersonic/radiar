@@ -1,13 +1,13 @@
 require "rails_helper"
 
 RSpec.describe CreateTrack do
-  let(:station) {
+  let(:station) do
     FactoryBot.create(:station,
       name: "Absolute Radio",
       url: "https://planetradio.co.uk/absolute-radio/",
       playlist_url: "https://onlineradiobox.com/uk/absolute1058/playlist/",
       strategy: "radiobox")
-  }
+  end
 
   it "should work with a new selector" do
     track = nil

@@ -3,9 +3,9 @@ require "ostruct"
 
 # GoogleSearch.new(artist: "Liam Gallagher", title: "Once").call
 class GoogleSearch
-  USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0"
+  USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0".freeze
 
-  BASE_URL = "https://www.google.com/search"
+  BASE_URL = "https://www.google.com/search".freeze
 
   def initialize(artist:, title:, track:)
     @artist = artist

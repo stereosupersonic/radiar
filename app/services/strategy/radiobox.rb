@@ -8,7 +8,7 @@ require "open-uri"
 # http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=03a888a88c3abea4963563b3f736862c&artist=cher&track=believe&format=json
 module Strategy
   class Radiobox
-    SELECTOR = ".playlist .tablelist-schedule tr:first td[2]"
+    SELECTOR = ".playlist .tablelist-schedule tr:first td[2]".freeze
     Response = Struct.new(:artist, :title, :response, :played_at)
 
     def initialize(url:)
@@ -28,7 +28,7 @@ module Strategy
       title = normalize(title)
       return if title.blank? || artist.blank?
 
-      played_at = Time.current # TODO use the real date
+      played_at = Time.current # TODO: use the real date
       Response.new(artist, title, value.to_html, played_at)
     end
 

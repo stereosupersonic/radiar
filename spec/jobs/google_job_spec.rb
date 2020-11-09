@@ -35,7 +35,7 @@ RSpec.describe GoogleJob, type: :job do
     expect(track_info.artist_name).to eq "Liam Gallagher"
     expect(track_info.year).to eq 2019
     expect(track_info.name).to eq "Once"
-    expect(track_info.tags).to eq ["rock", "pop"]
+    expect(track_info.tags).to eq %w[rock pop]
   end
 
   it "don't override existing values" do
@@ -50,7 +50,7 @@ RSpec.describe GoogleJob, type: :job do
     expect(track_info.album).to eq "test"
     expect(track_info.artist_name).to eq "Liam Gallagher"
     expect(track_info.year).to eq 2020
-    expect(track_info.tags).to eq(["rock", "pop"])
+    expect(track_info.tags).to eq(%w[rock pop])
   end
 
   xit "fetch album data when song is also album title" do

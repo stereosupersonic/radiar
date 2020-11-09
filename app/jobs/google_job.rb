@@ -15,6 +15,7 @@ class GoogleJob < ApplicationJob
     return unless missing_values?
 
     return unless api_data
+
     track_info.reload
     track_info.album = api_data.album if api_data.album.present?
     track_info.tags = api_data.tags if track_info.tags.empty? && api_data.tags.present?

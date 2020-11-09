@@ -22,13 +22,13 @@ gem "jbuilder", "~> 2.7"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", require: false
-gem "sidekiq", "~> 6.0"
 gem "haml", "~> 5.1"
+gem "redis", "4.1.4" # FIX https://stackoverflow.com/questions/62420602/setting-redis-configuration-options-in-sidekiq-container
+gem "rollbar"
+gem "sidekiq", "~> 6.0"
+gem "whenever"
 gem "will_paginate"
 gem "will_paginate-bootstrap4"
-gem "whenever"
-gem "rollbar"
-gem "redis", "4.1.4" # FIX https://stackoverflow.com/questions/62420602/setting-redis-configuration-options-in-sidekiq-container
 
 group :test do
   gem "factory_bot_rails"
@@ -40,9 +40,9 @@ group :test do
   gem "webdrivers", "~> 4.0"
 
   gem "mock_redis"
+  gem "simplecov"
   gem "vcr"
   gem "webmock"
-  gem "simplecov"
 end
 
 group :development, :test do
@@ -62,10 +62,10 @@ group :development do
   gem "better_errors"
   gem "binding_of_caller"
   gem "erb2haml", "~> 0.1.5"
-  gem "rubocop", "~> 0.80.0"
+  gem "haml_lint", require: false
+  gem "rubocop", "~> 1.0.0"
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
-  gem "standard", "~> 0.2.0", require: false # https://github.com/testdouble/standard
-  gem "haml_lint", require: false
+  gem "standard", require: false # https://github.com/testdouble/standard
 end

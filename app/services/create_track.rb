@@ -39,6 +39,6 @@ class CreateTrack
   end
 
   def build_track_slug(response)
-    "#{response.artist}#{response.title}".gsub(/[^\w|\:]/, "").gsub(/(\+|-|_|\.)/, "").to_s.downcase
+    "#{response.artist}#{response.title}".gsub(/[^\w|:]/, "").gsub(/(\+|-|_|\.)/, "").to_s.downcase
   end
 end

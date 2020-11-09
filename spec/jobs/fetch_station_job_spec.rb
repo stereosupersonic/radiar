@@ -3,13 +3,13 @@ require "rails_helper"
 RSpec.describe FetchStationJob, type: :job do
   subject(:job) { FetchStationJob.new }
 
-  let!(:station) {
+  let!(:station) do
     FactoryBot.create(:station,
       name: "Absolute Radio",
       url: "https://planetradio.co.uk/absolute-radio/",
       playlist_url: "https://onlineradiobox.com/uk/absolute1058/playlist/",
       strategy: "radiobox")
-  }
+  end
 
   it "creates a new track and track info" do
     expect {

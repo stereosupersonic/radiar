@@ -1,9 +1,9 @@
 RSpec::Matchers.define :have_table_with_exact_data do |expected|
-  match do |actual|
+  match do |_actual|
     actual_data == expected
   end
 
-  failure_message_for_should do |actual|
+  failure_message do |_actual|
     "expected that #{expected} but is #{actual_data}"
   end
 
