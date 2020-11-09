@@ -10,3 +10,8 @@
 %h3= "#{@track.events.count} Events"
 
 =link_to :show, admin_track_events_path(track_id: @track.id)
+
+%h3 Track Info
+
+= edit_button edit_admin_track_info_path(@track.track_info)
+= back_button root_path

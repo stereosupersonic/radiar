@@ -12,6 +12,12 @@ module ApplicationHelper
     end
   end
 
+  def all_years
+    Rails.cache.fetch("all_years-v1", expires_in: 30.minutes) do
+      TrackInfo.distinct.pluck(:year).compact.sort.reverse.insert(0, :without)
+    end
+  end
+
   # date/time
   def format_time(time)
     time&.strftime "%H:%M"
@@ -49,7 +55,7 @@ module ApplicationHelper
   def edit_button(link, text = "Edit", options = {})
     link = link.is_a?(ActiveRecord::Base) ? [:edit, link] : link
     options.reverse_merge! class: "btn btn-primary"
-    button_with_icon link, text, "pencil", options
+    button_with_icon link, text, "pencil-alt", options
   end
 
   def submit_button(text = "Save", options = {})

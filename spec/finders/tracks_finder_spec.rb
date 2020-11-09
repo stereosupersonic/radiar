@@ -11,6 +11,22 @@ RSpec.describe TracksFinder do
       expect(TracksFinder.new(year: 2020).call).to eq([track])
       expect(TracksFinder.new(year: 2021).call).to eq([])
     end
+
+    it "should find a track without a year" do
+      track = FactoryBot.create :track
+      FactoryBot.create :track_info, year: nil, track: track
+
+      expect(TracksFinder.new(year: :without).call).to eq([track])
+    end
+  end
+
+  context "artist" do
+    it "should find a track" do
+      track = FactoryBot.create :track, artist: "Metallica"
+
+      expect(TracksFinder.new(artist: "Metallica").call).to eq([track])
+      expect(TracksFinder.new(artist: "Beatles").call).to eq([])
+    end
   end
 
   context "station" do

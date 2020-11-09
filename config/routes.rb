@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :stations
+    resources :track_infos, only: %i[edit update]
     resources :events, only: %i[index show]
     resources :tracks, only: [] do
       resources :events, only: %i[index show], controller: "track_events"

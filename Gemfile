@@ -29,6 +29,7 @@ gem "sidekiq", "~> 6.0"
 gem "whenever"
 gem "will_paginate"
 gem "will_paginate-bootstrap4"
+# simple_form
 gem "simple_form"
 
 group :test do

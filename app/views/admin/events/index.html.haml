@@ -7,15 +7,15 @@
         %th Date
         %th Name
         %th State
-        %th 
-  
+        %th
+
     %tbody
       - @events.each do |event|
         %tr
           %td= event.done_at
           %td= event.name
           %td= event.state
-          %td= link_to :show, [:admin, event]
+          %td= show_button admin_event_path(event)
 
 = will_paginate @event_records, renderer: WillPaginate::ActionView::BootstrapLinkRenderer
 

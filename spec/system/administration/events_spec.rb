@@ -12,7 +12,7 @@ describe "Events", type: :system do
     expect(page).to have_text "All events"
     expect(page).to have_table_with_exact_data([
       ["Date", "Name", "State", ""],
-      [event.done_at.strftime("%d.%m.%Y %H:%M"), "google", "ok", "show"]
+      [event.done_at.strftime("%d.%m.%Y %H:%M"), "google", "ok", "Show"]
     ])
   end
 
@@ -21,7 +21,7 @@ describe "Events", type: :system do
 
     visit "/"
     click_on "Events"
-    click_on "show"
+    click_on "Show"
 
     expect(page).to have_text "Event: google"
     expect(page).to have_text "ok"

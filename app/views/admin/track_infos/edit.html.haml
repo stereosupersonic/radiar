@@ -1,0 +1,18 @@
+%h1 Edit Tracks Info
+
+= simple_form_for [:admin, @track_info] do |f|
+  = f.input :name
+  = f.input :album
+  = f.input :artist_name
+  = f.input :year
+  = f.input :youtube_id
+  = f.input :pic_url
+  = f.input :slug, disabled: true, hint: 'You cannot change the slug.'
+  = f.input :wikipedia
+  = f.input :wikipedia_summary
+  = f.input :mbid
+  = f.input :tags, disabled: true
+  .row
+    = submit_button
+    = back_button root_path
+%br

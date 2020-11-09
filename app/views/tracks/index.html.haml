@@ -5,7 +5,7 @@
     .form-group.mb-2
       = f.text_field :artist, class: "form-control", placeholder: "artist", onchange: "this.form.submit();"
     .form-group.mb-2
-      = f.select :year, TrackInfo.pluck(:year).uniq.compact.sort.reverse, { include_blank: "select year" } , class: "form-control custom-select", onchange: "this.form.submit();"
+      = f.select :year, all_years, { include_blank: "select year" } , class: "form-control custom-select", onchange: "this.form.submit();"
     .form-group.mb-2
       = f.select :tag, all_tags, { include_blank: "select tag" } , class: "form-control custom-select", onchange: "this.form.submit();"
     .form-group.mb-2
@@ -13,7 +13,7 @@
 
 .p= "found: #{@track_records.count} "
 .table-responsive
-  %table.table.table-striped
+  %table.table.table-striped.tracks
     %thead
       %tr
         %th Time
@@ -25,10 +25,11 @@
         %th Video
         %th Events
         %th Station
+        %th
 
     %tbody
       - @tracks.each do |track|
-        %tr
+        %tr{id: "track_#{track.id}"}
           %td= link_to track.played_at, track
           %td= track.title
           %td= track.artist
@@ -38,6 +39,9 @@
           %td= track.youtube_link
           %td= link_to :events, admin_track_events_path(track_id: track.id)
           %td= link_to track.station.name, edit_admin_station_path(track.station)
+          %td
+            = show_button track
+            = edit_button edit_admin_track_info_path(track.track_info)
 
 = will_paginate @track_records, renderer: WillPaginate::ActionView::BootstrapLinkRenderer
 %br

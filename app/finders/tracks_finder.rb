@@ -18,7 +18,11 @@ class TracksFinder
 
   def year_filter
     if year.present?
-      Track.joins(:track_info).where("track_infos.year = ?", year)
+      if year.to_s == "without"
+        Track.joins(:track_info).where("track_infos.year IS NULL")
+      else
+        Track.joins(:track_info).where("track_infos.year = ?", year)
+      end
     else
       Track.all
     end

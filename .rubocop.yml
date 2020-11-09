@@ -15,8 +15,6 @@ require:
 inherit_gem:
   standard: config/base.yml
 
-
-
 AllCops:
   TargetRubyVersion: 2.6
   DisabledByDefault: true
@@ -28,6 +26,8 @@ AllCops:
     - '**/tmp/**/*'
     - '**/vendor/**/*'
     - '**/node_modules/**/*'
+    - config/initializers/simple_form.rb
+    - config/initializers/simple_form_bootstrap.rb
 
 Layout/LineLength:
   Max: 130
@@ -35,3 +35,7 @@ Layout/LineLength:
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
+
+Style/HashSyntax:
+  Enabled: true
+  EnforcedStyle: ruby19_no_mixed_keys
