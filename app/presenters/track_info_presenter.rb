@@ -1,14 +1,14 @@
 class TrackInfoPresenter < ApplicationPresenter
   def title
-    h.truncate o.name
+    h.truncate o&.name
   end
 
   def info
-    "#{artist_name} - #{title}"
+    "#{artist} - #{title}" if o
   end
 
   def artist
-    h.truncate o.artist_name
+    h.truncate o&.artist_name
   end
 
   def album

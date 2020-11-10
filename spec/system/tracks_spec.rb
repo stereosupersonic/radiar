@@ -6,6 +6,8 @@ describe "show tracks", type: :system do
   it "shows the last tracks" do
     played_at = Time.current.strftime("%d.%m.%Y %H:%M")
     FactoryBot.create :track, played_at: played_at, track_info: FactoryBot.create(:track_info)
+    # track without info
+    FactoryBot.create :track, played_at: played_at, title: "Help", artist: "Beatles"
 
     visit "/tracks"
 
@@ -13,6 +15,7 @@ describe "show tracks", type: :system do
 
     expect(page).to have_table_with_exact_data([
       ["Time", "Song", "Artist", "Album", "Year", "Tag", "Video", "Events", "Station", ""],
+      [played_at, "Help", "Beatles", "", "", "", "", "events", "Marilu", "Show"],
       [played_at, "Once", "Liam Gallagher", "Once", "2019", "Rock", "youtube", "events", "Marilu", "Show  Edit"]
     ])
   end
