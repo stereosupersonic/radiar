@@ -1,5 +1,5 @@
 class TrackPresenter < ApplicationPresenter
-  delegate :info, :artist, :title, :album, :main_tag, :youtube_link, :year, to: :track_info
+  delegate :info, :album, :main_tag, :youtube_link, :year, to: :track_info, allow_nil: true
 
   def played_at
     h.format_datetime o.played_at

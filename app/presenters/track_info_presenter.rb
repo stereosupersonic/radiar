@@ -12,7 +12,19 @@ class TrackInfoPresenter < ApplicationPresenter
   end
 
   def album
-    h.truncate o.album
+    h.truncate o&.album
+  end
+
+  def year
+    o&.year
+  end
+
+  def tags
+    o&.tags
+  end
+
+  def youtube_id
+    o&.youtube_id
   end
 
   def main_tag

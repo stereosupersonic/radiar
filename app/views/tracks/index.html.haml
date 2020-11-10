@@ -41,7 +41,8 @@
           %td= link_to track.station.name, edit_admin_station_path(track.station)
           %td
             = show_button track
-            = edit_button edit_admin_track_info_path(track.track_info)
+            - if track.track_info_id
+              = edit_button edit_admin_track_info_path(track.track_info)
 
 = will_paginate @track_records, renderer: WillPaginate::ActionView::BootstrapLinkRenderer
 %br
