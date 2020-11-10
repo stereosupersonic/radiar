@@ -2,7 +2,7 @@ name: CI
 on:
   push:
     branches:
-      - master  
+      - master
   pull_request:
     branches:
       - master
@@ -24,7 +24,7 @@ jobs:
       run: |
         bundle install --jobs 4 --retry 3
         bundle exec rubocop
-  
+
   brakeman:
     runs-on: ubuntu-latest
 
@@ -41,7 +41,7 @@ jobs:
       run: |
         gem install brakeman
         brakeman
-        
+
   bundle_audit:
     runs-on: ubuntu-latest
 
@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:10
+        image: postgres:12
         ports:
           - 5432:5432
         env:
