@@ -14,6 +14,10 @@ describe "Events", type: :system do
       ["Date", "Name", "State", ""],
       [event.done_at.strftime("%d.%m.%Y %H:%M"), "google", "ok", "Show"]
     ])
+
+    select "no_data", from: "events_finder[state]"
+    click_on "Filter"
+    expect(page).to have_table_with_exact_data([["Date", "Name", "State", ""]])
   end
 
   it "creates a new station" do

@@ -8,6 +8,7 @@ ActiveSupport::Notifications.subscribe(:log_api_request) do |*args|
     data: event.payload[:data],
     duration: event.duration,
     meta_data: event.payload.except(:data),
+    station: event.payload[:track]&.station,
     track: event.payload[:track]
   )
 
@@ -23,6 +24,7 @@ rescue => e
     },
     duration: event.duration,
     meta_data: event.payload.except(:data),
+    station: event.payload[:track]&.station,
     track: event.payload[:track]
   )
 
@@ -38,6 +40,26 @@ ActiveSupport::Notifications.subscribe(:track_info_creation) do |*args|
     done_at: event.end,
     data: event.payload[:data],
     duration: event.duration,
+    station: event.payload[:track]&.station,
+    track: event.payload[:track]
+  )
+end
+
+ActiveSupport::Notifications.subscribe(:station_fetch) do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+
+  CreateEventJob.perform_later(
+    name: event.payload[:event_name],
+    state: event.payload[:state].to_s,
+    done_at: event.end,
+    data: {
+
+      playlist_url: event.payload[:playlist_url],
+      strategy: event.payload[:strategy],
+      respose: event.payload[:respose]
+    },
+    duration: event.duration,
+    station: event.payload[:station],
     track: event.payload[:track]
   )
 end

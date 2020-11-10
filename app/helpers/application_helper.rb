@@ -18,6 +18,12 @@ module ApplicationHelper
     end
   end
 
+  def all_event_names
+    Rails.cache.fetch("all_event_names-v1", expires_in: 30.minutes) do
+      Event.distinct.pluck(:name).compact.sort
+    end
+  end
+
   # date/time
   def format_time(time)
     time&.strftime "%H:%M"

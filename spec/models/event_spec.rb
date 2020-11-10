@@ -11,13 +11,15 @@
 #  state      :string           default("ok"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  station_id :bigint
 #  track_id   :bigint
 #
 # Indexes
 #
-#  index_events_on_name      (name)
-#  index_events_on_state     (state)
-#  index_events_on_track_id  (track_id)
+#  index_events_on_name        (name)
+#  index_events_on_state       (state)
+#  index_events_on_station_id  (station_id)
+#  index_events_on_track_id    (track_id)
 #
 # Foreign Keys
 #

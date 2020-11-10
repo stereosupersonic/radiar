@@ -16,7 +16,6 @@ RSpec.describe FetchStationJob, type: :job do
       VCR.use_cassette("services/create_valid_track") do
         job.perform(station.id)
       end
-
       expect(GoogleJob).to have_been_enqueued
       expect(LastfmJob).to have_been_enqueued
 

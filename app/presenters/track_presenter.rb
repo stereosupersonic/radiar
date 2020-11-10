@@ -12,4 +12,8 @@ class TrackPresenter < ApplicationPresenter
   def station_name
     o.station.name
   end
+
+  def full_name
+    "#{artist} - #{title}"
+  end
 end

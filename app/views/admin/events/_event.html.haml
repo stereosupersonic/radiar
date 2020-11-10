@@ -13,6 +13,16 @@
       %td= event.state
 
 %h4 Data
+
+%ul.list-group
+  %li.list-group-item
+    Track:
+    = event.track ? link_to(TrackPresenter.new(event.track).full_name, track_path(event.track)) : ""
+
+  %li.list-group-item
+    Station:
+    = event.station ? link_to( event.station.name, admin_station_path(event.station)) : ""
+
 .jumbotron
   = debug event.data
   = debug event.meta_data

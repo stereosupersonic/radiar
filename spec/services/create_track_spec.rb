@@ -22,6 +22,20 @@ RSpec.describe CreateTrack do
       VCR.use_cassette("services/create_invalid_track") do
         track = CreateTrack.new(station: station).call
       end
+      expect(CreateEventJob).to have_been_enqueued.with(hash_including(
+        {
+          name: :fetch_station,
+          state: "ok",
+          data: {
+            playlist_url: "https://onlineradiobox.com/it/marilu/playlist/",
+            strategy: "Radiobox",
+            respose: "IRON MAIDEN - MOONCHILD"
+          },
+          station: a_kind_of(Station),
+          duration: anything,
+          track: a_kind_of(Track)
+        }
+      ))
     }.to change(Track, :count).by(1)
 
     expect(track.artist).to eq("Iron Maiden")
@@ -31,6 +45,38 @@ RSpec.describe CreateTrack do
     expect(track.response).to eq("<td>IRON MAIDEN - MOONCHILD</td>")
 
     expect(station.last_logged_at.to_date).to eq Time.current.to_date
+  end
+
+  it "should not create invalid tracks" do
+    track = nil
+    station = Station.create(
+      name: "Marilu",
+      url: "https://www.marilu.it/",
+      playlist_url: "https://onlineradiobox.com/it/marilu/playlist/",
+      strategy: "radiobox"
+    )
+
+    expect {
+      VCR.use_cassette("services/dont_create_invalid_track") do
+        track = CreateTrack.new(station: station).call
+      end
+      expect(CreateEventJob).to have_been_enqueued.with(hash_including(
+        {
+          name: :fetch_station,
+          state: "no_data",
+          data: {
+            playlist_url: "https://onlineradiobox.com/it/marilu/playlist/",
+            strategy: "Radiobox",
+            respose: "IRON MAIDEN-"
+          },
+          station: a_kind_of(Station),
+          duration: anything,
+          track: nil
+        }
+      ))
+    }.to_not change(Track, :count)
+
+    expect(station.last_logged_at).to be_nil
   end
 
   it "creates a vaild track" do

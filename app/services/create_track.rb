@@ -4,10 +4,22 @@ class CreateTrack
   end
 
   def call
-    response = scraper.call
-    return unless response
+    ActiveSupport::Notifications.instrument(:station_fetch, event_name: :fetch_station) do |payload|
+      payload[:station] = station
+      payload[:playlist_url] = station.playlist_url
+      payload[:strategy] = station.strategy.camelize
+      response = scraper.call
+      payload[:state] = :no_data
+      payload[:respose] = scraper.fetched_data
 
-    create_entry(response)
+      if response
+
+        payload[:state] = :ok
+        track = create_entry(response)
+        payload[:track] = track
+        track
+      end
+    end
   end
 
   private
@@ -15,7 +27,7 @@ class CreateTrack
   attr_reader :station
 
   def scraper
-    "::Strategy::#{station.strategy.camelize}".constantize.new(
+    @scraper ||= "::Strategy::#{station.strategy.camelize}".constantize.new(
       url: station.playlist_url
     )
   end

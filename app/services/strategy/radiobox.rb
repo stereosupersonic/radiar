@@ -11,20 +11,24 @@ module Strategy
     SELECTOR = ".playlist .tablelist-schedule tr:first td[2]".freeze
     Response = Struct.new(:artist, :title, :response, :played_at)
 
+    attr_reader :fetched_data
+
     def initialize(url:)
       @url = url
     end
 
     def call
       value = Array(doc.css(SELECTOR))[0]
-      track_info = value&.text
+      @fetched_data = value&.text
 
-      if track_info.blank?
+      if fetched_data.blank?
         Rails.logger.error "no track for selector '#{SELECTOR}' url: #{@url}"
         return
       end
 
-      response = TrackExtractor.new(text: track_info).call
+      response = TrackExtractor.new(text: fetched_data).call
+
+      return if response.nil?
 
       played_at = Time.current # TODO: use the real date
       Response.new(response.artist, response.title, value.to_html, played_at)

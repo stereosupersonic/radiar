@@ -1,5 +1,17 @@
 %h1 All events
 
+= form_for(@event_search, url: admin_events_path, html: {method: :get, class: "form-horizontal center"}) do |f|
+  .form-inline
+    .form-group.mb-2
+      = f.select :name, all_event_names, { include_blank: "select name" } , class: "form-control custom-select", onchange: "this.form.submit();"
+    .form-group.mb-2
+      = f.select :state, Event::STATES, { include_blank: "select state" } , class: "form-control custom-select", onchange: "this.form.submit();"
+    .form-group.mb-2
+      = f.select :station_id, Station.pluck(:name, :id), { include_blank: "select station" }, class: "form-control custom-select", onchange: "this.form.submit();"
+    .form-group.mb-2
+      &nbsp;
+      = f.submit "Filter", class: "btn btn-primary mb-2"
+
 .table-responsive
   %table.table.table-striped
     %thead
