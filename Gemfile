@@ -32,6 +32,7 @@ gem "will_paginate-bootstrap4"
 # simple_form
 gem "simple_form"
 
+gem "newrelic_rpm"
 group :test do
   gem "factory_bot_rails"
   gem "rspec-rails"
