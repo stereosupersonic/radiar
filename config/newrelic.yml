@@ -34,6 +34,7 @@ common: &default_settings
 development:
   <<: *default_settings
   app_name: radiar (Development)
+  enabled: false
 
 test:
   <<: *default_settings
