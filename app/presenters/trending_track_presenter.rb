@@ -11,7 +11,7 @@ class TrendingTrackPresenter < ApplicationPresenter
   end
 
   def stations
-    Track.where(slug: o.slug).pluck(:station_id).uniq.count
+    track_info.stations.count
   end
 
   def id

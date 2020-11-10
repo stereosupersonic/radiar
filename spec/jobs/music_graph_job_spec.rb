@@ -3,20 +3,20 @@ require "rails_helper"
 RSpec.describe MusicGraphJob, type: :job do
   subject(:job) { MusicGraphJob.new }
 
-  let(:track) { FactoryBot.create :track }
-  let(:track_info) { FactoryBot.create :track_info, track: track, year: nil, album: nil, youtube_id: nil }
+  let(:track) { FactoryBot.create :track, track_info: track_info }
+  let(:track_info) { FactoryBot.create :track_info, year: nil, album: nil, youtube_id: nil }
 
   it "enques an event" do
     expect {
       VCR.use_cassette("jobs/fetch_music_graph_api") do
-        job.perform(track_info.id)
+        job.perform(track: track)
       end
     }.to have_enqueued_job.with(hash_including(name: :musci_graph_api, state: "ok")).on_queue("low")
   end
 
   it "set the missing values" do
     VCR.use_cassette("jobs/fetch_music_graph_api") do
-      job.perform(track_info.id)
+      job.perform(track: track)
     end
 
     track_info.reload
@@ -31,9 +31,9 @@ RSpec.describe MusicGraphJob, type: :job do
 
   it "don't override existing values" do
     track_info = FactoryBot.create :track_info, slug: track.slug, pic_url: "1234", year: 2020, album: "test", youtube_id: "123"
-
+    track = FactoryBot.create :track, track_info: track_info
     expect {
-      job.perform(track_info.id)
+      job.perform(track: track)
     }.to_not change(TrackInfo, :count)
 
     track_info.reload
@@ -49,7 +49,7 @@ RSpec.describe MusicGraphJob, type: :job do
     expect {
       expect {
         VCR.use_cassette("jobs/missing_api_key_music_graph_api") do
-          job.perform(track_info.id)
+          job.perform(track: track)
         end
       }.to have_enqueued_job.with(hash_including(name: :musci_graph_api, state: "exception")).on_queue("low")
     }.to raise_error(ActiveJob::SerializationError)

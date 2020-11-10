@@ -13,9 +13,9 @@ class FetchStationJob < ApplicationJob
 
     # google doesn't find the informatio when the track is called like the album
 
-    GoogleJob.perform_later(track_info.id)
+    GoogleJob.perform_later(track: track)
     # TODO: disabled MusicGraph
-    # MusicGraphJob.perform_later(track_info.id)
-    LastfmJob.perform_later(track_info.id)
+    # MusicGraphJob.perform_later(track: track)
+    LastfmJob.perform_later(track: track)
   end
 end

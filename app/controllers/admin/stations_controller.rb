@@ -8,6 +8,10 @@ class Admin::StationsController < ApplicationController
     @station = Station.new
   end
 
+  def show
+    @station = Admin::StationPresenter.new(Station.find(params[:id]))
+  end
+
   def create
     @station = Station.new(station_params)
 

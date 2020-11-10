@@ -3,30 +3,30 @@ require "rails_helper"
 RSpec.describe GoogleJob, type: :job do
   subject(:job) { GoogleJob.new }
 
-  let(:track) { FactoryBot.create :track }
-  let(:track_info) { FactoryBot.create :track_info, track: track, year: nil, album: nil, youtube_id: nil }
+  let!(:track) { FactoryBot.create :track, track_info: track_info }
+  let(:track_info) { FactoryBot.create :track_info, year: nil, album: nil, youtube_id: nil }
 
   it "creates an event" do
     expect {
       VCR.use_cassette("jobs/fetch_google") do
-        job.perform(track_info.id)
+        job.perform(track: track)
       end
     }.to have_enqueued_job.with(hash_including(name: :google_search, state: "ok")).on_queue("low")
   end
 
   it "creates an event with no data" do
-    track = FactoryBot.create :track, artist: "Metallica", title: "Metallica"
-    track_info = FactoryBot.create :track_info, track: track, year: nil, album: nil, youtube_id: nil
+    track_info = FactoryBot.create :track_info, year: nil, album: nil, youtube_id: nil
+    track = FactoryBot.create :track, artist: "Metallica", title: "Metallica", track_info: track_info
     expect {
       VCR.use_cassette("jobs/google_no_data") do
-        job.perform(track_info.id)
+        job.perform(track: track)
       end
     }.to have_enqueued_job.with(hash_including(name: :google_search, state: "no_data")).on_queue("low")
   end
 
   it "set the missing values" do
     VCR.use_cassette("jobs/fetch_google") do
-      job.perform(track_info.id)
+      job.perform(track: track)
     end
 
     track_info.reload
@@ -40,9 +40,9 @@ RSpec.describe GoogleJob, type: :job do
 
   it "don't override existing values" do
     track_info = FactoryBot.create :track_info, slug: track.slug, pic_url: "1234", year: 2020, album: "test", tags: %w[rock pop]
-
+    track = FactoryBot.create :track, artist: "Metallica", title: "Metallica", track_info: track_info
     expect {
-      job.perform(track_info.id)
+      job.perform(track: track)
     }.to_not change(TrackInfo, :count)
 
     track_info.reload
@@ -58,7 +58,7 @@ RSpec.describe GoogleJob, type: :job do
     track_info = FactoryBot.create :track_info, track: track, year: nil, album: nil, youtube_id: nil
 
     VCR.use_cassette("jobs/fetch_album") do
-      job.perform(track_info.id)
+      job.perform(track: track)
     end
 
     track_info.reload

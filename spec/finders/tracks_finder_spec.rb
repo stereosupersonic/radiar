@@ -5,16 +5,16 @@ RSpec.describe TracksFinder do
 
   context "year" do
     it "should find a track" do
-      track = FactoryBot.create :track
-      FactoryBot.create :track_info, year: 2020, track: track
+      track_info = FactoryBot.create :track_info, year: 2020
+      track = FactoryBot.create :track, track_info: track_info
 
       expect(TracksFinder.new(year: 2020).call).to eq([track])
       expect(TracksFinder.new(year: 2021).call).to eq([])
     end
 
     it "should find a track without a year" do
-      track = FactoryBot.create :track
-      FactoryBot.create :track_info, year: nil, track: track
+      track_info = FactoryBot.create :track_info, year: nil
+      track = FactoryBot.create :track, track_info: track_info
 
       expect(TracksFinder.new(year: :without).call).to eq([track])
     end
@@ -48,8 +48,8 @@ RSpec.describe TracksFinder do
 
   context "tag" do
     it "should find a track" do
-      track = FactoryBot.create :track
-      FactoryBot.create :track_info, year: 2020, track: track, tags: %w[metal pop]
+      track_info = FactoryBot.create :track_info, year: 2020, tags: %w[metal pop]
+      track = FactoryBot.create :track, track_info: track_info
 
       expect(TracksFinder.new(tag: "metal").call).to eq([track])
       expect(TracksFinder.new(tag: "ska").call).to eq([])

@@ -17,6 +17,14 @@
 
 %br
 
+%h3 Stations
+
+%ol.list-group.m-3
+- @track.track_info.stations.each do | station |
+  %li.list-group-item
+    = link_to(station.name, admin_station_path(station))
+
+%br
 %h3= "#{@track.events.count} Events"
 
 .p.m-3

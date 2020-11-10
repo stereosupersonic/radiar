@@ -3,20 +3,20 @@ require "rails_helper"
 RSpec.describe LastfmJob, type: :job do
   subject(:job) { LastfmJob.new }
 
-  let(:track) { FactoryBot.create :track }
-  let(:track_info) { FactoryBot.create :track_info, track: track, year: nil, tags: [], album: nil, youtube_id: nil }
+  let(:track) { FactoryBot.create :track, track_info: track_info }
+  let(:track_info) { FactoryBot.create :track_info, year: nil, tags: [], album: nil, youtube_id: nil }
 
   it "enques an event" do
     expect {
       VCR.use_cassette("jobs/fetch_lastfm") do
-        job.perform(track_info.id)
+        job.perform(track: track)
       end
     }.to have_enqueued_job.with(hash_including(name: :last_fm_api, state: "ok")).on_queue("low")
   end
 
   it "set the missing values" do
     VCR.use_cassette("jobs/fetch_lastfm") do
-      job.perform(track_info.id)
+      job.perform(track: track)
     end
 
     track_info.reload
@@ -28,13 +28,12 @@ RSpec.describe LastfmJob, type: :job do
   end
 
   it "override existing values" do
-    track_info = FactoryBot.create(
-      :track_info, track: track, slug: track.slug, pic_url: "1234", year: 2020, album: "test", tags: %w[rock pop]
-    )
-
+    track_info = FactoryBot.create(:track_info,
+      slug: track.slug, pic_url: "1234", year: 2020, album: "test", tags: %w[rock pop])
+    track = FactoryBot.create :track, track_info: track_info
     expect {
       VCR.use_cassette("jobs/fetch_lastfm") do
-        job.perform(track_info.id)
+        job.perform(track: track)
       end
     }.to_not change(TrackInfo, :count)
 

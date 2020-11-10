@@ -19,6 +19,10 @@ class TrackInfoPresenter < ApplicationPresenter
     h.truncate Array(tags).first&.titleize
   end
 
+  def stations
+    @stations ||= o.tracks.pluck(:station_id).uniq.map { |station_id| Admin::StationPresenter.new(Station.find(station_id)) }
+  end
+
   def youtube_url
     "https://www.youtube.com/watch?v=#{youtube_id}" if youtube_id.present?
   end

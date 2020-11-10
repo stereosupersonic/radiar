@@ -60,7 +60,8 @@ RSpec.describe CreateTrackInfo do
   end
 
   it "don't creates in if there is exiting" do
-    FactoryBot.create :track_info, track: track
+    track_info = FactoryBot.create :track_info
+    track = FactoryBot.create :track, track_info: track_info
     expect {
       expect {
         expect {

@@ -23,7 +23,9 @@
           %td= station.last_logged_track
           %td= station.tracks_count(24.hours.ago)
           %td= station.tracks_count
-          %td= edit_button edit_admin_station_path(station)
+          %td
+            = edit_button edit_admin_station_path(station)
+            = show_button admin_station_path(station)
 
 
 = add_button new_admin_station_path

@@ -3,9 +3,10 @@ require "open-uri"
 
 class LastFmApi
   BASE_URL = "http://ws.audioscrobbler.com/2.0/".freeze
-  def initialize(artist:, title:, track:)
-    @artist = artist
-    @title = title
+
+  def initialize(track:)
+    @artist = track.artist
+    @title = track.title
     @track = track
   end
 

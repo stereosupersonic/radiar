@@ -5,8 +5,7 @@ require "capybara_helper"
 describe "show tracks", type: :system do
   it "shows the last tracks" do
     played_at = Time.current.strftime("%d.%m.%Y %H:%M")
-    track = FactoryBot.create :track, played_at: played_at
-    FactoryBot.create :track_info, track: track
+    FactoryBot.create :track, played_at: played_at, track_info: FactoryBot.create(:track_info)
 
     visit "/tracks"
 
@@ -20,9 +19,7 @@ describe "show tracks", type: :system do
 
   it "edits the track info" do
     played_at = Time.current.strftime("%d.%m.%Y %H:%M")
-    track = FactoryBot.create :track, played_at: played_at
-    FactoryBot.create :track_info, track: track, year: 2006
-
+    track = FactoryBot.create :track, played_at: played_at, track_info: FactoryBot.create(:track_info, year: 2006)
     visit "/tracks"
 
     within "#track_#{track.id}" do
@@ -59,10 +56,10 @@ describe "show tracks", type: :system do
   context "events" do
     it "shows the events" do
       played_at = Time.current
-      track = FactoryBot.create :track, played_at: played_at
+      track = FactoryBot.create :track, played_at: played_at, track_info: FactoryBot.create(:track_info)
       event = FactoryBot.create :event, track: track
       FactoryBot.create :event
-      FactoryBot.create :track_info, track: track
+
       visit "/tracks"
 
       expect(page).to have_content("Tracks")

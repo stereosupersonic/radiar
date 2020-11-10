@@ -23,5 +23,5 @@
 #  index_track_infos_on_year  (year)
 #
 class TrackInfo < ApplicationRecord
-  has_one :track
+  has_many :tracks
 end

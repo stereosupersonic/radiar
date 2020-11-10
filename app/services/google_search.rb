@@ -7,9 +7,9 @@ class GoogleSearch
 
   BASE_URL = "https://www.google.com/search".freeze
 
-  def initialize(artist:, title:, track:)
-    @artist = artist
-    @title = title
+  def initialize(track:)
+    @artist = track.artist
+    @title = track.title
     @track = track
   end
 

@@ -1,15 +1,15 @@
 class GoogleJob < ApplicationJob
+  delegate :track_info, to: :track
   queue_as :default
 
-  def perform(track_info_id)
-    @track_info = TrackInfo.find track_info_id
-
+  def perform(track:)
+    @track = track
     update_values
   end
 
   private
 
-  attr_reader :track_info
+  attr_reader :track
 
   def update_values
     return unless missing_values?
@@ -29,9 +29,7 @@ class GoogleJob < ApplicationJob
 
   def api_data
     @api_data ||= GoogleSearch.new(
-      artist: track_info.track.artist,
-      title: track_info.track.title,
-      track: track_info.track
+      track: track
     ).call
   end
 end

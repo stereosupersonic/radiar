@@ -1,0 +1,14 @@
+%h1 Station
+
+%p
+  Name:
+  = @station.name
+
+
+%p
+  %a.btn.btn-secondary{"aria-controls" => "debug", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#debug", :role => "button"} Debug
+.row
+  .col
+    #debug.collapse.multi-collapse
+      .card.card-body
+        = debug @station.attributes
