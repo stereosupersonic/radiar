@@ -13,7 +13,7 @@
     .form-group.mb-2
       = f.select :tag, all_tags, { include_blank: "select tag" } , class: "form-control custom-select", onchange: "this.form.submit();"
     .form-group.mb-2
-      = f.select :station_id, Station.pluck(:name, :id), { include_blank: "select station" }, class: "form-control custom-select", onchange: "this.form.submit();"
+      = f.select :station_id, all_stations, { include_blank: "select station" }, class: "form-control custom-select", onchange: "this.form.submit();"
 
 .table-responsive
   %table.table.table-striped

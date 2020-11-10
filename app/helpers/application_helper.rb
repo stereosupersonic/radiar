@@ -24,6 +24,12 @@ module ApplicationHelper
     end
   end
 
+  def all_stations
+    Rails.cache.fetch("all_stations-v1", expires_in: 30.minutes) do
+      Station.pluck(:name, :id).sort_by { |a| a[0].downcase }.map { |a| [a[0].titleize, a[1]] }
+    end
+  end
+
   # date/time
   def format_time(time)
     time&.strftime "%H:%M"

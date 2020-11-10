@@ -41,7 +41,7 @@ class TracksFinder
 
   def artist_filter
     if artist.present?
-      Track.where("artist ILIKE ?", "%#{artist}%")
+      Track.where("artist ILIKE ?", "%#{artist.squish}%")
     else
       Track.all
     end
