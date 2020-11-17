@@ -14,7 +14,7 @@ RSpec.describe FetchStationJob, type: :job do
   it "creates a new track and track info" do
     expect {
       VCR.use_cassette("services/create_valid_track") do
-        job.perform(station.id)
+        job.perform(station)
       end
       expect(GoogleJob).to have_been_enqueued
       expect(LastfmJob).to have_been_enqueued
@@ -26,7 +26,7 @@ RSpec.describe FetchStationJob, type: :job do
 
   it "does nothing when station not exists" do
     expect {
-      job.perform(666)
+      job.perform(nil)
     }.to change(Track, :count).by(0).and change(TrackInfo, :count).by(0)
   end
 end

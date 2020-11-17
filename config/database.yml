@@ -34,3 +34,4 @@ test:
 production:
   <<: *default
   database: <%= ENV.fetch('DATABASE_NAME', "radiar_production") %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 15 } %> # Sidekiq concurrency value should be the same or lower

@@ -9,14 +9,14 @@ RSpec.describe LastfmJob, type: :job do
   it "enques an event" do
     expect {
       VCR.use_cassette("jobs/fetch_lastfm") do
-        job.perform(track: track)
+        job.perform(track: track, track_info: track_info)
       end
     }.to have_enqueued_job.with(hash_including(name: :last_fm_api, state: "ok")).on_queue("low")
   end
 
   it "set the missing values" do
     VCR.use_cassette("jobs/fetch_lastfm") do
-      job.perform(track: track)
+      job.perform(track: track, track_info: track_info)
     end
 
     track_info.reload
@@ -33,7 +33,7 @@ RSpec.describe LastfmJob, type: :job do
     track = FactoryBot.create :track, track_info: track_info
     expect {
       VCR.use_cassette("jobs/fetch_lastfm") do
-        job.perform(track: track)
+        job.perform(track: track, track_info: track_info)
       end
     }.to_not change(TrackInfo, :count)
 

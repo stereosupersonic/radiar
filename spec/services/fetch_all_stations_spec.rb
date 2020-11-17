@@ -6,9 +6,9 @@ RSpec.describe FetchAllStations do
     station_2 = FactoryBot.create :station
     station_3 = FactoryBot.create :station, enabled: false
 
-    expect(FetchStationJob).to receive(:perform_later).with(station_1.id)
-    expect(FetchStationJob).to receive(:perform_later).with(station_2.id)
-    expect(FetchStationJob).to_not receive(:perform_later).with(station_3.id)
+    expect(FetchStationJob).to receive(:perform_later).with(station_1)
+    expect(FetchStationJob).to receive(:perform_later).with(station_2)
+    expect(FetchStationJob).to_not receive(:perform_later).with(station_3)
 
     FetchAllStations.call
   end

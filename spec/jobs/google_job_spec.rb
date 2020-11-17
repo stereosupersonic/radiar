@@ -9,7 +9,7 @@ RSpec.describe GoogleJob, type: :job do
   it "creates an event" do
     expect {
       VCR.use_cassette("jobs/fetch_google") do
-        job.perform(track: track)
+        job.perform(track: track, track_info: track_info)
       end
     }.to have_enqueued_job.with(hash_including(name: :google_search, state: "ok")).on_queue("low")
   end
@@ -19,14 +19,14 @@ RSpec.describe GoogleJob, type: :job do
     track = FactoryBot.create :track, artist: "Metallica", title: "Metallica", track_info: track_info
     expect {
       VCR.use_cassette("jobs/google_no_data") do
-        job.perform(track: track)
+        job.perform(track: track, track_info: track_info)
       end
     }.to have_enqueued_job.with(hash_including(name: :google_search, state: "no_data")).on_queue("low")
   end
 
   it "set the missing values" do
     VCR.use_cassette("jobs/fetch_google") do
-      job.perform(track: track)
+      job.perform(track: track, track_info: track_info)
     end
 
     track_info.reload
@@ -42,7 +42,7 @@ RSpec.describe GoogleJob, type: :job do
     track_info = FactoryBot.create :track_info, slug: track.slug, pic_url: "1234", year: 2020, album: "test", tags: %w[rock pop]
     track = FactoryBot.create :track, artist: "Metallica", title: "Metallica", track_info: track_info
     expect {
-      job.perform(track: track)
+      job.perform(track: track, track_info: track_info)
     }.to_not change(TrackInfo, :count)
 
     track_info.reload
@@ -58,7 +58,7 @@ RSpec.describe GoogleJob, type: :job do
     track_info = FactoryBot.create :track_info, track: track, year: nil, album: nil, youtube_id: nil
 
     VCR.use_cassette("jobs/fetch_album") do
-      job.perform(track: track)
+      job.perform(track: track, track_info: track_info)
     end
 
     track_info.reload
