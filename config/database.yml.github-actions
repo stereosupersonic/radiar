@@ -3,5 +3,6 @@ test:
   encoding: unicode
   database: radiar_test
   pool: 10
+  host: localhost
   username: <%= ENV["POSTGRES_USER"] %>
   password: <%= ENV["POSTGRES_PASSWORD"] %>
