@@ -66,9 +66,8 @@ group :development do
   gem "binding_of_caller"
   gem "erb2haml", "~> 0.1.5"
   gem "haml_lint", require: false
-  gem "rubocop", "~> 1.0.0"
+  gem "rubocop", ">= 0.90", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
-  gem "standard", require: false # https://github.com/testdouble/standard
 end
