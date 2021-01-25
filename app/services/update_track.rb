@@ -12,6 +12,7 @@ class UpdateTrack
       @track.slug = SlugBuilder.new(artist: @track.artist, title: @track.title).call
       @track.save!
       CreateTrackInfo.new(@track).call
+      @track
     end
 
     clean_empty_track_infos

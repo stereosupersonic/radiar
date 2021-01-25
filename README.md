@@ -84,3 +84,12 @@ cat radiar_production_XXX.dump.sql | docker exec -i radiar_database_1 pg_restore
 ```
 
 cat radiar_production_*.dump.sql | docker exec -i postgresdb12 pg_restore -U postgres --exit-on-error --verbose --clean --dbname=radiar_development -Fc
+
+
+
+# data fixes
+
+```
+bundle exec rake radiar:fix:missing_track_infos
+bundle exec rake radiar:update:unwanted_text
+```

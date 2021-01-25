@@ -30,6 +30,7 @@
         %th Stations
         %th First played
         %th Video
+        %th
 
     %tbody
       - @trending_tracks.each_with_index do |track, i|
@@ -43,6 +44,8 @@
           %td= track.stations
           %td= track.first_played_at
           %td= track.youtube_link
+          %td
+            = button_with_icon admin_fetch_track_info_path(id: track.id), "Fetch Infos", :redo,  method: :patch
 
 %br
 = back_button root_path

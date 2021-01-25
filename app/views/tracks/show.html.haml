@@ -39,6 +39,8 @@
 
   .p.m-3
     = remove_button admin_ignore_track_path(@track), "Ignore Track", method: :patch
+  .p.m-3
+    = button_with_icon admin_fetch_track_info_path(@track), "Fetch Infos", :redo, class: "btn btn-success", method: :patch
 - else
   %h3 NO Track Info
 
