@@ -10,10 +10,10 @@ RSpec.describe CreateEventJob, type: :job do
       job.perform(name: :google_search,
                   state: :ok,
                   done_at: Time.current,
-                  data: {year: "2019"},
+                  data: { year: "2019" },
                   duration: 1,
                   station: FactoryBot.create(:station),
-                  meta_data: {status_code: 200},
+                  meta_data: { status_code: 200 },
                   track: track)
     }.to change(Event, :count).by(1)
 

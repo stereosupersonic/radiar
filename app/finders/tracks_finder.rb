@@ -15,51 +15,50 @@ class TracksFinder
   end
 
   private
-
-  def year_filter
-    if year.present?
-      if year.to_s == "without"
-        Track.joins(:track_info).where("track_infos.year IS NULL")
+    def year_filter
+      if year.present?
+        if year.to_s == "without"
+          Track.joins(:track_info).where("track_infos.year IS NULL")
+        else
+          Track.joins(:track_info).where("track_infos.year = ?", year)
+        end
       else
-        Track.joins(:track_info).where("track_infos.year = ?", year)
+        Track.all
       end
-    else
-      Track.all
     end
-  end
 
-  def first_seen_filter
-    if first_seen_on.present?
-      Track
-        .where(slug: Track.select(:slug)
-        .having("MIN(played_at) >= ?", first_seen_on.to_date)
-        .group(:slug))
-    else
-      Track.all
+    def first_seen_filter
+      if first_seen_on.present?
+        Track
+          .where(slug: Track.select(:slug)
+          .having("MIN(played_at) >= ?", first_seen_on.to_date)
+          .group(:slug))
+      else
+        Track.all
+      end
     end
-  end
 
-  def artist_filter
-    if artist.present?
-      Track.where("artist ILIKE ?", "%#{artist.squish}%")
-    else
-      Track.all
+    def artist_filter
+      if artist.present?
+        Track.where("artist ILIKE ?", "%#{artist.squish}%")
+      else
+        Track.all
+      end
     end
-  end
 
-  def station_filter
-    if station_id.present?
-      Track.where(station_id: station_id)
-    else
-      Track.all
+    def station_filter
+      if station_id.present?
+        Track.where(station_id: station_id)
+      else
+        Track.all
+      end
     end
-  end
 
-  def tag_filter
-    if tag.present?
-      Track.joins(:track_info).where("? = ANY (track_infos.tags)", tag)
-    else
-      Track.all
+    def tag_filter
+      if tag.present?
+        Track.joins(:track_info).where("? = ANY (track_infos.tags)", tag)
+      else
+        Track.all
+      end
     end
-  end
 end

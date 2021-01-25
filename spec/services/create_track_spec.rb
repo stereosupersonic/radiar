@@ -23,18 +23,18 @@ RSpec.describe CreateTrack do
         track = CreateTrack.new(station: station).call
       end
       expect(CreateEventJob).to have_been_enqueued.with(hash_including(
-        {
-          name: :fetch_station,
-          state: "ok",
-          data: {
-            playlist_url: "https://onlineradiobox.com/it/marilu/playlist/",
-            strategy: "Radiobox",
-            respose: "IRON MAIDEN - MOONCHILD"
-          },
-          station: a_kind_of(Station),
-          duration: anything,
-          track: a_kind_of(Track)
-        }
+                                                          {
+                                                            name: :fetch_station,
+                                                            state: "ok",
+                                                            data: {
+                                                              playlist_url: "https://onlineradiobox.com/it/marilu/playlist/",
+                                                              strategy: "Radiobox",
+                                                              respose: "IRON MAIDEN - MOONCHILD"
+                                                            },
+                                                            station: a_kind_of(Station),
+                                                            duration: anything,
+                                                            track: a_kind_of(Track)
+                                                          }
       ))
     }.to change(Track, :count).by(1)
 
@@ -61,18 +61,18 @@ RSpec.describe CreateTrack do
         track = CreateTrack.new(station: station).call
       end
       expect(CreateEventJob).to have_been_enqueued.with(hash_including(
-        {
-          name: :fetch_station,
-          state: "no_data",
-          data: {
-            playlist_url: "https://onlineradiobox.com/it/marilu/playlist/",
-            strategy: "Radiobox",
-            respose: "IRON MAIDEN-"
-          },
-          station: a_kind_of(Station),
-          duration: anything,
-          track: nil
-        }
+                                                          {
+                                                            name: :fetch_station,
+                                                            state: "no_data",
+                                                            data: {
+                                                              playlist_url: "https://onlineradiobox.com/it/marilu/playlist/",
+                                                              strategy: "Radiobox",
+                                                              respose: "IRON MAIDEN-"
+                                                            },
+                                                            station: a_kind_of(Station),
+                                                            duration: anything,
+                                                            track: nil
+                                                          }
       ))
     }.to_not change(Track, :count)
 

@@ -12,8 +12,7 @@ class Admin::EventsController < ApplicationController
   end
 
   private
-
-  def search_params
-    params[:events_finder]&.permit(*EventsFinder::FILTERS)
-  end
+    def search_params
+      params[:events_finder]&.permit(*EventsFinder::FILTERS)
+    end
 end

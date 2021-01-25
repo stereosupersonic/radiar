@@ -11,8 +11,7 @@ class TracksController < ApplicationController
   end
 
   private
-
-  def search_params
-    params[:tracks_finder]&.permit(*TracksFinder::FILTERS)
-  end
+    def search_params
+      params[:tracks_finder]&.permit(*TracksFinder::FILTERS)
+    end
 end

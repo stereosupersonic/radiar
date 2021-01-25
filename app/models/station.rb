@@ -20,7 +20,7 @@ class Station < ApplicationRecord
   STRATEGIES = %w[radiobox].freeze
   validates :name, presence: true
   validates :playlist_url, presence: true
-  validates :strategy, presence: true, inclusion: {in: STRATEGIES}
+  validates :strategy, presence: true, inclusion: { in: STRATEGIES }
 
   has_many :tracks
 end

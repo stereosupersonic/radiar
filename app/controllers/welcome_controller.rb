@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class WelcomeController < ApplicationController
   def index
@@ -7,12 +7,11 @@ class WelcomeController < ApplicationController
   end
 
   private
-
-  def search_params
-    if params[:trending_tracks]
-      params[:trending_tracks].permit(*TrendingTracks::FILTERS)
-    else
-      {}
+    def search_params
+      if params[:trending_tracks]
+        params[:trending_tracks].permit(*TrendingTracks::FILTERS)
+      else
+        {}
+      end
     end
-  end
 end

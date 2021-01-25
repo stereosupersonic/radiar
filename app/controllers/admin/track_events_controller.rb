@@ -11,8 +11,7 @@ class Admin::TrackEventsController < ApplicationController
   end
 
   private
-
-  def load_track
-    @track ||= TrackPresenter.new(Track.find(params[:track_id]))
-  end
+    def load_track
+      @track ||= TrackPresenter.new(Track.find(params[:track_id]))
+    end
 end

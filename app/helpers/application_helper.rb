@@ -78,12 +78,12 @@ module ApplicationHelper
   end
 
   def remove_button(link, text = "Remove", options = {})
-    options.reverse_merge! data: {confirm: "Are you sure?"}, class: "btn btn-danger"
+    options.reverse_merge! data: { confirm: "Are you sure?" }, class: "btn btn-danger"
     button_with_icon link, text, "trash", options
   end
 
   def delete_button(link, text = "Delete", options = {})
-    options.reverse_merge! data: {confirm: "Are you sure?"},
+    options.reverse_merge! data: { confirm: "Are you sure?" },
                            method: :delete, class: "btn btn-danger"
     button_with_icon link, text, "trash", options
   end

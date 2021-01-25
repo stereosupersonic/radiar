@@ -40,9 +40,8 @@ class Admin::StationsController < ApplicationController
   end
 
   private
-
-  # Only allow a list of trusted parameters through.
-  def station_params
-    params.require(:station).permit(:name, :strategy, :url, :playlist_url, :enabled)
-  end
+    # Only allow a list of trusted parameters through.
+    def station_params
+      params.require(:station).permit(:name, :strategy, :url, :playlist_url, :enabled)
+    end
 end

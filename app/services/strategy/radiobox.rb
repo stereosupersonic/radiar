@@ -35,13 +35,12 @@ module Strategy
     end
 
     private
+      def fetch_html
+        URI.open @url
+      end
 
-    def fetch_html
-      URI.open @url
-    end
-
-    def doc
-      @doc ||= ::Nokogiri::HTML(fetch_html)
-    end
+      def doc
+        @doc ||= ::Nokogiri::HTML(fetch_html)
+      end
   end
 end

@@ -28,7 +28,7 @@
 class Event < ApplicationRecord
   STATES = %w[ok failed no_data].freeze
   validates :name, presence: true
-  validates :state, presence: true, inclusion: {in: STATES}
+  validates :state, presence: true, inclusion: { in: STATES }
 
   belongs_to :track, optional: true
   belongs_to :station, optional: true

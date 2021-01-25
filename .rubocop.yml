@@ -1,6 +1,10 @@
+# inspired by the rails config
+# https://github.com/rails/rails/blob/main/.rubocop.yml
+
 require:
   - rubocop-performance
   - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.5
@@ -12,6 +16,9 @@ AllCops:
     - '**/templates/**/*'
     - '**/vendor/**/*'
     - '**/node_modules/**/*'
+    - 'config/initializers/simple_form_bootstrap.rb'
+    - 'bin/bundle'
+    - 'db/schema.rb'
 
 Performance:
   Exclude:
@@ -257,6 +264,10 @@ Performance/DeleteSuffix:
 Layout/LineLength:
   Max: 130
 
+# This cop checks for two or more consecutive blank lines.
+Layout/EmptyLines:
+  Enabled: true
+
 # Check quotes usage according to lint rule below.
 Style/StringLiterals:
   Enabled: true
@@ -265,3 +276,20 @@ Style/StringLiterals:
 Style/HashSyntax:
   Enabled: true
   EnforcedStyle: ruby19_no_mixed_keys
+
+######## RSpec ########
+# https://docs.rubocop.org/rubocop-rspec/cops_rspec.html
+
+
+RSpec/Focus:
+  Enabled: true
+
+RSpec/ImplicitBlockExpectation:
+  Enabled: true
+
+# Checks for instance_double used with have_received.
+RSpec/InstanceSpy:
+  Enabled: true
+
+RSpec/LetBeforeExamples:
+  Enabled: true

@@ -29,8 +29,8 @@ FactoryBot.define do
   factory :event do
     name { "google" }
     state { :ok }
-    meta_data { {ip: "192.168.1.1"} }
-    data { {a: 1, b: 2} }
+    meta_data { { ip: "192.168.1.1" } }
+    data { { a: 1, b: 2 } }
     done_at { Time.current }
   end
 end

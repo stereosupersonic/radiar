@@ -8,20 +8,19 @@ class LastfmJob < ApplicationJob
   end
 
   private
+    attr_reader :track, :track_info
 
-  attr_reader :track, :track_info
+    def update_values
+      return unless api_data
 
-  def update_values
-    return unless api_data
+      track_info.album ||= api_data.album.presence
+      track_info.tags = api_data.tags if api_data.tags.present?
+      track_info.save!
+    end
 
-    track_info.album ||= api_data.album.presence
-    track_info.tags = api_data.tags if api_data.tags.present?
-    track_info.save!
-  end
-
-  def api_data
-    @api_data ||= LastFmApi.new(
-      track: track
-    ).call
-  end
+    def api_data
+      @api_data ||= LastFmApi.new(
+        track: track
+      ).call
+    end
 end

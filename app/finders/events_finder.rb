@@ -13,28 +13,27 @@ class EventsFinder
   end
 
   private
-
-  def name_filter
-    if name.present?
-      Event.where(name: name)
-    else
-      Event.all
+    def name_filter
+      if name.present?
+        Event.where(name: name)
+      else
+        Event.all
+      end
     end
-  end
 
-  def state_filter
-    if state.present?
-      Event.where(state: state)
-    else
-      Event.all
+    def state_filter
+      if state.present?
+        Event.where(state: state)
+      else
+        Event.all
+      end
     end
-  end
 
-  def station_filter
-    if station_id.present?
-      Event.where(station_id: station_id)
-    else
-      Event.all
+    def station_filter
+      if station_id.present?
+        Event.where(station_id: station_id)
+      else
+        Event.all
+      end
     end
-  end
 end

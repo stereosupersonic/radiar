@@ -6,26 +6,25 @@ class TrackExtractor < BaseService
   end
 
   private
+    attr_reader :station
 
-  attr_reader :station
-
-  def extract_title_artist
-    ["-", ":"].each do |splitter|
-      artist, title = *text.split(" #{splitter} ")
-      artist = normalize(artist)
-      title = normalize(title)
-      if valid_value?(title) && valid_value?(artist)
-        return OpenStruct.new(artist: artist, title: title)
+    def extract_title_artist
+      ["-", ":"].each do |splitter|
+        artist, title = *text.split(" #{splitter} ")
+        artist = normalize(artist)
+        title = normalize(title)
+        if valid_value?(title) && valid_value?(artist)
+          return OpenStruct.new(artist: artist, title: title)
+        end
       end
+      nil
     end
-    nil
-  end
 
-  def valid_value?(value)
-    value.presence.to_s =~ /[a-zA-Z0-9]/
-  end
+    def valid_value?(value)
+      value.presence.to_s =~ /[a-zA-Z0-9]/
+    end
 
-  def normalize(text)
-    TrackSanitizer.new(text: text).call
-  end
+    def normalize(text)
+      TrackSanitizer.new(text: text).call
+    end
 end

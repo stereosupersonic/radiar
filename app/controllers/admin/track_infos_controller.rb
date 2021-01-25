@@ -14,15 +14,14 @@ class Admin::TrackInfosController < ApplicationController
   end
 
   private
-
-  def track_info_params
-    params
-      .require(:track_info)
-      .permit(:name, :album, :year, :artist_name,
-        :youtube_id,
-        :mbid,
-        :wikipedia_summary,
-        :wikipedia,
-        :pic_url)
-  end
+    def track_info_params
+      params
+        .require(:track_info)
+        .permit(:name, :album, :year, :artist_name,
+          :youtube_id,
+          :mbid,
+          :wikipedia_summary,
+          :wikipedia,
+          :pic_url)
+    end
 end

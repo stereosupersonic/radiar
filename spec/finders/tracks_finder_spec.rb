@@ -65,7 +65,7 @@ RSpec.describe TracksFinder do
 
       expect(TracksFinder.new(first_seen_on: 1.week.ago).call.first.slug).to eq "test2"
       expect(TracksFinder.new(first_seen_on: 1.week.ago).call.size).to eq 2
-      expect(TracksFinder.new(first_seen_on: 1.week.ago).call.reorder("").group("slug").count).to eq({"test2" => 2})
+      expect(TracksFinder.new(first_seen_on: 1.week.ago).call.reorder("").group("slug").count).to eq({ "test2" => 2 })
     end
   end
 end
