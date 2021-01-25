@@ -19,6 +19,7 @@ class CreateTrackInfo
         payload[:track] = track
         track_info = create_new
         payload[:data] = { track_info: track_info.id, artist: track.artist, title: track.title }
+        track.update! track_info: track_info
         track_info
       end
     end

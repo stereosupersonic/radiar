@@ -36,6 +36,8 @@ RSpec.describe CreateTrackInfo do
       track_info: track_info.id
     })
     expect(event.track).to eq track
+    expect(track_info.tracks).to eq([track])
+    expect(track.reload.track_info).to eq track_info
   end
 
   it "don't creates in if there is exiting one with slug" do

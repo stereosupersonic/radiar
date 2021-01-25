@@ -17,12 +17,13 @@
 
 %br
 
-%h3 Stations
+- if @track.track_info
+  %h3 Stations
 
-%ol.list-group.m-3
-- @track.track_info.stations.each do | station |
-  %li.list-group-item
-    = link_to(station.name, admin_station_path(station))
+  %ol.list-group.m-3
+  - @track.track_info&.stations.each do | station |
+    %li.list-group-item
+      = link_to(station.name, admin_station_path(station))
 
 %br
 %h3= "#{@track.events.count} Events"
@@ -30,10 +31,12 @@
 .p.m-3
   = show_button admin_track_events_path(track_id: @track.id)
 
-%h3 Track Info
+- if @track.track_info
+  %h3 Track Info
 
-.p.m-3
-  = edit_button edit_admin_track_info_path(@track.track_info)
-
+  .p.m-3
+    = edit_button edit_admin_track_info_path(@track.track_info)
+- else
+  %h3 NO Track Info
 .p
   = back_button root_path
