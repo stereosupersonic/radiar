@@ -122,4 +122,18 @@ RSpec.describe CreateTrack do
 
     expect(track).to be_nil
   end
+
+  it "don't create a entry when the it should be ignored" do
+    track = nil
+
+    create(:track_info, ignored: true, slug: "queenradiogaga")
+
+    expect {
+      VCR.use_cassette("services/create_valid_track") do
+        track = CreateTrack.new(station: station).call
+      end
+    }.to_not change(Track, :count)
+
+    expect(track).to be_nil
+  end
 end

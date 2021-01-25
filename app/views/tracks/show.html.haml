@@ -36,7 +36,13 @@
 
   .p.m-3
     = edit_button edit_admin_track_info_path(@track.track_info)
+
+  .p.m-3
+    = remove_button admin_ignore_track_path(@track), "Ignore Track", method: :patch
 - else
   %h3 NO Track Info
+
+
+%br
 .p
   = back_button root_path

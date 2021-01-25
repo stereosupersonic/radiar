@@ -53,7 +53,7 @@ describe "show tracks", type: :system do
     expect(page).to have_content("Year: 2020")
     expect(page).to have_content("Main Tag: Rock")
     expect(page).to have_content("Station Name: Marilu")
-    expect(page).to have_content("Slug: liamgallagheronce")
+    expect(page).to have_content("Slug: noelgallaghertwice")
   end
 
   context "events" do

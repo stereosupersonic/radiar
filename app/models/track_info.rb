@@ -5,6 +5,7 @@
 #  id                :bigint           not null, primary key
 #  album             :string
 #  artist_name       :string           not null
+#  ignored           :boolean          default(FALSE), not null
 #  mbid              :string
 #  name              :string           not null
 #  pic_url           :string

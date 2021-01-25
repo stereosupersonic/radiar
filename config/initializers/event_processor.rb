@@ -63,3 +63,14 @@ ActiveSupport::Notifications.subscribe(:station_fetch) do |*args|
     track: event.payload[:track]
   )
 end
+
+ActiveSupport::Notifications.subscribe(:track_event) do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+  CreateEventJob.perform_later(
+    name: event.payload[:event_name],
+    state: :ok,
+    done_at: event.end,
+    data: event.payload[:data],
+    duration: event.duration,
+  )
+end

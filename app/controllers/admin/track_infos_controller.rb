@@ -6,7 +6,8 @@ class Admin::TrackInfosController < ApplicationController
   def update
     @track_info = TrackInfo.find params[:id]
 
-    if @track_info.update(track_info_params)
+    if       UpdateTrackInfo.new(@track_info, track_info_params).call
+
       redirect_to tracks_path, notice: "TrackInfo updated"
     else
       render :edit
