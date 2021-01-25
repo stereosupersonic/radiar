@@ -14,7 +14,9 @@
       = f.select :tag, all_tags, { include_blank: "select tag" } , class: "form-control custom-select", onchange: "this.form.submit();"
     .form-group.mb-2
       = f.select :station_id, all_stations, { include_blank: "select station" }, class: "form-control custom-select", onchange: "this.form.submit();"
-
+    .form-group.mb-2
+      = f.check_box :more_stations, class: "form-control form-check-input",  placeholder: "at least two stations", onchange: "this.form.submit();"
+      = f.label  :more_station, "on more then one station", class: "form-check-label"
 .table-responsive
   %table.table.table-striped
     %thead

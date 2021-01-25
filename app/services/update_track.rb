@@ -8,7 +8,7 @@ class UpdateTrack
 
     ActiveRecord::Base.transaction do
       @track.title = TrackSanitizer.new(text: @track.title).call
-      @track.artist = TrackSanitizer.new(text:@track.artist).call
+      @track.artist = TrackSanitizer.new(text: @track.artist).call
       @track.slug = SlugBuilder.new(artist: @track.artist, title: @track.title).call
       @track.save!
       CreateTrackInfo.new(@track).call
@@ -18,11 +18,9 @@ class UpdateTrack
   end
 
   private
-
     def clean_empty_track_infos
       # TODO
 
-     #
+      #
     end
-
 end

@@ -2,7 +2,7 @@
 
 class WelcomeController < ApplicationController
   def index
-    @trending_tracks_search = TrendingTracks.new(search_params.reverse_merge(first_seen_period: :week))
+    @trending_tracks_search = TrendingTracks.new(search_params)
     @trending_tracks = TrendingTrackPresenter.wrap @trending_tracks_search.call
   end
 

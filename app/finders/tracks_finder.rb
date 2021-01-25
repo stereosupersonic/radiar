@@ -1,7 +1,8 @@
 class TracksFinder
   include ActiveModel::Model
+  include ActiveModel::Attributes
 
-  FILTERS = %i[year artist station_id tag first_seen_on].freeze
+  FILTERS = %i[year artist station_id tag first_seen_on more_stations].freeze
   attr_accessor(*FILTERS)
 
   def call
@@ -12,6 +13,7 @@ class TracksFinder
       .merge(artist_filter)
       .merge(tag_filter)
       .merge(first_seen_filter)
+      .merge(more_stations_filter)
   end
 
   private
@@ -49,6 +51,23 @@ class TracksFinder
     def station_filter
       if station_id.present?
         Track.where(station_id: station_id)
+      else
+        Track.all
+      end
+    end
+
+    def more_stations_filter
+      if more_stations
+        if first_seen_on.present? && station_id.blank?
+          Track
+          .having("count(distinct station_id) > 1")
+          .group(:slug)
+        else
+          Track
+          .where(slug: Track.select(:slug)
+          .having("count(distinct station_id) > 1")
+          .group(:slug))
+        end
       else
         Track.all
       end

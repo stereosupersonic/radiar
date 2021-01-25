@@ -1,13 +1,19 @@
 class TrendingTracks < BaseService
+  include ActiveModel::Attributes
   LIMIT = 25
-  FILTERS = %i[year first_seen_period tag station_id artist].freeze
+  FILTERS = %i[year first_seen_period tag station_id artist more_stations].freeze
   PERIODS = %i[week two_weeks month quater half_year year].freeze
-  attr_accessor(*FILTERS)
+  attr_accessor(*(FILTERS - [:more_stations, :first_seen_period]))
+
+  attribute :more_stations, :boolean, default: true
+  attribute :first_seen_period, :string, default: :week
 
   def call
-    TracksFinder.new(first_seen_on: first_seen_on, year: year, tag: tag, station_id: station_id, artist: artist).call
+    TracksFinder.new(first_seen_on: first_seen_on, year: year, tag: tag, station_id: station_id, artist: artist,
+more_stations: more_stations).call
       .reorder("").group("slug").order(count: :desc).limit(LIMIT).count
-      .map { |arr| OpenStruct.new slug: arr.first, count: arr.second }
+      .map { |arr|
+ OpenStruct.new slug: arr.first, count: arr.second }
   end
 
   def first_seen_on
@@ -25,7 +31,7 @@ class TrendingTracks < BaseService
     when :year
       1.year.ago
     else
-      DateTime.new((year.presence || Time.current.year).to_i, 0o1, 0o1, 0o0, 0o0).beginning_of_year
+      nil
     end
   end
 end

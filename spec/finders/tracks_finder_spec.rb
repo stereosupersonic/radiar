@@ -68,4 +68,17 @@ RSpec.describe TracksFinder do
       expect(TracksFinder.new(first_seen_on: 1.week.ago).call.reorder("").group("slug").count).to eq({ "test2" => 2 })
     end
   end
+
+  context "more_stations" do
+    it "should find only tracks thats played on more then one station" do
+      station_1 = FactoryBot.create :station
+      station_2 = FactoryBot.create :station
+      track_1 = FactoryBot.create :track, slug: :test, station: station_1
+
+      expect(TracksFinder.new(more_stations: true).call).to be_empty
+      track_2 = FactoryBot.create :track, slug: :test, station: station_2
+
+      expect(TracksFinder.new(more_stations: true).call).to eq [track_2, track_1]
+    end
+  end
 end

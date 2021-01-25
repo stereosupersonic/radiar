@@ -20,7 +20,8 @@ namespace :radiar do
     task unwanted_text: [:environment] do
       TrackSanitizer::UNWANTED_TEXT.each do |unwanted|
         tracks = Track.where("title like '%#{unwanted}%' or artist like '%#{unwanted}%'")
-        progress_bar = ProgressBar.create(title: "clean tracks from '#{unwanted}'", total: tracks.count, format:  "%t %c/%C: |%B| %E")
+        progress_bar = ProgressBar.create(title: "clean tracks from '#{unwanted}'", total: tracks.count,
+format:  "%t %c/%C: |%B| %E")
         tracks.find_each do |track|
           UpdateTrack.new(track).call
           progress_bar.increment
