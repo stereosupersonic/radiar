@@ -31,6 +31,8 @@ gem "will_paginate"
 gem "will_paginate-bootstrap4"
 # simple_form
 gem "simple_form"
+# for rake tasks
+gem "ruby-progressbar"
 
 gem "newrelic_rpm"
 group :test do

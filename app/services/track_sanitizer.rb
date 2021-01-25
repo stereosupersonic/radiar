@@ -1,4 +1,5 @@
 class TrackSanitizer < BaseService
+  UNWANTED_TEXT = ["Neu:", "(Album Version)", "(Edit)"]
   attr_accessor :text
   def call
     normalize(text)
@@ -12,10 +13,15 @@ class TrackSanitizer < BaseService
     end
 
     def remove_unwanted(text)
-      text.gsub(/\|.*/i, "") # remove everyting starts with | like '| Fm4 Homebase'
+      result = text.gsub(/\|.*/i, "") # remove everyting starts with | like '| Fm4 Homebase'
         .gsub(/Rock Antenne/i, "") # special rock antenne intros
-        .gsub("/Rock Nonstop/i", "")
+        .gsub(/Rock Nonstop/i, "")
         .gsub("Nachrichten", "")
+
+      UNWANTED_TEXT.each do |unwanted|
+        result.gsub! unwanted, ""
+      end
+      result
     end
 
     def fix_encoding(text)

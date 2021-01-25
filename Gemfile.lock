@@ -355,6 +355,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  ruby-progressbar
   shoulda-matchers
   sidekiq (~> 6.0)
   simple_form

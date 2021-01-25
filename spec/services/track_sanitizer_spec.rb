@@ -20,4 +20,13 @@ RSpec.describe TrackSanitizer do
     sanitized = TrackSanitizer.new(text: "   Bla blah BLUB   ").call
     expect(sanitized).to eq("Bla Blah Blub")
   end
+
+  it "removes 'Neu:'" do
+    sanitized = TrackSanitizer.new(text: "Neu: Shot In The Dark").call
+    expect(sanitized).to eq("Shot In The Dark")
+  end
+  it "removes '(Album Version)'" do
+    sanitized = TrackSanitizer.new(text: "After Dark (Album Version)").call
+    expect(sanitized).to eq("After Dark")
+  end
 end
