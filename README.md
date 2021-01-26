@@ -87,6 +87,7 @@ cat radiar_production_*.dump.sql | docker exec -i postgresdb12 pg_restore -U pos
 
 
 
+
 # data fixes
 
 ```

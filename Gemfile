@@ -34,10 +34,7 @@ gem "simple_form"
 # for rake tasks
 gem "ruby-progressbar"
 
-gem 'wikidata-client', '~> 0.0.10', require: 'wikidata'
-
-
-
+gem "wikidata-client", "~> 0.0.10", require: "wikidata"
 gem "newrelic_rpm"
 
 group :test do

@@ -1,11 +1,32 @@
 # https://www.wikidata.org/wiki/Wikidata:Database_reports/List_of_properties/all
 
+# music properties https://www.wikidata.org/wiki/Wikidata:WikiProject_Music
+
+# EXamples
+
+
+# Master of Pupperts
+# https://www.wikidata.org/wiki/Q383630
+song = Wikidata::Item.find "Q383630"
+song = Wikidata::Item.find "Q328482"
+
+
+search =  Wikidata::Item.search "Pale Waves easy"
 search =  Wikidata::Item.search "'Foo Fighters' 'Waiting On A War'"
+
 song =  search.results.first
 song.id # => Q104841465
 # https://www.wikidata.org/wiki/Q104841465
 # https://www.wikidata.org/wiki/Special:EntityData/Q104841465.json
 
+
+# artist
+artist = song.property("P175")
+artist&.title
+
+artist = Wikidata::Item.find song.property("P175").id
+artist.image.url
+spotify_id = artist.property("P1902").value
 
 # release date
 release = song.property  "P577" # https://www.wikidata.org/wiki/Property:P577
@@ -16,23 +37,35 @@ genre = song.property "P136"
 genre.title
 
 # album
-album =  song.property "P361"
-album.title
+song.property("P361")&.title
+album = Wikidata::Item.find song.property("P361")&.id
+album.property("P136").title # genre
+album.property("P577").value.time # publication date
+album.property("P436").value  # musicbrainz id
+album.property("P2205").value  # spotify
 
 # youtube
-youtube =  song.property "P1651"
-youtube.value
+youtube =  song.property("P1651")&.value
+
 
 # musicbrainz
-musicbrainz =  song.property "P436"
+musicbrainz =  song.property("P436")&.id
 musicbrainz.value # https://musicbrainz.org/release-group/4b6fa87b-8a1d-4765-8e5f-a1aaf25853ba
 
 # wikipedia page
 ## via json
 # https://www.wikidata.org/wiki/Special:EntityData/Q104841465.json
+require 'net/http'
+require 'json'
 
+id = "Q104841465"
+id = "Q383630"
 
-
+url = "https://www.wikidata.org/wiki/Special:EntityData/#{id}.json"
+response = Net::HTTP.get(URI(url))
+data = JSON.parse(response)
+data["entities"][id]["sitelinks"]["enwiki"]["url"] # en
+data["entities"][id]["sitelinks"]["dewiki"]["url"] # de
 ##################################################################################
 ## musicbrainz
 ##################################################################################

@@ -1,7 +1,10 @@
+
+- @attributes = %w[played_at  title artist  album year main_tag station_name slug youtube_link mbid spotify_id wikidata_id artist_wikidata_id artist_spotify_id artist_mbid album_wikidata_id album_spotify_id artist_mbid response]
+
 %h1 Track
 
 %ol.list-group.m-3
-  - %w[played_at title artist album year main_tag station_name slug youtube_link response].each do | attr |
+  - @attributes.each do | attr |
     %li.list-group-item
       .font-weight-bold= "#{attr.titleize}:"
       = @track.send attr
@@ -18,6 +21,32 @@
 %br
 
 - if @track.track_info
+  %h2 Song
+  %h3= @track.track_info.name
+
+  = link_to "YouTube", "#"
+  = link_to "wikidata", "#"
+  = link_to "musikbrainz", "#"
+  = link_to "spotify", "#"
+
+  %h2 Artist
+  %h3= @track.track_info.artist_name
+
+  .p
+    = link_to "wikidata", "#"
+    = link_to "musikbrainz", "#"
+    = link_to "spotify", "#"
+
+
+  %h2 Album
+
+  %h3= @track.track_info.album
+
+  .p
+    = link_to "wikidata", "#"
+    = link_to "musikbrainz", "#"
+    = link_to "spotify", "#"
+
   %h3 Stations
 
   %ol.list-group.m-3

@@ -12,10 +12,15 @@ class LastfmJob < ApplicationJob
 
     def update_values
       return unless api_data
+      return unless missing_values?
 
-      track_info.album ||= api_data.album.presence
-      track_info.tags = api_data.tags if api_data.tags.present?
+      track_info.album = api_data.album if  api_data.album.present? && track_info.album.blank?
+      track_info.tags = api_data.tags if api_data.tags.present? && track_info.tags.blank?
       track_info.save!
+    end
+
+    def missing_values?
+      track_info.album.blank? || track_info.tags.empty?
     end
 
     def api_data
