@@ -1,13 +1,15 @@
 
-- @attributes = %w[played_at  title artist  album year main_tag station_name slug youtube_link mbid spotify_id wikidata_id artist_wikidata_id artist_spotify_id artist_mbid album_wikidata_id album_spotify_id artist_mbid response]
+- @attributes = %w[played_at title artist album year main_tag station_name slug response]
 
 %h1 Track
 
-%ol.list-group.m-3
-  - @attributes.each do | attr |
-    %li.list-group-item
-      .font-weight-bold= "#{attr.titleize}:"
-      = @track.send attr
+.row
+  .col
+    %ol.list-group.m-3
+      - @attributes.each do | attr |
+        %li.list-group-item
+          .font-weight-bold= "#{attr.titleize}:"
+          = @track.send attr
 
 
 %p
@@ -18,60 +20,18 @@
       .card.card-body
         = debug @track.attributes
 
-%br
+.row
+  .col
 
-- if @track.track_info
-  %h2 Song
-  %h3= @track.track_info.name
+    %h3= "#{@track.events.count} Events"
 
-  = link_to "YouTube", "#"
-  = link_to "wikidata", "#"
-  = link_to "musikbrainz", "#"
-  = link_to "spotify", "#"
+    .p.m-3
+      = show_button admin_track_events_path(track_id: @track.id)
 
-  %h2 Artist
-  %h3= @track.track_info.artist_name
-
-  .p
-    = link_to "wikidata", "#"
-    = link_to "musikbrainz", "#"
-    = link_to "spotify", "#"
-
-
-  %h2 Album
-
-  %h3= @track.track_info.album
-
-  .p
-    = link_to "wikidata", "#"
-    = link_to "musikbrainz", "#"
-    = link_to "spotify", "#"
-
-  %h3 Stations
-
-  %ol.list-group.m-3
-  - @track.track_info&.stations.each do | station |
-    %li.list-group-item
-      = link_to(station.name, admin_station_path(station))
-
-%br
-%h3= "#{@track.events.count} Events"
-
-.p.m-3
-  = show_button admin_track_events_path(track_id: @track.id)
-
-- if @track.track_info
-  %h3 Track Info
-
-  .p.m-3
-    = edit_button edit_admin_track_info_path(@track.track_info)
-
-  .p.m-3
-    = remove_button admin_ignore_track_path(@track), "Ignore Track", method: :patch
-  .p.m-3
-    = button_with_icon admin_fetch_track_info_path(@track), "Fetch Infos", :redo, class: "btn btn-success", method: :patch
-- else
-  %h3 NO Track Info
+.row
+  .col
+    %h3 Track Info
+    = show_button track_info_path(id: @track.track_info_id)
 
 
 %br

@@ -7,21 +7,34 @@ class GoogleSearch
 
   BASE_URL = "https://www.google.com/search".freeze
 
-  def initialize(track:)
-    @artist = track.artist
-    @title = track.title
-    @track = track
+  def initialize(artist:, title:)
+    @artist = artist
+    @title = title
   end
 
   def call
+    retrun unless doc
     result
   end
 
+  def url
+    "#{BASE_URL}?#{params.to_query}"
+  end
+
   private
-    attr_reader :track, :artist, :title
+    attr_reader :artist, :title
 
     def result
-      @result ||= OpenStruct.new year: year.presence, album: TrackSanitizer.new(text: album.presence).call, tags: tags.presence
+      return if data.to_h.values.compact.blank?
+      data
+    end
+
+    def data
+      @result ||= OpenStruct.new(
+        youtube_id: youtube_id,
+        year: year.presence,
+        album: TrackSanitizer.new(text: album.presence).call,
+        tags: tags.presence)
     end
 
     def year
@@ -37,31 +50,15 @@ class GoogleSearch
       raw.to_s.split(",").map { |tag| tag.to_s.squish.downcase }
     end
 
-    def url
-      "#{BASE_URL}?#{params.to_query}"
+    def youtube_id
+      nodeset = doc.css("a")          # Get all anchors via css
+      links = nodeset.map { |element| element["href"] }.compact
+      link_url = links.select { | link | link =~ /\/www\.youtube\.com\/watch/ }.first
+      link_url[/v=(\w+)/, 1] if link_url.present?
     end
 
     def no_data?
-      year.blank? && album.blank? && tags.empty?
-    end
-
-    def fetch_html
-      ActiveSupport::Notifications.instrument(:log_api_request, event_name: :google_search) do |payload|
-        response = URI.open(url, "User-Agent" => USER_AGENT) { |f|
-          payload[:base_uri] = f.base_uri.to_s
-          payload[:status_code] = f.status.first.to_i
-          payload[:status] = f.status.last
-          payload[:metas] = f.metas
-          payload[:track] = track
-
-          f.read
-        }
-        @doc = ::Nokogiri::HTML(response)
-
-        payload[:data] = result.to_h.merge track_info: track&.track_info&.id, artist: artist, title: title
-        payload[:status] = :no_data if no_data?
-        @doc
-      end
+      year.blank? && album.blank? && tags.empty? && youtube_id.blank?
     end
 
     def params
@@ -71,6 +68,10 @@ class GoogleSearch
     end
 
     def doc
-      @doc ||= fetch_html
+      return @doc if defined?(@doc)
+
+      response = URI.open(url, "User-Agent" => USER_AGENT) { |f| f.read }
+      @doc = ::Nokogiri::HTML(response)
+      @doc
     end
 end

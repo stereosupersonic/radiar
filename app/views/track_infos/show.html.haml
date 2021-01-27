@@ -1,0 +1,62 @@
+
+%h1 Track Info
+
+
+-if @track_info.ignored
+  %h2.text-danger THIS SONG IS IGNORED
+
+%h2= @track_info.info
+
+.row.mt-3
+  .col
+    %ol.list-group.m-3
+      - TrackInfoPresenter::SHOW_ATTRIBUTES.each do | attr |
+        %li.list-group-item
+          .font-weight-bold= "#{attr.titleize}:"
+          = @track_info.send attr
+
+
+    %p
+      %a.btn.btn-secondary{"aria-controls" => "debug", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#debug", :role => "button"} Debug
+    .row
+      .col
+        #debug.collapse.multi-collapse
+          .card.card-body
+            = debug @track_info.attributes
+
+
+.row.mt-3
+  .col
+
+    %h3 Stations
+
+    %ol.list-group.m-3
+    - @track_info.stations.each do | station |
+      %li.list-group-item
+        = link_to("#{station.name} - #{@track_info.stations_count station}", admin_station_path(station))
+
+
+.row.mt-3
+  .col
+    %h3= "#{@track_info.tracks.count} Tracks"
+    = show_button tracks_path(track_info_id: @track_info.id)
+
+
+.row.mt-3
+  .col
+    %h3= "#{@track_info.events.count} Events"
+    = show_button admin_events_path(track_info_id: @track_info.id)
+
+
+.row.pt-3
+  .col
+    %h3 Actions
+    = edit_button edit_admin_track_info_path(@track_info)
+
+    = remove_button admin_ignore_track_path(slug: @track_info.slug), "Ignore Track", method: :patch
+
+    = button_with_icon admin_fetch_track_info_path(@track_info), "Fetch Infos", :redo, class: "btn btn-success", method: :patch
+
+.row.pt-3
+  .col
+    = back_button root_path

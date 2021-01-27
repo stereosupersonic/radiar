@@ -1,11 +1,11 @@
 class Admin::FetchTrackInfosController < ApplicationController
   def update
-    track = Track.find params[:id]
+    track_info = TrackInfo.find params[:id]
 
-    WikiDataJob.perform_later(track: track, track_info: track.track_info)
-    GoogleJob.perform_later(track: track, track_info: track.track_info)
-    LastfmJob.perform_later(track: track, track_info: track.track_info)
+    WikiDataJob.perform_later(track_info: track_info)
+    GoogleJob.perform_later(track_info: track_info)
+    LastfmJob.perform_later(track_info: track_info)
 
-    redirect_to track_path(track)
+    redirect_to track_info_path(track_info)
   end
 end

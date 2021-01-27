@@ -1,58 +1,67 @@
 class WikiDataJob < ApplicationJob
   queue_as :default
 
-  def perform(track:, track_info:)
-    @track = track
+  def perform(track_info:, track: nil)
     @track_info = track_info
-
+    @track = track
     update_values
   end
 
   private
-    attr_reader :track, :track_info
+    attr_reader :track_info, :track
+
+    raise "not use it "
+
+    # PROBLEM
+    # Ataris The Boys Of Summer => don henley  The Boys Of Summer
 
     def update_values
-      # return unless missing_values?
+      ActiveSupport::Notifications.instrument(:log_api_request, event_name: :wikidata_search) do |payload|
+        data = { query: query }
+        if song
+          data[:song] = JSON.parse song.to_json
+          payload[:status] = :ok
+          track_info.artist_name = artist&.title if artist&.title
+          track_info.name = song.title
+          track_info.wikidata_id = song.id
+          track_info.album = album_name if album_name.present?
+          track_info.tags = Array(genre) if genre.present?
+          track_info.year = year if year.present?
+          track_info.youtube_id = youtube_id if youtube_id.present?
+          track_info.spotify_id = spotify_id if spotify_id.present?
 
-      return unless song
+          track_info.album_wikidata_id = album_wikidata_id if album_wikidata_id.present?
+          track_info.album_spotify_id = album_spotify_id if album_spotify_id.present?
+          track_info.album_mbid = album_mbid if album_mbid.present?
 
-      track_info.wikidata_id = song.id
-      track_info.album = album_name if album_name.present?
-      track_info.tags = Array(genre) if genre.present?
-      track_info.year = year if year.present?
-      track_info.youtube_id = youtube_id if youtube_id.present?
-      track_info.spotify_id = spotify_id if spotify_id.present?
+          track_info.artist_wikidata_id = artist_wikidata_id if artist_wikidata_id.present?
+          track_info.artist_spotify_id = artist_spotify_id if artist_spotify_id.present?
+          track_info.artist_mbid = artist_mbid if artist_mbid.present?
 
-      track_info.album_wikidata_id = album_wikidata_id if album_wikidata_id.present?
-      track_info.album_spotify_id = album_spotify_id if album_spotify_id.present?
-      track_info.album_mbid = album_mbid if album_mbid.present?
+          data[:changes] = track_info.changes
 
-      track_info.artist_wikidata_id = artist_wikidata_id if artist_wikidata_id.present?
-      track_info.artist_spotify_id = artist_spotify_id if artist_spotify_id.present?
-      track_info.artist_mbid = artist_mbid if artist_mbid.present?
-
-      track_info.save!
+          track_info.save!
+        else
+          payload[:status] = :no_data
+        end
+        payload[:track_info] = track_info
+        payload[:track] = track
+        payload[:data] = data
+      end
     end
 
     def missing_values?
       track_info.album.blank? || track_info.year.blank? || track_info.tags.empty? || track_info.youtube_id.blank?
     end
 
+    def  query
+      "#{track_info.artist_name} #{track_info.name}"
+    end
+
     def song
       return @song if defined?(@song)
 
-      ActiveSupport::Notifications.instrument(:log_api_request, event_name: :wikidata_search) do |payload|
-         query = "#{track.artist} #{track.title}"
-         @song = Wikidata::Item.search(query).results&.first
-         if @song
-           payload[:data]   =  JSON.parse @song.to_json
-           payload[:status] = :ok
-         else
-           payload[:status] = :no_data
-         end
-
-         payload[:track] = track
-       end
+      @song = Wikidata::Item.search(query).results&.first
 
       @song
     end
@@ -63,7 +72,10 @@ class WikiDataJob < ApplicationJob
 
     def year
       release = song.property("P577")
-      release.value["time"]&.to_date&.year if release
+      time = release.value["time"] if release
+      time.to_date&.year if time.present?
+    rescue ArgumentError
+      time[/.?(\d{4})-/, 1]
     end
 
     def youtube_id

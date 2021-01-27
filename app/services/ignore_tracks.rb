@@ -9,7 +9,8 @@ class IgnoreTracks
     data = { slug: slug }
 
     ActiveRecord::Base.transaction do
-      data[:deleted_tracks] = Track.where(slug: slug).delete_all
+      tracks = Track.where(slug: slug)
+      data[:deleted_tracks] = tracks.destroy_all
       track_info = TrackInfo.find_by slug: slug
       if track_info
         data[:track_info] = track_info.id

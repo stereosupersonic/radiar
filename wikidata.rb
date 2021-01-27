@@ -13,9 +13,10 @@ song = Wikidata::Item.find "Q328482"
 
 search =  Wikidata::Item.search "Pale Waves easy"
 search =  Wikidata::Item.search "'Foo Fighters' 'Waiting On A War'"
-
+search =  Wikidata::Item.search "'Ataris' 'The Boys Of Summer'"
 song =  search.results.first
 song.id # => Q104841465
+song.title
 # https://www.wikidata.org/wiki/Q104841465
 # https://www.wikidata.org/wiki/Special:EntityData/Q104841465.json
 

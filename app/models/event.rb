@@ -2,17 +2,18 @@
 #
 # Table name: events
 #
-#  id         :bigint           not null, primary key
-#  data       :jsonb
-#  done_at    :datetime
-#  duration   :float
-#  meta_data  :jsonb
-#  name       :string           not null
-#  state      :string           default("ok"), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  station_id :bigint
-#  track_id   :bigint
+#  id            :bigint           not null, primary key
+#  data          :jsonb
+#  done_at       :datetime
+#  duration      :float
+#  meta_data     :jsonb
+#  name          :string           not null
+#  state         :string           default("ok"), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  station_id    :bigint
+#  track_id      :bigint
+#  track_info_id :integer
 #
 # Indexes
 #
@@ -31,5 +32,6 @@ class Event < ApplicationRecord
   validates :state, presence: true, inclusion: { in: STATES }
 
   belongs_to :track, optional: true
+  belongs_to :track_info, optional: true
   belongs_to :station, optional: true
 end

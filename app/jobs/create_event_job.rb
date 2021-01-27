@@ -1,10 +1,11 @@
 class CreateEventJob < ApplicationJob
   queue_as :low
 
-  def perform(name:, state:, done_at:, data:, duration:, track:, station:, meta_data: {})
+  def perform(name:, state:, done_at:, data:, duration:, track: nil, track_info: nil, station: nil, meta_data: {})
     Event.create!(
       name: name,
       track: track,
+      track_info: track_info,
       station: station,
       state: state,
       done_at: done_at,

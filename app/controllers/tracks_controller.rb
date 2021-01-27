@@ -12,6 +12,10 @@ class TracksController < ApplicationController
 
   private
     def search_params
-      params[:tracks_finder]&.permit(*TracksFinder::FILTERS)
+      if params[:track_info_id].present?
+        params.permit(:track_info_id)
+      else
+        params[:tracks_finder]&.permit(*TracksFinder::FILTERS)
+      end
     end
 end

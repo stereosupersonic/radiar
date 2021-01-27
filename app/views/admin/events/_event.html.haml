@@ -16,6 +16,9 @@
 
 %ul.list-group
   %li.list-group-item
+    TrackInfo:
+    = event.track_info ? link_to(TrackInfoPresenter.new(event.track_info).info, track_info_path(event.track_info)) : ""
+  %li.list-group-item
     Track:
     = event.track ? link_to(TrackPresenter.new(event.track).full_name, track_path(event.track)) : ""
 
