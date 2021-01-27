@@ -13,7 +13,14 @@ song = Wikidata::Item.find "Q328482"
 
 search =  Wikidata::Item.search "Pale Waves easy"
 search =  Wikidata::Item.search "'Foo Fighters' 'Waiting On A War'"
-search =  Wikidata::Item.search "'Ataris' 'The Boys Of Summer'"
+
+# Problems
+search =  Wikidata::Item.search "'Ataris' 'The Boys Of Summer'" # finds don henley
+search =  Wikidata::Item.search "'Iron Maiden' 'Seventh Son Of A Seventh Son'" # finds album
+## album has P1476 ??? maybe
+search =  Wikidata::Item.search "'Ac/Dc' song:'Shot In The Dark'" # finds wrong album
+
+
 song =  search.results.first
 song.id # => Q104841465
 song.title

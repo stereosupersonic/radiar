@@ -6,9 +6,9 @@ class Admin::TrackInfosController < ApplicationController
   def update
     @track_info = TrackInfo.find params[:id]
 
-    if       UpdateTrackInfo.new(@track_info, track_info_params).call
+    if UpdateTrackInfo.new(@track_info, track_info_params).call
 
-      redirect_to tracks_path, notice: "TrackInfo updated"
+      redirect_to @track_info, notice: "TrackInfo updated"
     else
       render :edit
     end
@@ -21,8 +21,15 @@ class Admin::TrackInfosController < ApplicationController
         .permit(:name, :album, :year, :artist_name,
           :youtube_id,
           :mbid,
-          :wikipedia_summary,
-          :wikipedia,
+
+          :wikidata_id,
+          :spotify_id,
+           :album_mbid,
+            :album_spotify_id,
+             :album_wikidata_id,
+              :artist_spotify_id,
+              :artist_wikidata_id,
+          :artist_mbid,
           :pic_url)
     end
 end

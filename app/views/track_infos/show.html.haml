@@ -11,10 +11,11 @@
   .col
     %ol.list-group.m-3
       - TrackInfoPresenter::SHOW_ATTRIBUTES.each do | attr |
-        %li.list-group-item
-          .font-weight-bold= "#{attr.titleize}:"
-          = @track_info.send attr
-
+        - value = @track_info.send attr
+        -if value.present?
+          %li.list-group-item
+            .font-weight-bold= "#{attr.titleize}:"
+            = @track_info.send attr
 
     %p
       %a.btn.btn-secondary{"aria-controls" => "debug", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#debug", :role => "button"} Debug
@@ -23,7 +24,6 @@
         #debug.collapse.multi-collapse
           .card.card-body
             = debug @track_info.attributes
-
 
 .row.mt-3
   .col

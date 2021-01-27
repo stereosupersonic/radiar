@@ -7,6 +7,7 @@ class UpdateTrackInfo
   def call
     return unless @track_info
     return if @params.blank?
+
     ActiveRecord::Base.transaction do
       @track_info.update! @params
 
@@ -26,5 +27,7 @@ class UpdateTrackInfo
         end
       end
     end
+
+    true
   end
 end

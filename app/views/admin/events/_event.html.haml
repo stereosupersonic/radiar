@@ -12,7 +12,6 @@
       %td= event.name
       %td= event.state
 
-%h4 Data
 
 %ul.list-group
   %li.list-group-item
@@ -26,14 +25,32 @@
     Station:
     = event.station ? link_to( event.station.name, admin_station_path(event.station)) : ""
 
-.jumbotron
-  = debug event.data
-  = debug event.meta_data
+%br
+.p
+  %h3 Data
+  - if event.data
+    - event.data.each do |k,v|
+      .row
+        .column.m-3
+          %details
+            %summary
+              = k
+            .jumbotron= debug v
+  - else
+    %h4 NO DATA
+.p
+  %h3 Meta Data
+  %details
+    %summary Show
+    .jumbotron
+      = debug event.meta_data
 
-%p
-  %a.btn.btn-secondary{"aria-controls" => "debug", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#debug", :role => "button"} Debug
 .row
-  .col
-    #debug.collapse.multi-collapse
-      .card.card-body
-        = debug event.attributes
+  .column.m-3
+    %p
+      %a.btn.btn-secondary{"aria-controls" => "debug", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#debug", :role => "button"} Debug
+    .row
+      .col
+        #debug.collapse.multi-collapse
+          .card.card-body
+            = debug event.attributes
