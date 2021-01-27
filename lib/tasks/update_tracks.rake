@@ -17,6 +17,21 @@ namespace :radiar do
   end
 
   namespace :update do
+    desc "add metadata"
+    task fix_missing_data: [:environment] do
+      limit = ENV["LIMIT"] || 100
+      track_infos = TrackInfo.where("year is null or album is null").order("id desc").limit(limit.to_i)
+      progress_bar = ProgressBar.create(title: "updated trackinfo", total: track_infos.count,
+        format:  "%t %c/%C: |%B| %E")
+      track_infos.find_each do |track_info|
+       WikiDataJob.perform_later(track_info: track_info)
+       GoogleJob.perform_later(track_info: track_info)
+       LastfmJob.perform_later(track_info: track_info)
+
+       progress_bar.increment
+     end
+    end
+
     desc "remove unwanted"
     task unwanted_text: [:environment] do
       TrackSanitizer::UNWANTED_TEXT.each do |unwanted|

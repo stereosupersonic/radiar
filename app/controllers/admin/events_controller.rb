@@ -13,6 +13,10 @@ class Admin::EventsController < ApplicationController
 
   private
     def search_params
-      params[:events_finder]&.permit(*EventsFinder::FILTERS)
+      if params[:track_info_id].present?
+        params.permit(:track_info_id)
+      else
+        params[:events_finder]&.permit(*EventsFinder::FILTERS)
+      end
     end
 end

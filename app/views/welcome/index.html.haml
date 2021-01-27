@@ -17,6 +17,7 @@
     .form-group.mb-2
       = f.check_box :more_stations, class: "form-control form-check-input",  placeholder: "at least two stations", onchange: "this.form.submit();"
       = f.label  :more_station, "on more then one station", class: "form-check-label"
+
 .table-responsive
   %table.table.table-striped
     %thead
@@ -37,7 +38,7 @@
         %tr
           %td= i+1
           %td= track.count
-          %td= link_to track&.name, track_path(id: track.id)
+          %td= link_to track&.name, track_info_path(id: track.track_info&.id)
           %td= track.artist_name
           %td= track.year
           %td= track.main_tag
@@ -45,7 +46,7 @@
           %td= track.first_played_at
           %td= track.youtube_link
           %td
-            = button_with_icon admin_fetch_track_info_path(id: track.id), "Fetch Infos", :redo,  method: :patch
+            -#  = button_with_icon admin_fetch_track_info_path(id: track.track_info.id), "Fetch Infos", :redo,  method: :patch
 
 %br
 = back_button root_path

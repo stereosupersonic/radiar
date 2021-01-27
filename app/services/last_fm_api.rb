@@ -4,10 +4,9 @@ require "open-uri"
 class LastFmApi
   BASE_URL = "http://ws.audioscrobbler.com/2.0/".freeze
 
-  def initialize(track:)
-    @artist = track.artist
-    @title = track.title
-    @track = track
+  def initialize(artist:, title:)
+    @artist = artist
+    @title = title
   end
 
   # http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=03a888a88c3abea4963563b3f736862c&artist=cher&track=believe&format=json
@@ -16,8 +15,12 @@ class LastFmApi
     result
   end
 
+  def url
+    @url ||= "#{BASE_URL}?#{params.to_query}"
+  end
+
   private
-    attr_reader :track, :artist, :title
+    attr_reader :artist, :title
 
     def album
       @response.dig("album", "title").presence
@@ -28,37 +31,21 @@ class LastFmApi
     end
 
     def result
-      @result ||= OpenStruct.new(
+      return if  data.to_h.values.compact.blank?
+      data
+    end
+
+    def data
+      @data ||= OpenStruct.new(
         album: TrackSanitizer.new(text: album.presence).call,
         tags: tags
       )
     end
 
-    def url
-      @url ||= "#{BASE_URL}?#{params.to_query}"
-    end
-
-    def no_data?
-      album.blank? && tags&.empty?
-    end
-
     def fetch_data
-      ActiveSupport::Notifications.instrument(:log_api_request, event_name: :last_fm_api) do |payload|
-        raw_response = URI.open(url) { |f|
-          payload[:base_uri] = f.base_uri.to_s
-          payload[:status_code] = f.status.first.to_i
-          payload[:status] = f.status.last
-          payload[:metas] = f.metas
-          payload[:track] = track
-
-          f.read
-        }
-        @response = JSON.parse(raw_response)["track"] || {}
-
-        payload[:data] = result.to_h.merge track_info: track&.track_info&.id, artist: artist, title: title
-        payload[:status] = :no_data if no_data?
-        @response
-      end
+      raw_response = URI.open(url) { |f| f.read }
+      @response = JSON.parse(raw_response)["track"] || {}
+      @response
     end
 
     def params

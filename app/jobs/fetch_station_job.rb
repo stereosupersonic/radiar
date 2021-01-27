@@ -12,6 +12,7 @@ class FetchStationJob < ApplicationJob
 
     # google doesn't find the informatio when the track is called like the album
 
+    WikiDataJob.perform_later(track: track, track_info: track_info)
     GoogleJob.perform_later(track: track, track_info: track_info)
     # TODO: disabled MusicGraph
     # MusicGraphJob.perform_later(track: track)

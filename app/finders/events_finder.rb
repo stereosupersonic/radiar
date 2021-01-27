@@ -1,7 +1,7 @@
 class EventsFinder
   include ActiveModel::Model
 
-  FILTERS = %i[name state station_id].freeze
+  FILTERS = %i[name state station_id track_info_id].freeze
   attr_accessor(*FILTERS)
 
   def call
@@ -10,6 +10,7 @@ class EventsFinder
       .merge(name_filter)
       .merge(state_filter)
       .merge(station_filter)
+      .merge(track_info_filter)
   end
 
   private
@@ -32,6 +33,14 @@ class EventsFinder
     def station_filter
       if station_id.present?
         Event.where(station_id: station_id)
+      else
+        Event.all
+      end
+    end
+
+    def track_info_filter
+      if track_info_id.present?
+        Event.where(track_info_id: track_info_id)
       else
         Event.all
       end

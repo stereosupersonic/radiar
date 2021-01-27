@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_150123) do
+ActiveRecord::Schema.define(version: 2021_01_27_080046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2021_01_25_150123) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "track_id"
     t.bigint "station_id"
+    t.integer "track_info_id"
     t.index ["name"], name: "index_events_on_name"
     t.index ["state"], name: "index_events_on_state"
     t.index ["station_id"], name: "index_events_on_station_id"
@@ -59,6 +60,14 @@ ActiveRecord::Schema.define(version: 2021_01_25_150123) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "ignored", default: false, null: false
+    t.string "spotify_id"
+    t.string "wikidata_id"
+    t.string "artist_wikidata_id"
+    t.string "artist_spotify_id"
+    t.string "artist_mbid"
+    t.string "album_wikidata_id"
+    t.string "album_spotify_id"
+    t.string "album_mbid"
     t.index ["slug"], name: "index_track_infos_on_slug"
     t.index ["year"], name: "index_track_infos_on_year"
   end

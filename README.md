@@ -17,13 +17,13 @@ next level of the radio radar
 ```
   bin/webpack-dev-server
   bin/server
-
+  bundle exec sidekiq
 ```
 
 ## fetch all stations
 
 ```
-bin/rake radiar:fetch_all
+bundle exec rake radiar:fetch_all
 ```
 
 ## docker
@@ -87,9 +87,12 @@ cat radiar_production_*.dump.sql | docker exec -i postgresdb12 pg_restore -U pos
 
 
 
+
 # data fixes
 
 ```
 bundle exec rake radiar:fix:missing_track_infos
 bundle exec rake radiar:update:unwanted_text
+LIMIT=20 bundle exec rake radiar:update:fix_missing_data
+
 ```

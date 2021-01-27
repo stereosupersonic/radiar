@@ -1,6 +1,7 @@
 %h1 Edit Tracks Info
 
 = simple_form_for [:admin, @track_info] do |f|
+  = render 'shared/error_messages', object: f.object
   = f.input :name
   = f.input :album
   = f.input :artist_name
@@ -8,9 +9,15 @@
   = f.input :youtube_id
   = f.input :pic_url
   = f.input :slug, disabled: true, hint: 'You cannot change the slug.'
-  = f.input :wikipedia
-  = f.input :wikipedia_summary
+  = f.input :wikidata_id
   = f.input :mbid
+  = f.input :spotify_id
+  = f.input :album_mbid
+  = f.input :album_spotify_id
+  = f.input :album_wikidata_id
+  = f.input :artist_spotify_id
+  = f.input :artist_wikidata_id
+  = f.input :artist_mbid
   = f.input :tags, disabled: true
   = f.input :ignored, disabled: true
   .row

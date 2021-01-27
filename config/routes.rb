@@ -1,8 +1,8 @@
-
+require "sidekiq/web"
 
 Rails.application.routes.draw do
-  require "sidekiq/web"
   mount Sidekiq::Web => "/sidekiq"
+  Sidekiq::Web.app_url = "/"
 
   namespace :admin do
     resources :stations
@@ -15,5 +15,6 @@ Rails.application.routes.draw do
     end
   end
   resources :tracks, only: %i[index show]
+  resources :track_infos, only: %i[index show]
   root to: "welcome#index"
 end

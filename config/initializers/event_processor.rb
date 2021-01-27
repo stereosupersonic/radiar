@@ -7,9 +7,10 @@ ActiveSupport::Notifications.subscribe(:log_api_request) do |*args|
     done_at: event.end,
     data: event.payload[:data],
     duration: event.duration,
-    meta_data: event.payload.except(:data),
+    meta_data: event.payload[:meta_data],
     station: event.payload[:track]&.station,
-    track: event.payload[:track]
+    track: event.payload[:track],
+    track_info: event.payload[:track_info]
   )
 
 rescue => e
@@ -23,9 +24,10 @@ rescue => e
       exception_object: event.payload[:exception_object]
     },
     duration: event.duration,
-    meta_data: event.payload.except(:data),
+    meta_data: event.payload[:meta_data],
     station: event.payload[:track]&.station,
-    track: event.payload[:track]
+    track: event.payload[:track],
+    track_info: event.payload[:track_info]
   )
 
   raise e
@@ -39,6 +41,7 @@ ActiveSupport::Notifications.subscribe(:track_info_creation) do |*args|
     state: :ok,
     done_at: event.end,
     data: event.payload[:data],
+    meta_data: event.payload[:meta_data],
     duration: event.duration,
     station: event.payload[:track]&.station,
     track: event.payload[:track]
@@ -60,7 +63,8 @@ ActiveSupport::Notifications.subscribe(:station_fetch) do |*args|
     },
     duration: event.duration,
     station: event.payload[:station],
-    track: event.payload[:track]
+    track: event.payload[:track],
+    meta_data: event.payload[:meta_data]
   )
 end
 
@@ -72,5 +76,6 @@ ActiveSupport::Notifications.subscribe(:track_event) do |*args|
     done_at: event.end,
     data: event.payload[:data],
     duration: event.duration,
+    meta_data: event.payload[:meta_data]
   )
 end
