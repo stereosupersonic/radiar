@@ -3,7 +3,7 @@ version: '3'
 services:
   app:
     build: .
-    restart: always
+    restart: unless-stopped
     networks:
       - web
       - default
@@ -18,7 +18,7 @@ services:
 
   sidekiq:
     build: .
-    restart: always
+    restart: unless-stopped
     networks:
       - default
     links:
@@ -31,7 +31,7 @@ services:
   redis:
     image: 'redis:5-alpine'
     command: redis-server
-    restart: always
+    restart: unless-stopped
     networks:
       - default
     ports:
