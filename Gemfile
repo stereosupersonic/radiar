@@ -33,7 +33,7 @@ gem "will_paginate-bootstrap4"
 gem "simple_form"
 # for rake tasks
 gem "ruby-progressbar"
-gem "nokogiri", "~> 1.10.1"
+gem "nokogiri", "~> 1.13.2"
 
 gem "wikidata-client", "~> 0.0.10", require: "wikidata"
 gem "newrelic_rpm"
